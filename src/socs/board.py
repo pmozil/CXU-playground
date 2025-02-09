@@ -13,7 +13,6 @@ from migen import *
 
 from litex.soc.interconnect.csr import *
 
-from litex.soc.cores.cpu.vexriscv_smp import VexRiscvSMP
 from litex.soc.cores.gpio    import GPIOOut, GPIOIn
 from litex.soc.cores.spi     import SPIMaster
 from litex.soc.cores.bitbang import I2CMaster
@@ -21,7 +20,7 @@ from litex.soc.cores.pwm     import PWM
 
 from litex.tools.litex_json2dts_linux import generate_dts
 
-# SoCLinux -----------------------------------------------------------------------------------------
+# Generic board -----------------------------------------------------------------------------------------
 
 def Board(soc_cls: type, variant: str = None, **kwargs) -> type:
     if variant is None:
@@ -113,5 +112,17 @@ def Board(soc_cls: type, variant: str = None, **kwargs) -> type:
             doc_dir = os.path.join("build", board_name, "doc")
             generate_docs(self, doc_dir)
             os.system("sphinx-build -M html {}/ {}/_build".format(doc_dir, doc_dir))
+
+        # Board program --------------------------------------------------------------------------
+
+        def load(self, filename):
+            prog = self.platform.create_programmer()
+            prog.load_bitstream(filename)
+
+        # Board flash --------------------------------------------------------------------------
+
+        def flash(self, filename):
+            prog = self.platform.create_programmer()
+            prog.flash(0, filename)
 
     return _Board(**kwargs)
