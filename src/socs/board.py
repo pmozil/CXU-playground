@@ -27,7 +27,7 @@ def Board(soc_cls: type, variant: str = None, **kwargs) -> type:
         raise ValueError("Variant is none")
 
     cpu_type: str = "vexriscv_smp"
-    if kwargs["cpu_type"]:
+    if "cpu_type" in kwargs and kwargs["cpu_type"]:
         cpu_type = kwargs["cpu_type"]
 
     class _Board(soc_cls):

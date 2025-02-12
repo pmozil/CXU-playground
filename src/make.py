@@ -31,7 +31,7 @@ def get_supported_boards():
     board_classes = {}
     for name, obj in globals().items():
         name = camel_to_snake(name)
-        if isinstance(obj, type) and issubclass(obj, Board) and obj is not Board:
+        if isinstance(obj, type) and issubclass(obj, SocBoard) and obj is not Board:
             board_classes[name] = obj
     return board_classes
 
@@ -49,7 +49,8 @@ def main():
     parser = argparse.ArgumentParser(description=description, formatter_class=argparse.RawTextHelpFormatter)
     parser.add_argument("--board",          required=True,               help="FPGA board.")
     parser.add_argument("--device",         default=None,                help="FPGA device.")
-    parser.add_argument("--variant",        default=None,                help="FPGA board variant.")
+    parser.add_argument("--variant",        default="standard",          help="FPGA board variant.")
+    parser.add_argument("--cpu-type",       default="vexriscv_smp",      help="FPGA board variant.")
     parser.add_argument("--toolchain",      default=None,                help="Toolchain use to build.")
     parser.add_argument("--uart-baudrate",  default=115.2e3, type=float, help="UART baudrate.")
     parser.add_argument("--build",          action="store_true",         help="Build bitstream.")
@@ -75,7 +76,7 @@ def main():
     # Board(s) iteration ---------------------------------------------------------------------------
     for board_name in board_names:
         board = supported_boards[board_name]()
-        soc_kwargs = Board.soc_kwargs
+        soc_kwargs = SocBoard.soc_kwargs
         soc_kwargs.update(board.soc_kwargs)
 
         # CPU parameters ---------------------------------------------------------------------------
@@ -128,7 +129,7 @@ def main():
             soc_kwargs.update(with_usb_host=True)
 
         # SoC creation -----------------------------------------------------------------------------
-        soc = Board(board.soc_cls, args.variant **soc_kwargs)
+        soc = Board(board.soc_cls, **soc_kwargs)
         board.platform = soc.platform
 
         # SoC constants ----------------------------------------------------------------------------

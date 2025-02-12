@@ -6,9 +6,9 @@
 # Copyright (c) 2019-2024, Linux-on-LiteX-VexRiscv Developers
 # SPDX-License-Identifier: BSD-2-Clause
 
-# Board Definition ---------------------------------------------------------------------------------
+# SocBoard Definition ---------------------------------------------------------------------------------
 
-class Board:
+class SocBoard:
     soc_kwargs = {
         "integrated_rom_size"  : 0x10000,
         "integrated_sram_size" : 0x1800,
@@ -28,16 +28,16 @@ class Board:
         prog.flash(0, filename)
 
 #---------------------------------------------------------------------------------------------------
-# Xilinx Boards
+# Xilinx SocBoards
 #---------------------------------------------------------------------------------------------------
 
 # Acorn support ------------------------------------------------------------------------------------
 
-class Acorn(Board):
+class Acorn(SocBoard):
     soc_kwargs = {"uart_name": "jtag_uart", "sys_clk_freq": int(150e6)}
     def __init__(self):
         from litex_boards.targets import sqrl_acorn
-        Board.__init__(self, sqrl_acorn.BaseSoC, soc_capabilities={
+        SocBoard.__init__(self, sqrl_acorn.BaseSoC, soc_capabilities={
             # Communication
             "serial",
             # Storage
@@ -46,11 +46,11 @@ class Acorn(Board):
 
 # Acorn PCIe support -------------------------------------------------------------------------------
 
-class AcornPCIe(Board):
+class AcornPCIe(SocBoard):
     soc_kwargs = {"uart_name": "crossover", "sys_clk_freq": int(125e6)}
     def __init__(self):
         from litex_boards.targets import sqrl_acorn
-        Board.__init__(self, sqrl_acorn.BaseSoC, soc_capabilities={
+        SocBoard.__init__(self, sqrl_acorn.BaseSoC, soc_capabilities={
             # Communication
             "serial",
             "pcie",
@@ -62,10 +62,10 @@ class AcornPCIe(Board):
 
 # Arty support -------------------------------------------------------------------------------------
 
-class Arty(Board):
+class Arty(SocBoard):
     def __init__(self):
         from litex_boards.targets import digilent_arty
-        Board.__init__(self, digilent_arty.BaseSoC, soc_capabilities={
+        SocBoard.__init__(self, digilent_arty.BaseSoC, soc_capabilities={
             # Communication
             "serial",
             "ethernet",
@@ -83,10 +83,10 @@ class Arty(Board):
 
 class ArtyA7(Arty): pass
 
-class ArtyS7(Board):
+class ArtyS7(SocBoard):
     def __init__(self):
         from litex_boards.targets import digilent_arty_s7
-        Board.__init__(self, digilent_arty_s7.BaseSoC, soc_capabilities={
+        SocBoard.__init__(self, digilent_arty_s7.BaseSoC, soc_capabilities={
             # Communication
             "serial",
             # Storage
@@ -102,10 +102,10 @@ class ArtyS7(Board):
 
 # NeTV2 support ------------------------------------------------------------------------------------
 
-class NeTV2(Board):
+class NeTV2(SocBoard):
     def __init__(self):
         from litex_boards.targets import kosagi_netv2
-        Board.__init__(self, kosagi_netv2.BaseSoC, soc_capabilities={
+        SocBoard.__init__(self, kosagi_netv2.BaseSoC, soc_capabilities={
             # Communication
             "serial",
             "ethernet",
@@ -119,10 +119,10 @@ class NeTV2(Board):
 
 # Genesys2 support ---------------------------------------------------------------------------------
 
-class Genesys2(Board):
+class Genesys2(SocBoard):
     def __init__(self):
         from litex_boards.targets import digilent_genesys2
-        Board.__init__(self, digilent_genesys2.BaseSoC, soc_capabilities={
+        SocBoard.__init__(self, digilent_genesys2.BaseSoC, soc_capabilities={
             # Communication
             "usb_fifo",
             "ethernet",
@@ -132,10 +132,10 @@ class Genesys2(Board):
 
 # KC705 support ---------------------------------------------------------------------------------
 
-class KC705(Board):
+class KC705(SocBoard):
     def __init__(self):
         from litex_boards.targets import xilinx_kc705
-        Board.__init__(self, xilinx_kc705.BaseSoC, soc_capabilities={
+        SocBoard.__init__(self, xilinx_kc705.BaseSoC, soc_capabilities={
             # Communication
             "serial",
             "ethernet",
@@ -148,10 +148,10 @@ class KC705(Board):
 
 # VC707 support ---------------------------------------------------------------------------------
 
-class VC707(Board):
+class VC707(SocBoard):
     def __init__(self):
         from litex_boards.targets import xilinx_vc707
-        Board.__init__(self, xilinx_vc707.BaseSoC, soc_capabilities={
+        SocBoard.__init__(self, xilinx_vc707.BaseSoC, soc_capabilities={
             # Communication
             "serial",
             "ethernet",
@@ -163,10 +163,10 @@ class VC707(Board):
 
 # KCU105 support -----------------------------------------------------------------------------------
 
-class KCU105(Board):
+class KCU105(SocBoard):
     def __init__(self):
         from litex_boards.targets import xilinx_kcu105
-        Board.__init__(self, xilinx_kcu105.BaseSoC, soc_capabilities={
+        SocBoard.__init__(self, xilinx_kcu105.BaseSoC, soc_capabilities={
             # Communication
             "serial",
             "ethernet",
@@ -176,11 +176,11 @@ class KCU105(Board):
 
 # AESKU40 support -----------------------------------------------------------------------------------
 
-class AESKU40(Board):
+class AESKU40(SocBoard):
     soc_kwargs = {"uart_baudrate": 115.2e3} 
     def __init__(self):
         from litex_boards.targets import avnet_aesku40
-        Board.__init__(self, avnet_aesku40.BaseSoC, soc_capabilities={
+        SocBoard.__init__(self, avnet_aesku40.BaseSoC, soc_capabilities={
             # Communication
             "serial",
             "ethernet",
@@ -190,20 +190,20 @@ class AESKU40(Board):
 
 # ZCU104 support -----------------------------------------------------------------------------------
 
-class ZCU104(Board):
+class ZCU104(SocBoard):
     def __init__(self):
         from litex_boards.targets import xilinx_zcu104
-        Board.__init__(self, xilinx_zcu104.BaseSoC, soc_capabilities={
+        SocBoard.__init__(self, xilinx_zcu104.BaseSoC, soc_capabilities={
             # Communication
             "serial",
         })
 
 # Nexys4DDR support --------------------------------------------------------------------------------
 
-class Nexys4DDR(Board):
+class Nexys4DDR(SocBoard):
     def __init__(self):
         from litex_boards.targets import digilent_nexys4ddr
-        Board.__init__(self, digilent_nexys4ddr.BaseSoC, soc_capabilities={
+        SocBoard.__init__(self, digilent_nexys4ddr.BaseSoC, soc_capabilities={
             # Communication
             "serial",
             "ethernet",
@@ -215,10 +215,10 @@ class Nexys4DDR(Board):
 
 # NexysVideo support -------------------------------------------------------------------------------
 
-class NexysVideo(Board):
+class NexysVideo(SocBoard):
     def __init__(self):
         from litex_boards.targets import digilent_nexys_video
-        Board.__init__(self, digilent_nexys_video.BaseSoC, soc_capabilities={
+        SocBoard.__init__(self, digilent_nexys_video.BaseSoC, soc_capabilities={
             # Communication
             "usb_fifo",
             # Storage
@@ -229,11 +229,11 @@ class NexysVideo(Board):
 
 # MiniSpartan6 support -----------------------------------------------------------------------------
 
-class MiniSpartan6(Board):
+class MiniSpartan6(SocBoard):
     soc_kwargs = {"l2_size" : 2048} # Use Wishbone and L2 for memory accesses.
     def __init__(self):
         from litex_boards.targets import scarabhardware_minispartan6
-        Board.__init__(self, scarabhardware_minispartan6.BaseSoC, soc_capabilities={
+        SocBoard.__init__(self, scarabhardware_minispartan6.BaseSoC, soc_capabilities={
             # Communication
             "usb_fifo",
             # Storage
@@ -244,21 +244,21 @@ class MiniSpartan6(Board):
 
 # Pipistrello support ------------------------------------------------------------------------------
 
-class Pipistrello(Board):
+class Pipistrello(SocBoard):
     soc_kwargs = {"l2_size" : 2048} # Use Wishbone and L2 for memory accesses.
     def __init__(self):
         from litex_boards.targets import saanlima_pipistrello
-        Board.__init__(self, saanlima_pipistrello.BaseSoC, soc_capabilities={
+        SocBoard.__init__(self, saanlima_pipistrello.BaseSoC, soc_capabilities={
             # Communication
             "serial",
         })
 
 # XCU1525 support ----------------------------------------------------------------------------------
 
-class XCU1525(Board):
+class XCU1525(SocBoard):
     def __init__(self):
         from litex_boards.targets import sqrl_xcu1525
-        Board.__init__(self, sqrl_xcu1525.BaseSoC, soc_capabilities={
+        SocBoard.__init__(self, sqrl_xcu1525.BaseSoC, soc_capabilities={
             # Communication
             "serial",
             # Storage
@@ -267,35 +267,35 @@ class XCU1525(Board):
 
 # AlveoU280 (ES1) support -------------------------------------------------------------------------------
 
-class AlveoU280(Board):
+class AlveoU280(SocBoard):
     soc_kwargs = {
         "with_hbm"     : True, # Use HBM @ 250MHz (Min).
         "sys_clk_freq" : 250e6
     }
     def __init__(self):
         from litex_boards.targets import xilinx_alveo_u280
-        Board.__init__(self, xilinx_alveo_u280.BaseSoC, soc_capabilities={
+        SocBoard.__init__(self, xilinx_alveo_u280.BaseSoC, soc_capabilities={
             # Communication
             "serial"
         })
 
 # AlveoU250 support -------------------------------------------------------------------------------
 
-class AlveoU250(Board):
+class AlveoU250(SocBoard):
     def __init__(self):
         from litex_boards.targets import xilinx_alveo_u250
-        Board.__init__(self, xilinx_alveo_u250.BaseSoC, soc_capabilities={
+        SocBoard.__init__(self, xilinx_alveo_u250.BaseSoC, soc_capabilities={
             # Communication
             "serial"
         })
 
 # SDS1104X-E support -------------------------------------------------------------------------------
 
-class SDS1104XE(Board):
+class SDS1104XE(SocBoard):
     soc_kwargs = {"l2_size" : 8192} # Use Wishbone and L2 for memory accesses.
     def __init__(self):
         from litex_boards.targets import siglent_sds1104xe
-        Board.__init__(self, siglent_sds1104xe.BaseSoC, soc_capabilities={
+        SocBoard.__init__(self, siglent_sds1104xe.BaseSoC, soc_capabilities={
             # Communication
             "serial",
             "ethernet",
@@ -309,10 +309,10 @@ class SDS1104XE(Board):
 
 # QMTECH WuKong support ---------------------------------------------------------------------------
 
-class Qmtech_WuKong(Board):
+class Qmtech_WuKong(SocBoard):
     def __init__(self):
         from litex_boards.targets import qmtech_wukong
-        Board.__init__(self, qmtech_wukong.BaseSoC, soc_capabilities={
+        SocBoard.__init__(self, qmtech_wukong.BaseSoC, soc_capabilities={
             "leds",
             # Communication
             "serial",
@@ -324,10 +324,10 @@ class Qmtech_WuKong(Board):
 
 # MNT RKX7 support ---------------------------------------------------------------------------------
 
-class MNT_RKX7(Board):
+class MNT_RKX7(SocBoard):
     def __init__(self):
         from litex_boards.targets import mnt_rkx7
-        Board.__init__(self, mnt_rkx7.BaseSoC, soc_capabilities={
+        SocBoard.__init__(self, mnt_rkx7.BaseSoC, soc_capabilities={
             # Communication
             "serial",
             # Storage
@@ -336,20 +336,20 @@ class MNT_RKX7(Board):
 
 # STLV7325 -----------------------------------------------------------------------------------------
 
-class STLV7325(Board):
+class STLV7325(SocBoard):
     def __init__(self):
         from litex_boards.targets import sitlinv_stlv7325_v1
-        Board.__init__(self, sitlinv_stlv7325_v1.BaseSoC, soc_capabilities={
+        SocBoard.__init__(self, sitlinv_stlv7325_v1.BaseSoC, soc_capabilities={
             # Communication
             "serial",
             # Storage
             "sdcard",
         })
 
-class STLV7325_v2(Board):
+class STLV7325_v2(SocBoard):
     def __init__(self):
         from litex_boards.targets import sitlinv_stlv7325_v2
-        Board.__init__(self, sitlinv_stlv7325_v2.BaseSoC, soc_capabilities={
+        SocBoard.__init__(self, sitlinv_stlv7325_v2.BaseSoC, soc_capabilities={
             # Communication
             "serial",
             # Storage
@@ -358,11 +358,11 @@ class STLV7325_v2(Board):
 
 # Decklink Quad HDMI Recorder ----------------------------------------------------------------------
 
-class DecklinkQuadHDMIRecorder(Board):
+class DecklinkQuadHDMIRecorder(SocBoard):
     soc_kwargs = {"uart_name": "crossover",  "sys_clk_freq": int(125e6)}
     def __init__(self):
         from litex_boards.targets import decklink_quad_hdmi_recorder
-        Board.__init__(self, decklink_quad_hdmi_recorder.BaseSoC, soc_capabilities={
+        SocBoard.__init__(self, decklink_quad_hdmi_recorder.BaseSoC, soc_capabilities={
             # Communication
             "serial",
             # Storage
@@ -370,25 +370,25 @@ class DecklinkQuadHDMIRecorder(Board):
         })
 
 # HSEDA XC7A35T -----------------------------------------------------------------------------------
-class HSEDA_xc7a35t(Board):
+class HSEDA_xc7a35t(SocBoard):
     soc_kwargs = {"sys_clk_freq": int(80e6)}
     def __init__(self):
         from litex_boards.targets import hseda_xc7a35t
-        Board.__init__(self, hseda_xc7a35t.BaseSoC, soc_capabilities={
+        SocBoard.__init__(self, hseda_xc7a35t.BaseSoC, soc_capabilities={
             # Communication
             "serial",
         })
 
 #---------------------------------------------------------------------------------------------------
-# Lattice Boards
+# Lattice SocBoards
 #---------------------------------------------------------------------------------------------------
 
 # Versa ECP5 support -------------------------------------------------------------------------------
 
-class VersaECP5(Board):
+class VersaECP5(SocBoard):
     def __init__(self):
         from litex_boards.targets import lattice_versa_ecp5
-        Board.__init__(self, lattice_versa_ecp5.BaseSoC, soc_capabilities={
+        SocBoard.__init__(self, lattice_versa_ecp5.BaseSoC, soc_capabilities={
             # Communication
             "serial",
             "ethernet",
@@ -396,11 +396,11 @@ class VersaECP5(Board):
 
 # ULX3S support ------------------------------------------------------------------------------------
 
-class ULX3S(Board):
+class ULX3S(SocBoard):
     soc_kwargs = {"l2_size" : 2048} # Use Wishbone and L2 for memory accesses.
     def __init__(self):
         from litex_boards.targets import radiona_ulx3s
-        Board.__init__(self, radiona_ulx3s.BaseSoC, soc_capabilities={
+        SocBoard.__init__(self, radiona_ulx3s.BaseSoC, soc_capabilities={
             # Communication
             "serial",
             # Storage
@@ -410,11 +410,11 @@ class ULX3S(Board):
         })
 
 # ULX4M-LD-V2 support ------------------------------------------------------------------------------------
-class ULX4M_LD_V2(Board):
+class ULX4M_LD_V2(SocBoard):
     soc_kwargs = {"uart_name": "serial", "sys_clk_freq": int(50e6), "l2_size" : 2048} #2048 } #32768} # Use Wishbone and L2 for memory accesse$
     def __init__(self):
         from litex_boards.targets import radiona_ulx4m_ld_v2
-        Board.__init__(self, radiona_ulx4m_ld_v2.BaseSoC, soc_capabilities={
+        SocBoard.__init__(self, radiona_ulx4m_ld_v2.BaseSoC, soc_capabilities={
             # Communication
             "serial",
             # Storage
@@ -426,11 +426,11 @@ class ULX4M_LD_V2(Board):
         
 # HADBadge support ---------------------------------------------------------------------------------
 
-class HADBadge(Board):
+class HADBadge(SocBoard):
     soc_kwargs = {"l2_size" : 2048} # Use Wishbone and L2 for memory accesses.
     def __init__(self):
         from litex_boards.targets import hackaday_hadbadge
-        Board.__init__(self, hackaday_hadbadge.BaseSoC, soc_capabilities={
+        SocBoard.__init__(self, hackaday_hadbadge.BaseSoC, soc_capabilities={
             # Communication
             "serial",
         })
@@ -440,11 +440,11 @@ class HADBadge(Board):
 
 # OrangeCrab support -------------------------------------------------------------------------------
 
-class OrangeCrab(Board):
+class OrangeCrab(SocBoard):
     soc_kwargs = {"sys_clk_freq" : int(64e6) } # Increase sys_clk_freq to 64MHz (48MHz default).
     def __init__(self):
         from litex_boards.targets import gsd_orangecrab
-        Board.__init__(self, gsd_orangecrab.BaseSoC, soc_capabilities={
+        SocBoard.__init__(self, gsd_orangecrab.BaseSoC, soc_capabilities={
             # Communication
             "usb_acm",
             # Buses
@@ -455,11 +455,11 @@ class OrangeCrab(Board):
 
 # Butterstick support ------------------------------------------------------------------------------
 
-class ButterStick(Board):
+class ButterStick(SocBoard):
     soc_kwargs = {"uart_name": "jtag_uart"}
     def __init__(self):
         from litex_boards.targets import gsd_butterstick
-        Board.__init__(self, gsd_butterstick.BaseSoC, soc_capabilities={
+        SocBoard.__init__(self, gsd_butterstick.BaseSoC, soc_capabilities={
             # Communication
             "serial",
             "ethernet",
@@ -467,10 +467,10 @@ class ButterStick(Board):
 
 # Cam Link 4K support ------------------------------------------------------------------------------
 
-class CamLink4K(Board):
+class CamLink4K(SocBoard):
     def __init__(self):
         from litex_boards.targets import camlink_4k
-        Board.__init__(self, camlink_4k.BaseSoC, soc_capabilities={
+        SocBoard.__init__(self, camlink_4k.BaseSoC, soc_capabilities={
             # Communication
             "serial",
         })
@@ -478,12 +478,12 @@ class CamLink4K(Board):
     def load(self, filename):
         os.system("camlink configure {}".format(filename))
 
-# TrellisBoard support -----------------------------------------------------------------------------
+# TrellisSocBoard support -----------------------------------------------------------------------------
 
-class TrellisBoard(Board):
+class TrellisSocBoard(SocBoard):
     def __init__(self):
         from litex_boards.targets import trellisboard
-        Board.__init__(self, trellisboard.BaseSoC, soc_capabilities={
+        SocBoard.__init__(self, trellisboard.BaseSoC, soc_capabilities={
             # Communication
             "serial",
             # Storage
@@ -492,10 +492,10 @@ class TrellisBoard(Board):
 
 # ECPIX5 support -----------------------------------------------------------------------------------
 
-class ECPIX5(Board):
+class ECPIX5(SocBoard):
     def __init__(self):
         from litex_boards.targets import lambdaconcept_ecpix5
-        Board.__init__(self, lambdaconcept_ecpix5.BaseSoC, soc_capabilities={
+        SocBoard.__init__(self, lambdaconcept_ecpix5.BaseSoC, soc_capabilities={
             # Communication
             "serial",
             "ethernet",
@@ -505,11 +505,11 @@ class ECPIX5(Board):
 
 # Colorlight i5 support ----------------------------------------------------------------------------
 
-class Colorlight_i5(Board):
+class Colorlight_i5(SocBoard):
     soc_kwargs = {"l2_size" : 2048} # Use Wishbone and L2 for memory accesses.
     def __init__(self):
         from litex_boards.targets import colorlight_i5
-        Board.__init__(self, colorlight_i5.BaseSoC, soc_capabilities={
+        SocBoard.__init__(self, colorlight_i5.BaseSoC, soc_capabilities={
             # Communication
             "serial",
             "ethernet",
@@ -517,11 +517,11 @@ class Colorlight_i5(Board):
 
 # Icesugar Pro support -----------------------------------------------------------------------------
 
-class IcesugarPro(Board):
+class IcesugarPro(SocBoard):
     soc_kwargs = {"l2_size" : 2048} # Use Wishbone and L2 for memory accesses.
     def __init__(self):
         from litex_boards.targets import muselab_icesugar_pro
-        Board.__init__(self, muselab_icesugar_pro.BaseSoC, soc_capabilities={
+        SocBoard.__init__(self, muselab_icesugar_pro.BaseSoC, soc_capabilities={
             # Communication
             "serial",
             # Storage
@@ -531,11 +531,11 @@ class IcesugarPro(Board):
 
 # Schoko support -----------------------------------------------------------------------------------
 
-class Schoko(Board):
+class Schoko(SocBoard):
     soc_kwargs = {"l2_size" : 8192}
     def __init__(self):
         from litex_boards.targets import machdyne_schoko
-        Board.__init__(self, machdyne_schoko.BaseSoC, soc_capabilities={
+        SocBoard.__init__(self, machdyne_schoko.BaseSoC, soc_capabilities={
             # Communication
             "serial",
             "usb_host",
@@ -549,11 +549,11 @@ class Schoko(Board):
 
 # Konfekt support -----------------------------------------------------------------------------------
 
-class Konfekt(Board):
+class Konfekt(SocBoard):
     soc_kwargs = {"l2_size" : 0}
     def __init__(self):
         from litex_boards.targets import machdyne_konfekt
-        Board.__init__(self, machdyne_konfekt.BaseSoC, soc_capabilities={
+        SocBoard.__init__(self, machdyne_konfekt.BaseSoC, soc_capabilities={
             # Communication
             "serial",
             "usb_host",
@@ -567,11 +567,11 @@ class Konfekt(Board):
 
 # Noir support -----------------------------------------------------------------------------------
 
-class Noir(Board):
+class Noir(SocBoard):
     soc_kwargs = {"l2_size" : 8192}
     def __init__(self):
         from litex_boards.targets import machdyne_noir
-        Board.__init__(self, machdyne_noir.BaseSoC, soc_capabilities={
+        SocBoard.__init__(self, machdyne_noir.BaseSoC, soc_capabilities={
             # Communication
             "serial",
             "usb_host",
@@ -584,12 +584,12 @@ class Noir(Board):
         })
 
 #---------------------------------------------------------------------------------------------------
-# Intel Boards
+# Intel SocBoards
 #---------------------------------------------------------------------------------------------------
 
 # De10Nano support ---------------------------------------------------------------------------------
 
-class De10Nano(Board):
+class De10Nano(SocBoard):
     soc_kwargs = {
         "with_mister_sdram" : True, # Add MiSTer SDRAM extension.
         "l2_size"           : 2048, # Use Wishbone and L2 for memory accesses.
@@ -597,7 +597,7 @@ class De10Nano(Board):
     }
     def __init__(self):
         from litex_boards.targets import terasic_de10nano
-        Board.__init__(self, terasic_de10nano.BaseSoC, soc_capabilities={
+        SocBoard.__init__(self, terasic_de10nano.BaseSoC, soc_capabilities={
             # Communication
             "serial",
             # Storage
@@ -609,28 +609,28 @@ class De10Nano(Board):
 
 # De0Nano support ----------------------------------------------------------------------------------
 
-class De0Nano(Board):
+class De0Nano(SocBoard):
     soc_kwargs = {
         "l2_size" : 2048, # Use Wishbone and L2 for memory accesses.
         "integrated_sram_size": 0x1000, # Power of 2 so Quartus infers it properly.
     }
     def __init__(self):
         from litex_boards.targets import terasic_de0nano
-        Board.__init__(self, terasic_de0nano.BaseSoC, soc_capabilities={
+        SocBoard.__init__(self, terasic_de0nano.BaseSoC, soc_capabilities={
             # Communication
             "serial",
         })
 
 # De1-SoC support ----------------------------------------------------------------------------------
 
-class De1SoC(Board):
+class De1SoC(SocBoard):
     soc_kwargs = {
         "l2_size" : 2048, # Use Wishbone and L2 for memory accesses.
         "integrated_sram_size": 0x1000, # Power of 2 so Quartus infers it properly.
     }
     def __init__(self):
         from litex_boards.targets import terasic_de1soc
-        Board.__init__(self, terasic_de1soc.BaseSoC, soc_capabilities={
+        SocBoard.__init__(self, terasic_de1soc.BaseSoC, soc_capabilities={
             # Communication
             "serial",
             # GPIOs
@@ -640,7 +640,7 @@ class De1SoC(Board):
 
 # QMTECH EP4CE15 support ---------------------------------------------------------------------------
 
-class Qmtech_EP4CE15(Board):
+class Qmtech_EP4CE15(SocBoard):
     soc_kwargs = {
         "variant" : "ep4ce15",
         "l2_size" : 2048, # Use Wishbone and L2 for memory accesses.
@@ -648,14 +648,14 @@ class Qmtech_EP4CE15(Board):
     }
     def __init__(self):
         from litex_boards.targets import qmtech_ep4cex5
-        Board.__init__(self, qmtech_ep4cex5.BaseSoC, soc_capabilities={
+        SocBoard.__init__(self, qmtech_ep4cex5.BaseSoC, soc_capabilities={
             # Communication
             "serial",
         })
 
 # ... and its bigger brother 
 
-class Qmtech_EP4CE55(Board):
+class Qmtech_EP4CE55(SocBoard):
     soc_kwargs = {
         "variant" : "ep4ce55",
         "l2_size" :  2048, # Use Wishbone and L2 for memory accesses.
@@ -663,7 +663,7 @@ class Qmtech_EP4CE55(Board):
     }
     def __init__(self):
         from litex_boards.targets import qmtech_ep4cex5
-        Board.__init__(self, qmtech_ep4cex5.BaseSoC, soc_capabilities={
+        SocBoard.__init__(self, qmtech_ep4cex5.BaseSoC, soc_capabilities={
             # Communication
             "serial",
         })
@@ -671,7 +671,7 @@ class Qmtech_EP4CE55(Board):
 
 # QMTECH 5CEFA2 support
 # It is possible to build the SoC --cpu-count=2 for this chip
-class Qmtech_5CEFA2(Board):
+class Qmtech_5CEFA2(SocBoard):
     soc_kwargs = {
         "variant" : "5cefa2",
         "l2_size" :  2048, # Use Wishbone and L2 for memory accesses.
@@ -679,34 +679,34 @@ class Qmtech_5CEFA2(Board):
     }
     def __init__(self):
         from litex_boards.targets import qmtech_5cefa2
-        Board.__init__(self, qmtech_5cefa2.BaseSoC, soc_capabilities={
+        SocBoard.__init__(self, qmtech_5cefa2.BaseSoC, soc_capabilities={
             # Communication
             "serial",
         })
 
 #---------------------------------------------------------------------------------------------------
-# Efinix Boards
+# Efinix SocBoards
 #---------------------------------------------------------------------------------------------------
 
-class TrionT120BGA576DevKit(Board):
+class TrionT120BGA576DevKit(SocBoard):
     soc_kwargs = {"l2_size" : 2048} # Use Wishbone and L2 for memory accesses.
     def __init__(self):
         from litex_boards.targets import efinix_trion_t120_bga576_dev_kit
-        Board.__init__(self, efinix_trion_t120_bga576_dev_kit.BaseSoC, soc_capabilities={
+        SocBoard.__init__(self, efinix_trion_t120_bga576_dev_kit.BaseSoC, soc_capabilities={
             # Communication
             "serial",
             # GPIOs
              "leds",
         })
 
-class TitaniumTi60F225DevKit(Board):
+class TitaniumTi60F225DevKit(SocBoard):
     soc_kwargs = {
         "with_hyperram" : True,
         "sys_clk_freq"  : 300e6,
     }
     def __init__(self):
         from litex_boards.targets import efinix_titanium_ti60_f225_dev_kit
-        Board.__init__(self, efinix_titanium_ti60_f225_dev_kit.BaseSoC, soc_capabilities={
+        SocBoard.__init__(self, efinix_titanium_ti60_f225_dev_kit.BaseSoC, soc_capabilities={
             # Communication
             "serial",
             # Storage
@@ -716,16 +716,16 @@ class TitaniumTi60F225DevKit(Board):
         })
 
 #---------------------------------------------------------------------------------------------------
-# Gowin Boards
+# Gowin SocBoards
 #---------------------------------------------------------------------------------------------------
 
 # Sipeed Tang Nano 20K support ---------------------------------------------------------------------
 
-class Sipeed_tang_nano_20k(Board):
+class Sipeed_tang_nano_20k(SocBoard):
     soc_kwargs = {"l2_size" : 2048} # Use Wishbone and L2 for memory accesses.
     def __init__(self):
         from litex_boards.targets import sipeed_tang_nano_20k
-        Board.__init__(self, sipeed_tang_nano_20k.BaseSoC, soc_capabilities={
+        SocBoard.__init__(self, sipeed_tang_nano_20k.BaseSoC, soc_capabilities={
             # Communication
             "serial",
             "sdcard",
@@ -733,11 +733,11 @@ class Sipeed_tang_nano_20k(Board):
 
 # Sipeed Tang Primer 20K support -------------------------------------------------------------------
 
-class Sipeed_tang_primer_20k(Board):
+class Sipeed_tang_primer_20k(SocBoard):
     soc_kwargs = {"l2_size" : 512} # Use Wishbone and L2 for memory accesses.
     def __init__(self):
         from litex_boards.targets import sipeed_tang_primer_20k
-        Board.__init__(self, sipeed_tang_primer_20k.BaseSoC, soc_capabilities={
+        SocBoard.__init__(self, sipeed_tang_primer_20k.BaseSoC, soc_capabilities={
             # Communication
             "serial",
             "spisdcard",
