@@ -62,8 +62,8 @@ def main():
     parser.add_argument("--spi-data-width", default=8,   type=int,       help="SPI data width (max bits per xfer).")
     parser.add_argument("--spi-clk-freq",   default=1e6, type=int,       help="SPI clock frequency.")
     parser.add_argument("--fdtoverlays",    default="",                  help="Device Tree Overlays to apply.")
-    parser.add_argument("--gen-dts",        default=False, type=bool,    help="Generate dts option")
-    parser.add_argument("--gen-dtb",        default=False, type=bool,    help="Generate dts option")
+    parser.add_argument("--generate-dts",        default=False, type=bool,    help="Generate dts option")
+    parser.add_argument("--generate-dtb",        default=False, type=bool,    help="Generate dts option")
     VexRiscvSMPCustom.args_fill(parser)
     args = parser.parse_args()
 
