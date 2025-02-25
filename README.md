@@ -19,10 +19,7 @@ source <path-to-oss-build>/environment
 ```
 
 ```sh
-mkdir -p litex && cd litex
-wget https://raw.githubusercontent.com/enjoy-digital/litex/master/litex_setup.py
-chmod +x litex_setup.py
-./litex_setup.py --init --install --user
+./install_litex.sh
 ```
 
 Now, install all the system deps (this works on debian testing):
