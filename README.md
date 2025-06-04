@@ -27,7 +27,7 @@ Now, install all the system deps (this works on debian testing):
 ```sh
 sudo apt install verilator libtool automake \
         pkg-config libusb-1.0-0-dev libjim-dev \
-        default-jdk gcc-riscv64-unknown-elf
+        default-jdk gcc-riscv64-unknown-elf device-tree-compiler
 ```
 
 ### OpenOCD

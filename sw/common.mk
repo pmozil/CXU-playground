@@ -1,7 +1,7 @@
 MAKEFILE_DIR := $(dir $(abspath $(lastword $(MAKEFILE_LIST))))
 
-BOARD?=orange_crab
-BUILD_DIR?=$(MAKEFILE_DIR)/../../build/$(BOARD)
+BOARD?=arty_s7
+BUILD_DIR?=$(abspath $(MAKEFILE_DIR)../build/$(BOARD))
 
 include $(BUILD_DIR)/software/include/generated/variables.mak
 include $(SOC_DIRECTORY)/software/common.mak
@@ -73,9 +73,6 @@ everything: all
 %.bin: %.elf
 	$(OBJCOPY) -O binary $< $@
 	chmod -x $@
-
-clean:
-	$(RM) *.d *.o *.a *.elf *.list .*~ *~
 
 terminal:
 	litex_term --kernel boot.bin /dev/ttyUSB0; reset

@@ -8,37 +8,40 @@
 
 include ../common.mk
 
-# Compiled from the sources in demos/
-# DEMOS_OBJECTS=tinyraytracer.o mandelbrot.o \
-#               oled_test.o oled_riscv_logo.o oled_julia.o \
-# 	      pi.o
 
-# These ones are compiled from the sources in LiteX/litex/litex/soc/software/bios/
-# BIOS_OBJECTS=complete.o helpers.o readline.o cmd_bios.o
+OBJ_DIR=build
 
-# OBJECTS = $(DEMOS_OBJECTS) $(BIOS_OBJECTS) commands.o isr.o main.o crt0.o
+OBJECTS   = $(CPU_DIRECTORY)/crt0.o
+OBJECTS   += $(patsubst %.c,%.o,$(wildcard *.c */*.c */*/*.c))
 
 all: demo.bin
 
-# pull in dependency info for *existing* .o files
+vpath %.a $(PACKAGES:%=../%)
+
+demo.elf: $(OBJECTS)
+	$(CC) $(LDFLAGS) -T linker.ld -N -o $@ \
+		$(OBJECTS) \
+		$(PACKAGES:%=-L$(BUILD_DIR)/software/%) \
+		-Wl,--whole-archive \
+		-Wl,--gc-sections \
+		-Wl,-Map,$@.map \
+		$(LIBS:lib%=-l%)
+
 -include $(OBJECTS:.o=.d)
 
-# demo.elf: $(OBJECTS) libliteos.a
-# 	$(CC) $(LDFLAGS) \
-# 		-T linker.ld \
-# 		-N -o $@ \
-# 		$(OBJECTS) \
-# 		$(PACKAGES:%=-L$(BUILD_DIR)/software/%) \
-# 		$(LIBS:lib%=-l%) -L. -lliteos
-# 	chmod -x $@
+VPATH = $(BIOS_DIRECTORY):$(BIOS_DIRECTORY)/cmds:$(CPU_DIRECTORY)
 
-%.o: demos/%.c
+$(OBJ_DIR)/%.o: %.cpp
+	$(compilexx)
+
+$(OBJ_DIR)/%.o: %.c
 	$(compile)
 
-# Made crt0.o dependent on one of the generated files to make sure it
-# is recompiled whenever configuration is changed (for instance, when
-# swapping femtorv variants)
-crt0.o: $(CPU_DIRECTORY)/crt0.S $(BUILD_DIR)/software/include/generated/variables.mak
+$(OBJ_DIR)/%.o: %.S
 	$(assemble)
+	@echo $(OBJECTS)
 
+clean:
+	$(RM) $(OBJECTS) $(OBJECTS:.o=.d) demo.elf demo.bin .*~ *~ *.d
 
+.PHONY: all clean
