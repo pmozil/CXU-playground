@@ -12,9 +12,6 @@ BIOS_SRC_DIR=$(BIOS_DIRECTORY)
 # some functions, e.g. floating-point) with libgcc (that has everything)
 LIBS:=$(LIBS:libcompiler_rt=libgcc)
 
-# add libbase, that has memspeed and memtest
-LIBS += -lbase 
-
 # Remove the 2p0_ 2p0 string from riscV instr set
 # definition from LDFLAGS, else it does not find the
 # right libgcc

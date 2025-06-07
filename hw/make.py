@@ -13,58 +13,78 @@ import argparse
 
 from litex.soc.integration.builder import Builder
 
-from cpu.vexriscv import VexRiscvSMPCustom
+# from litex.soc.cores.cpu.vexriscv_smp import VexRiscvSMP
+
+from cpu.vexriscv import VexRiscvSMPCustom as VexRiscvSMP
 
 from socs.boards import *
-from socs.board import Board
+from socs.boards import SocBoard as Board
 from socs.soc_linux import SoCLinux
 
-#---------------------------------------------------------------------------------------------------
+# ---------------------------------------------------------------------------------------------------
 # Helpers
-#---------------------------------------------------------------------------------------------------
+# ---------------------------------------------------------------------------------------------------
+
 
 def camel_to_snake(name):
-    name = re.sub(r'(?<=[a-z])(?=[A-Z])', '_', name)
+    name = re.sub(r"(?<=[a-z])(?=[A-Z])", "_", name)
     return name.lower()
+
 
 def get_supported_boards():
     board_classes = {}
     for name, obj in globals().items():
         name = camel_to_snake(name)
-        if isinstance(obj, type) and issubclass(obj, SocBoard) and obj is not Board:
+        if isinstance(obj, type) and issubclass(obj, Board) and obj is not Board:
             board_classes[name] = obj
     return board_classes
 
+
 supported_boards = get_supported_boards()
 
-#---------------------------------------------------------------------------------------------------
+# ---------------------------------------------------------------------------------------------------
 # Build
-#---------------------------------------------------------------------------------------------------
+# ---------------------------------------------------------------------------------------------------
+
 
 def main():
-    description = "Make a litex board\n\n"
+    description = "Linux on LiteX-VexRiscv\n\n"
     description += "Available boards:\n"
     for name in sorted(supported_boards.keys()):
         description += "- " + name + "\n"
-    parser = argparse.ArgumentParser(description=description, formatter_class=argparse.RawTextHelpFormatter)
-    parser.add_argument("--board",          required=True,               help="FPGA board.")
-    parser.add_argument("--device",         default=None,                help="FPGA device.")
-    parser.add_argument("--variant",        default="standard",          help="FPGA board variant.")
-    parser.add_argument("--cpu-type",       default="vexriscv_smp",      help="FPGA board variant.")
-    parser.add_argument("--toolchain",      default=None,                help="Toolchain use to build.")
-    parser.add_argument("--uart-baudrate",  default=115.2e3, type=float, help="UART baudrate.")
-    parser.add_argument("--build",          action="store_true",         help="Build bitstream.")
-    parser.add_argument("--load",           action="store_true",         help="Load bitstream (to SRAM).")
-    parser.add_argument("--flash",          action="store_true",         help="Flash bitstream/images (to Flash).")
-    parser.add_argument("--doc",            action="store_true",         help="Build documentation.")
-    parser.add_argument("--local-ip",       default="192.168.1.50",      help="Local IP address.")
-    parser.add_argument("--remote-ip",      default="192.168.1.100",     help="Remote IP address of TFTP server.")
-    parser.add_argument("--spi-data-width", default=8,   type=int,       help="SPI data width (max bits per xfer).")
-    parser.add_argument("--spi-clk-freq",   default=1e6, type=int,       help="SPI clock frequency.")
-    parser.add_argument("--fdtoverlays",    default="",                  help="Device Tree Overlays to apply.")
-    parser.add_argument("--generate-dts",        default=False, type=bool,    help="Generate dts option")
-    parser.add_argument("--generate-dtb",        default=False, type=bool,    help="Generate dts option")
-    VexRiscvSMPCustom.args_fill(parser)
+    parser = argparse.ArgumentParser(
+        description=description, formatter_class=argparse.RawTextHelpFormatter
+    )
+    parser.add_argument("--board", required=True, help="FPGA board.")
+    parser.add_argument("--device", default=None, help="FPGA device.")
+    parser.add_argument("--variant", default=None, help="FPGA board variant.")
+    parser.add_argument("--toolchain", default=None, help="Toolchain use to build.")
+    parser.add_argument(
+        "--uart-baudrate", default=460.8e3, type=float, help="UART baudrate."
+    )
+    parser.add_argument("--build", action="store_true", help="Build bitstream.")
+    parser.add_argument("--load", action="store_true", help="Load bitstream (to SRAM).")
+    parser.add_argument(
+        "--flash", action="store_true", help="Flash bitstream/images (to Flash)."
+    )
+    parser.add_argument("--doc", action="store_true", help="Build documentation.")
+    parser.add_argument("--local-ip", default="192.168.1.50", help="Local IP address.")
+    parser.add_argument(
+        "--remote-ip", default="192.168.1.100", help="Remote IP address of TFTP server."
+    )
+    parser.add_argument(
+        "--spi-data-width",
+        default=8,
+        type=int,
+        help="SPI data width (max bits per xfer).",
+    )
+    parser.add_argument(
+        "--spi-clk-freq", default=1e6, type=int, help="SPI clock frequency."
+    )
+    parser.add_argument(
+        "--fdtoverlays", default="", help="Device Tree Overlays to apply."
+    )
+    VexRiscvSMP.args_fill(parser)
     args = parser.parse_args()
 
     # Board(s) selection ---------------------------------------------------------------------------
@@ -76,14 +96,16 @@ def main():
     # Board(s) iteration ---------------------------------------------------------------------------
     for board_name in board_names:
         board = supported_boards[board_name]()
-        soc_kwargs = SocBoard.soc_kwargs
+        soc_kwargs = Board.soc_kwargs
         soc_kwargs.update(board.soc_kwargs)
 
         # CPU parameters ---------------------------------------------------------------------------
 
         # If Wishbone Memory is forced, enabled L2 Cache (if not already):
         if args.with_wishbone_memory:
-            soc_kwargs["l2_size"] = max(soc_kwargs["l2_size"], 2048) # Defaults to 2048.
+            soc_kwargs["l2_size"] = max(
+                soc_kwargs["l2_size"], 2048
+            )  # Defaults to 2048.
         # Else if board is configured to use L2 Cache, force use of Wishbone Memory on VexRiscv-SMP.
         else:
             args.with_wishbone_memory = soc_kwargs["l2_size"] != 0
@@ -91,7 +113,7 @@ def main():
         if "usb_host" in board.soc_capabilities:
             args.with_coherent_dma = True
 
-        VexRiscvSMPCustom.args_read(args)
+        VexRiscvSMP.args_read(args)
 
         # SoC parameters ---------------------------------------------------------------------------
         if args.device is not None:
@@ -129,7 +151,7 @@ def main():
             soc_kwargs.update(with_usb_host=True)
 
         # SoC creation -----------------------------------------------------------------------------
-        soc = Board(board.soc_cls, **soc_kwargs)
+        soc = SoCLinux(board.soc_cls, **soc_kwargs)
         board.platform = soc.platform
 
         # SoC constants ----------------------------------------------------------------------------
@@ -139,14 +161,17 @@ def main():
         # SoC peripherals --------------------------------------------------------------------------
         if board_name in ["arty", "arty_a7"]:
             from litex_boards.platforms.digilent_arty import _sdcard_pmod_io
+
             board.platform.add_extension(_sdcard_pmod_io)
 
         if board_name in ["aesku40"]:
             from litex_boards.platforms.avnet_aesku40 import _sdcard_pmod_io
+
             board.platform.add_extension(_sdcard_pmod_io)
 
         if board_name in ["orange_crab"]:
             from litex_boards.platforms.gsd_orangecrab import feather_i2c
+
             board.platform.add_extension(feather_i2c)
 
         if "spisdcard" in board.soc_capabilities:
@@ -155,7 +180,7 @@ def main():
             soc.add_sdcard()
         if "ethernet" in board.soc_capabilities:
             soc.configure_ethernet(remote_ip=args.remote_ip)
-        #if "leds" in board.soc_capabilities:
+        # if "leds" in board.soc_capabilities:
         #    soc.add_leds()
         if "rgb_led" in board.soc_capabilities:
             soc.add_rgb_led()
@@ -168,26 +193,26 @@ def main():
 
         # Build ------------------------------------------------------------------------------------
         build_dir = os.path.join("build", board_name)
-        builder   = Builder(soc,
-            output_dir   = os.path.join("build", board_name),
-            bios_console = "lite",
-            csr_json     = os.path.join(build_dir, "csr.json"),
-            csr_csv      = os.path.join(build_dir, "csr.csv")
+        builder = Builder(
+            soc,
+            output_dir=os.path.join("build", board_name),
+            bios_console="lite",
+            csr_json=os.path.join(build_dir, "csr.json"),
+            csr_csv=os.path.join(build_dir, "csr.csv"),
         )
         builder.build(run=args.build, build_name=board_name)
 
         # DTS --------------------------------------------------------------------------------------
-        if args.generate_dts:
-            soc.generate_dts(board_name)
-            soc.compile_dts(board_name, args.fdtoverlays)
+        # soc.generate_dts(board_name)
+        # soc.compile_dts(board_name, args.fdtoverlays)
 
         # DTB --------------------------------------------------------------------------------------
-        if args.generate_dtb:
-            soc.combine_dtb(board_name, args.fdtoverlays)
+        # soc.combine_dtb(board_name, args.fdtoverlays)
 
         # PCIe Driver ------------------------------------------------------------------------------
         if "pcie" in board.soc_capabilities:
             from litepcie.software import generate_litepcie_software
+
             generate_litepcie_software(soc, os.path.join(builder.output_dir, "driver"))
 
         # Load FPGA bitstream ----------------------------------------------------------------------
@@ -201,6 +226,7 @@ def main():
         # Generate SoC documentation ---------------------------------------------------------------
         if args.doc:
             soc.generate_doc(board_name)
+
 
 if __name__ == "__main__":
     main()

@@ -19,6 +19,7 @@ all: demo.bin
 vpath %.a $(PACKAGES:%=../%)
 
 demo.elf: $(OBJECTS)
+	echo $(LIBS:lib%=-l%)
 	$(CC) $(LDFLAGS) -T linker.ld -N -o $@ \
 		$(OBJECTS) \
 		$(PACKAGES:%=-L$(BUILD_DIR)/software/%) \
@@ -39,7 +40,6 @@ $(OBJ_DIR)/%.o: %.c
 
 $(OBJ_DIR)/%.o: %.S
 	$(assemble)
-	@echo $(OBJECTS)
 
 clean:
 	$(RM) $(OBJECTS) $(OBJECTS:.o=.d) demo.elf demo.bin .*~ *~ *.d
