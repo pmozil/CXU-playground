@@ -13,20 +13,21 @@ from migen import *
 
 from litex.soc.interconnect.csr import *
 
-from litex.soc.cores.gpio    import GPIOOut, GPIOIn
-from litex.soc.cores.spi     import SPIMaster
+from litex.soc.cores.gpio import GPIOOut, GPIOIn
+from litex.soc.cores.spi import SPIMaster
 from litex.soc.cores.bitbang import I2CMaster
-from litex.soc.cores.pwm     import PWM
+from litex.soc.cores.pwm import PWM
 
 from litex.tools.litex_json2dts_linux import generate_dts
 
 # Generic board -----------------------------------------------------------------------------------------
 
-def Board(soc_cls: type, variant: str = None, **kwargs) -> type:
+
+def CustomBoard(soc_cls: type, variant: str = "standard", **kwargs) -> type:
     if variant is None:
         raise ValueError("Variant is none")
 
-    cpu_type: str = "vexriscv_smp"
+    cpu_type: str = "vexriscv_smp_custom"
     if "cpu_type" in kwargs and kwargs["cpu_type"]:
         cpu_type = kwargs["cpu_type"]
 
@@ -42,12 +43,16 @@ def Board(soc_cls: type, variant: str = None, **kwargs) -> type:
         def add_rgb_led(self):
             rgb_led_pads = self.platform.request("rgb_led", 0)
             for n in "rgb":
-                self.add_module(name=f"rgb_led_{n}0", module=PWM(getattr(rgb_led_pads, n)))
+                self.add_module(
+                    name=f"rgb_led_{n}0", module=PWM(getattr(rgb_led_pads, n))
+                )
 
         # Switches ---------------------------------------------------------------------------------
 
         def add_switches(self):
-            self.switches = GPIOIn(Cat(self.platform.request_all("user_sw")), with_irq=True)
+            self.switches = GPIOIn(
+                Cat(self.platform.request_all("user_sw")), with_irq=True
+            )
             self.irq.add("switches")
 
         # SPI --------------------------------------------------------------------------------------
@@ -65,7 +70,7 @@ def Board(soc_cls: type, variant: str = None, **kwargs) -> type:
 
         def configure_ethernet(self, remote_ip):
             remote_ip = remote_ip.split(".")
-            try: # FIXME: Improve.
+            try:  # FIXME: Improve.
                 self.constants.pop("REMOTEIP1")
                 self.constants.pop("REMOTEIP2")
                 self.constants.pop("REMOTEIP3")
@@ -93,7 +98,9 @@ def Board(soc_cls: type, variant: str = None, **kwargs) -> type:
             dts = os.path.join("build", board_name, "{}.dts".format(board_name))
             dtb = os.path.join("build", board_name, "{}.dtb".format(board_name))
             subprocess.check_call(
-                "dtc {} -O dtb -o {} {}".format("-@" if symbols else "", dtb, dts), shell=True)
+                "dtc {} -O dtb -o {} {}".format("-@" if symbols else "", dtb, dts),
+                shell=True,
+            )
 
         # DTB combination --------------------------------------------------------------------------
 
@@ -104,11 +111,14 @@ def Board(soc_cls: type, variant: str = None, **kwargs) -> type:
                 shutil.copyfile(dtb_in, dtb_out)
             else:
                 subprocess.check_call(
-                    "fdtoverlay -i {} -o {} {}".format(dtb_in, dtb_out, overlays), shell=True)
+                    "fdtoverlay -i {} -o {} {}".format(dtb_in, dtb_out, overlays),
+                    shell=True,
+                )
 
         # Documentation generation -----------------------------------------------------------------
         def generate_doc(self, board_name):
             from litex.soc.doc import generate_docs
+
             doc_dir = os.path.join("build", board_name, "doc")
             generate_docs(self, doc_dir)
             os.system("sphinx-build -M html {}/ {}/_build".format(doc_dir, doc_dir))

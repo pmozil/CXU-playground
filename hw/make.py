@@ -6,6 +6,12 @@
 # Copyright (c) 2019-2024, Linux-on-LiteX-VexRiscv Developers
 # SPDX-License-Identifier: BSD-2-Clause
 
+from cpu.vexriscv import VexRiscvSMPCustom
+
+from litex.soc.cores import cpu
+
+cpu.CPUS.update({"vexriscv_smp_custom": VexRiscvSMPCustom})
+
 import os
 import re
 import sys
@@ -13,12 +19,9 @@ import argparse
 
 from litex.soc.integration.builder import Builder
 
-# from litex.soc.cores.cpu.vexriscv_smp import VexRiscvSMP
-
-from cpu.vexriscv import VexRiscvSMPCustom as VexRiscvSMP
-
 from socs.boards import *
 from socs.boards import SocBoard as Board
+from socs.board import CustomBoard
 from socs.soc_linux import SoCLinux
 
 # ---------------------------------------------------------------------------------------------------
@@ -84,7 +87,7 @@ def main():
     parser.add_argument(
         "--fdtoverlays", default="", help="Device Tree Overlays to apply."
     )
-    VexRiscvSMP.args_fill(parser)
+    VexRiscvSMPCustom.args_fill(parser)
     args = parser.parse_args()
 
     # Board(s) selection ---------------------------------------------------------------------------
@@ -113,7 +116,7 @@ def main():
         if "usb_host" in board.soc_capabilities:
             args.with_coherent_dma = True
 
-        VexRiscvSMP.args_read(args)
+        VexRiscvSMPCustom.args_read(args)
 
         # SoC parameters ---------------------------------------------------------------------------
         if args.device is not None:
@@ -151,7 +154,8 @@ def main():
             soc_kwargs.update(with_usb_host=True)
 
         # SoC creation -----------------------------------------------------------------------------
-        soc = SoCLinux(board.soc_cls, **soc_kwargs)
+        # soc = SoCLinux(board.soc_cls, **soc_kwargs)
+        soc = CustomBoard(board.soc_cls, **soc_kwargs)
         board.platform = soc.platform
 
         # SoC constants ----------------------------------------------------------------------------

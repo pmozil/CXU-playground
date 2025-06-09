@@ -1,1 +1,1 @@
-from litex.soc.cores.cpu.vexriscv.core import VexRiscv
+from litex.soc.cores.cpu.vexriscv_smp.core  import VexRiscvSMP
