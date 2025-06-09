@@ -90,6 +90,6 @@ class VexRiscvSMPCustom(VexRiscvSMP):
         # gen_args.append(f"--jtag-tap={VexRiscvSMP.jtag_tap}")
 
         cmd = 'cd {path} && sbt "runMain vexriscv.demo.smp.VexRiscvLitexSmpClusterCmdGen {args}"'.format(
-            path=os.path.join(vdir, "ext", "VexRiscv"), args=" ".join(gen_args)
+            path=os.path.join(vdir, "..", "ext", "VexRiscv"), args=" ".join(gen_args)
         )
         subprocess.check_call(cmd, shell=True)

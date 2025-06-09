@@ -1,3 +1,4 @@
+`timescale 1ns/1ps
 
 module Ram_1w_1rs #(
         parameter integer wordCount = 0,
@@ -10,17 +11,19 @@ module Ram_1w_1rs #(
         parameter integer wrMaskWidth = 0,
         parameter wrMaskEnable = 1'b0,
         parameter integer rdAddressWidth = 0,
-        parameter integer rdDataWidth  = 0
+        parameter integer rdDataWidth  = 0,
+        parameter integer rdLatency = 1
     )(
-        input wr_clk,
-        input wr_en,
-        input [wrMaskWidth-1:0] wr_mask,
-        input [wrAddressWidth-1:0] wr_addr,
-        input [wrDataWidth-1:0] wr_data,
-        input rd_clk,
-        input rd_en,
-        input [rdAddressWidth-1:0] rd_addr,
-        output [rdDataWidth-1:0] rd_data
+        input wire wr_clk,
+        input wire wr_en,
+        input wire [wrMaskWidth-1:0] wr_mask,
+        input wire [wrAddressWidth-1:0] wr_addr,
+        input wire [wrDataWidth-1:0] wr_data,
+        input wire rd_clk,
+        input wire rd_en,
+        input wire rd_dataEn,
+        input wire [rdAddressWidth-1:0] rd_addr,
+        output wire [rdDataWidth-1:0] rd_data
     );
 
     reg [wrDataWidth-1:0] ram_block [(2**wrAddressWidth)-1:0];
