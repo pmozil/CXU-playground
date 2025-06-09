@@ -1,0 +1,6 @@
+[submodule "hw/cpu/ext/SpinalHDL"]
+	path = hw/cpu/ext/SpinalHDL
+	url = https://github.com/SpinalHDL/SpinalHDL.git
+[submodule "hw/cpu/ext/VexRiscv"]
+	path = hw/cpu/ext/VexRiscv
+	url = https://github.com/pmozil/VexRiscv
