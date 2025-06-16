@@ -9,7 +9,7 @@ extern "C" {
 #include <generated/csr.h>
 #include <generated/soc.h>
 
-// VexRiscv-SMP uses a Platform-Level Interrupt Controller (PLIC) which
+// VexiiRiscv uses a Platform-Level Interrupt Controller (PLIC) which
 // is programmed and queried via a set of MMIO registerss
 
 #define PLIC_BASE    0xf0c00000L // Base address and per-pin priority array

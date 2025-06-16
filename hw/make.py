@@ -6,11 +6,11 @@
 # Copyright (c) 2019-2024, Linux-on-LiteX-VexRiscv Developers
 # SPDX-License-Identifier: BSD-2-Clause
 
-from cpu.vexriscv import VexRiscvSMPCustom
+from cpu.core import VexiiRiscvCustom
 
 from litex.soc.cores import cpu
 
-cpu.CPUS.update({"vexriscv_smp_custom": VexRiscvSMPCustom})
+cpu.CPUS.update({"vexiiriscv_custom": VexiiRiscvCustom})
 
 import os
 import re
@@ -60,7 +60,7 @@ def main():
     )
     parser.add_argument("--board", required=True, help="FPGA board.")
     parser.add_argument("--device", default=None, help="FPGA device.")
-    parser.add_argument("--variant", default=None, help="FPGA board variant.")
+    parser.add_argument("--cpu-variant", default=None, help="FPGA board variant.")
     parser.add_argument("--toolchain", default=None, help="Toolchain use to build.")
     parser.add_argument(
         "--uart-baudrate", default=460.8e3, type=float, help="UART baudrate."
@@ -87,7 +87,7 @@ def main():
     parser.add_argument(
         "--fdtoverlays", default="", help="Device Tree Overlays to apply."
     )
-    VexRiscvSMPCustom.args_fill(parser)
+    VexiiRiscvCustom.args_fill(parser)
     args = parser.parse_args()
 
     # Board(s) selection ---------------------------------------------------------------------------
@@ -103,26 +103,16 @@ def main():
         soc_kwargs.update(board.soc_kwargs)
 
         # CPU parameters ---------------------------------------------------------------------------
-
-        # If Wishbone Memory is forced, enabled L2 Cache (if not already):
-        if args.with_wishbone_memory:
-            soc_kwargs["l2_size"] = max(
-                soc_kwargs["l2_size"], 2048
-            )  # Defaults to 2048.
-        # Else if board is configured to use L2 Cache, force use of Wishbone Memory on VexRiscv-SMP.
-        else:
-            args.with_wishbone_memory = soc_kwargs["l2_size"] != 0
-
         if "usb_host" in board.soc_capabilities:
             args.with_coherent_dma = True
 
-        VexRiscvSMPCustom.args_read(args)
+        VexiiRiscvCustom.args_read(args)
 
         # SoC parameters ---------------------------------------------------------------------------
         if args.device is not None:
             soc_kwargs.update(device=args.device)
-        if args.variant is not None:
-            soc_kwargs.update(variant=args.variant)
+        if args.cpu_variant is not None:
+            soc_kwargs.update(variant=args.cpu_variant)
         if args.toolchain is not None:
             soc_kwargs.update(toolchain=args.toolchain)
 

@@ -27,7 +27,7 @@ def CustomBoard(soc_cls: type, variant: str = "standard", **kwargs) -> type:
     if variant is None:
         raise ValueError("Variant is none")
 
-    cpu_type: str = "vexriscv_smp_custom"
+    cpu_type: str = "vexiiriscv_custom"
     if "cpu_type" in kwargs and kwargs["cpu_type"]:
         cpu_type = kwargs["cpu_type"]
 

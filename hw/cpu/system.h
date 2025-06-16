@@ -10,18 +10,13 @@ extern "C" {
 __attribute__((unused)) static void flush_cpu_icache(void)
 {
   asm volatile(
-    ".word(0x100F)\n"
-    "nop\n"
-    "nop\n"
-    "nop\n"
-    "nop\n"
-    "nop\n"
+    "fence.i\n"
   );
 }
 
 __attribute__((unused)) static void flush_cpu_dcache(void)
 {
-  asm volatile(".word(0x500F)\n");
+  //asm volatile(".word(0x500F)\n");
 }
 
 void flush_l2_cache(void);

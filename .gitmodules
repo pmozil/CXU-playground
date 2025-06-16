@@ -1,3 +1,0 @@
-[submodule "hw/cpu/ext/VexRiscv"]
-	path = hw/cpu/ext/VexRiscv
-	url = https://github.com/pmozil/VexRiscv

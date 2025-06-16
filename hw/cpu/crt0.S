@@ -7,6 +7,22 @@
 .global smp_lottery_args
 .global smp_slave
 
+#define MSTATUS_FS_INITIAL (1 << 13)
+#define MSTATUS_FS_CLEAN (2 << 13)
+#define MSTATUS_FS_DIRTY (3 << 13)
+#define MSTATUS_FS_MASK (3 << 13)
+
+
+#if __riscv_xlen == 64
+#define STORE sd
+#define LOAD ld
+#define WORD 8
+#else
+#define STORE sw
+#define LOAD lw
+#define WORD 4
+#endif
+
 _start:
   j crt_init
   nop
@@ -19,50 +35,55 @@ _start:
 
 .global  trap_entry
 trap_entry:
-  sw x1,  - 1*4(sp)
-  sw x5,  - 2*4(sp)
-  sw x6,  - 3*4(sp)
-  sw x7,  - 4*4(sp)
-  sw x10, - 5*4(sp)
-  sw x11, - 6*4(sp)
-  sw x12, - 7*4(sp)
-  sw x13, - 8*4(sp)
-  sw x14, - 9*4(sp)
-  sw x15, -10*4(sp)
-  sw x16, -11*4(sp)
-  sw x17, -12*4(sp)
-  sw x28, -13*4(sp)
-  sw x29, -14*4(sp)
-  sw x30, -15*4(sp)
-  sw x31, -16*4(sp)
-  addi sp,sp,-16*4
+  STORE x1,  - 1*WORD(sp)
+  STORE x5,  - 2*WORD(sp)
+  STORE x6,  - 3*WORD(sp)
+  STORE x7,  - 4*WORD(sp)
+  STORE x10, - 5*WORD(sp)
+  STORE x11, - 6*WORD(sp)
+  STORE x12, - 7*WORD(sp)
+  STORE x13, - 8*WORD(sp)
+  STORE x14, - 9*WORD(sp)
+  STORE x15, -10*WORD(sp)
+  STORE x16, -11*WORD(sp)
+  STORE x17, -12*WORD(sp)
+  STORE x28, -13*WORD(sp)
+  STORE x29, -14*WORD(sp)
+  STORE x30, -15*WORD(sp)
+  STORE x31, -16*WORD(sp)
+  addi sp,sp,-16*WORD
   call isr
-  lw x1 , 15*4(sp)
-  lw x5,  14*4(sp)
-  lw x6,  13*4(sp)
-  lw x7,  12*4(sp)
-  lw x10, 11*4(sp)
-  lw x11, 10*4(sp)
-  lw x12,  9*4(sp)
-  lw x13,  8*4(sp)
-  lw x14,  7*4(sp)
-  lw x15,  6*4(sp)
-  lw x16,  5*4(sp)
-  lw x17,  4*4(sp)
-  lw x28,  3*4(sp)
-  lw x29,  2*4(sp)
-  lw x30,  1*4(sp)
-  lw x31,  0*4(sp)
-  addi sp,sp,16*4
+  LOAD x1 , 15*WORD(sp)
+  LOAD x5,  14*WORD(sp)
+  LOAD x6,  13*WORD(sp)
+  LOAD x7,  12*WORD(sp)
+  LOAD x10, 11*WORD(sp)
+  LOAD x11, 10*WORD(sp)
+  LOAD x12,  9*WORD(sp)
+  LOAD x13,  8*WORD(sp)
+  LOAD x14,  7*WORD(sp)
+  LOAD x15,  6*WORD(sp)
+  LOAD x16,  5*WORD(sp)
+  LOAD x17,  4*WORD(sp)
+  LOAD x28,  3*WORD(sp)
+  LOAD x29,  2*WORD(sp)
+  LOAD x30,  1*WORD(sp)
+  LOAD x31,  0*WORD(sp)
+  addi sp,sp,16*WORD
   mret
   .text
+
 
 crt_init:
   la sp, _fstack
   la a0, trap_entry
   csrw mtvec, a0
-  sw x0, smp_lottery_lock, a1
+  
+enable_fpu:
+  li x1, MSTATUS_FS_INITIAL
+  csrs mstatus, x1
 
+  sw x0, smp_lottery_lock, a1
 smp_tyranny:
   csrr a0, mhartid
   beqz a0, data_init
@@ -78,6 +99,7 @@ smp_slave:
   lw x12, smp_lottery_args+8
   lw x13, smp_lottery_target
   jr x13
+
 
 data_init:
   la a0, _fdata
@@ -110,8 +132,6 @@ bss_done:
   call main
 infinit_loop:
   j infinit_loop
-
-
 
 //Initialized to avoid having them set to zero by BSS clear
 .bss
