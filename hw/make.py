@@ -87,6 +87,7 @@ def main():
     parser.add_argument(
         "--fdtoverlays", default="", help="Device Tree Overlays to apply."
     )
+    parser.add_argument("--cfu-path", default="", help="Path to CFU module")
     VexiiRiscvCustom.args_fill(parser)
     args = parser.parse_args()
 

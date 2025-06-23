@@ -28,7 +28,8 @@ class VexiiRiscvCustom(VexiiRiscv):
             "https://github.com/pmozil/VexiiRiscv.git",
             "dev",
             "",
-            args.update_repo,
+            # args.update_repo,
+            "False",
         )
 
         if not args.cpu_variant:
