@@ -159,3 +159,70 @@ class VexiiRiscvCustom(VexiiRiscv):
 
         # Add Cluster.
         platform.add_source(os.path.join(vdir, self.netlist_name + ".v"), "verilog")
+
+    def add_cfu(self, cfu_filename):
+        # Check CFU presence.
+        if not os.path.exists(cfu_filename):
+            raise OSError(f"Unable to find VexRiscv CFU plugin {cfu_filename}.")
+
+        # CFU:CPU Bus Layout.
+        cfu_bus_layout = [
+            (
+                "cmd",
+                [
+                    ("valid", 1),
+                    ("ready", 1),
+                    (
+                        "payload",
+                        [
+                            ("function_id", 10),
+                            ("inputs_0", 32),
+                            ("inputs_1", 32),
+                        ],
+                    ),
+                ],
+            ),
+            (
+                "rsp",
+                [
+                    ("valid", 1),
+                    ("ready", 1),
+                    (
+                        "payload",
+                        [
+                            ("outputs_0", 32),
+                        ],
+                    ),
+                ],
+            ),
+        ]
+
+        # The CFU:CPU Bus.
+        self.cfu_bus = cfu_bus = Record(cfu_bus_layout)
+
+        # Connect CFU to the CFU:CPU bus.
+        self.cfu_params = dict(
+            i_cmd_valid=cfu_bus.cmd.valid,
+            o_cmd_ready=cfu_bus.cmd.ready,
+            i_cmd_payload_function_id=cfu_bus.cmd.payload.function_id,
+            i_cmd_payload_inputs_0=cfu_bus.cmd.payload.inputs_0,
+            i_cmd_payload_inputs_1=cfu_bus.cmd.payload.inputs_1,
+            o_rsp_valid=cfu_bus.rsp.valid,
+            i_rsp_ready=cfu_bus.rsp.ready,
+            o_rsp_payload_outputs_0=cfu_bus.rsp.payload.outputs_0,
+            i_clk=ClockSignal("sys"),
+            i_reset=ResetSignal("sys") | self.reset,
+        )
+        self.platform.add_source(cfu_filename)
+
+        # Connect CPU to the CFU:CPU bus.
+        self.cpu_params.update(
+            o_vexiis_0_cfBus_node_bus_cmd_valid=cfu_bus.cmd.valid,
+            i_vexiis_0_cfBus_node_bus_cmd_ready=cfu_bus.cmd.ready,
+            o_vexiis_0_cfBus_node_bus_cmd_payload_function_id=cfu_bus.cmd.payload.function_id,
+            o_vexiis_0_cfBus_node_bus_cmd_payload_inputs_0=cfu_bus.cmd.payload.inputs_0,
+            o_vexiis_0_cfBus_node_bus_cmd_payload_inputs_1=cfu_bus.cmd.payload.inputs_1,
+            i_vexiis_0_cfBus_node_bus_rsp_valid=cfu_bus.rsp.valid,
+            o_vexiis_0_cfBus_node_bus_rsp_ready=cfu_bus.rsp.ready,
+            i_vexiis_0_cfBus_node_bus_rsp_payload_outputs_0=cfu_bus.rsp.payload.outputs_0,
+        )
