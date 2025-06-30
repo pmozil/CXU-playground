@@ -63,7 +63,7 @@ def main():
     parser.add_argument("--cpu-variant", default=None, help="FPGA board variant.")
     parser.add_argument("--toolchain", default=None, help="Toolchain use to build.")
     parser.add_argument(
-        "--uart-baudrate", default=460.8e3, type=float, help="UART baudrate."
+        "--uart-baudrate", default=115.2e3, type=float, help="UART baudrate."
     )
     parser.add_argument("--build", action="store_true", help="Build bitstream.")
     parser.add_argument("--load", action="store_true", help="Load bitstream (to SRAM).")
