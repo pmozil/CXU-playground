@@ -6,10 +6,17 @@ making it easier to bootstrap and launch litex projects.
 
 ## Dependencies
 
-### OSS CD suite
+### OSS CAD suite
 
 You'll need to install [oss-cad-suite](https://github.com/YosysHQ/oss-cad-suite-build).
 
+#### IMPORTANT
+
+Some FPGA boards (e. g. the digilent arty s7 with Vivado or the de10 nano with Alterra Quartus) may require their respective toolchains
+for the bitstream to be built and programmed to the board. Make sure to install them.
+
+Most boards could be built and flashed with just yosys+nextpnr+openocd, but do take care to check whether this would work with
+your board or whether you would need another toolchain as well.
 
 ### Litex
 
@@ -66,3 +73,39 @@ sudo apt-get install sbt
 
 
 ## Usage
+
+### The litex logic (Hardware)
+
+Now that you've installed the requirements, you may build the app like so:
+
+```
+./hw/make.py --board <board name> --build --vexii-args <additional args>
+```
+
+To program the board, do
+
+```
+./hw/make.py --board <board name> --load
+```
+
+### The software
+
+You may just cd into the project, like so
+
+```
+cd ./sw/<project name>
+```
+
+Then make
+
+```
+make
+```
+
+And program it with
+
+```
+lxterm /dev/ttyUSBN --kernel <program>.bin
+```
+
+Good luck!
