@@ -1,8 +1,7 @@
-# Template for litex projects
+# CXU Playground
 
 This project should serve as a template to launch litex projects.
-It combines linux-on-litex and a generic litex project,
-making it easier to bootstrap and launch litex projects.
+It also integrates the CXU (composable custom extensions) RISC-V extension.
 
 ## Dependencies
 

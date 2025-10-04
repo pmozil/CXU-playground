@@ -10,12 +10,27 @@ import subprocess
 import re
 import hashlib
 
+from migen import *
+
 from litex.soc.cores.cpu.naxriscv import NaxRiscv
 
 from litex.soc.cores.cpu.vexiiriscv import VexiiRiscv
 
+CPU_VARIANTS = [
+    "standard",
+    "cached",
+    "linux",
+    "debian",
+    "standard_cfu",
+    "cached_cfu",
+    "linux_cfu",
+    "debian_cfu",
+]
+
 
 class VexiiRiscvCustom(VexiiRiscv):
+    variants = CPU_VARIANTS
+
     @staticmethod
     def args_read(args):
         print(args)
@@ -42,7 +57,7 @@ class VexiiRiscvCustom(VexiiRiscv):
         VexiiRiscv.vexii_args += " --lsu-l1 --lsu-l1-ways=2  --with-lsu-bypass"
         VexiiRiscv.vexii_args += " --relaxed-branch"
 
-        if args.cpu_variant in ["linux", "debian"]:
+        if args.cpu_variant in ["linux", "debian", "linux_cfu", "debian_cfu"]:
             VexiiRiscv.with_opensbi = True
             VexiiRiscv.vexii_args += " --with-rva --with-supervisor"
             VexiiRiscv.vexii_args += (
@@ -50,11 +65,16 @@ class VexiiRiscvCustom(VexiiRiscv):
             )
             VexiiRiscv.vexii_args += " --lsu-l1-ways=4 --lsu-l1-mem-data-width-min=64"
 
-        if args.cpu_variant in ["debian"]:
+        if args.cpu_variant in ["debian", "debin_cfu"]:
             VexiiRiscv.vexii_args += " --xlen=64 --with-rvc --with-rvf --with-rvd --fma-reduced-accuracy --fpu-ignore-subnormal"
 
-        if args.cpu_variant in ["linux", "debian"]:
+        if args.cpu_variant in ["linux", "debian", "linux_cfu", "debian_cfu"]:
             VexiiRiscv.vexii_args += " --with-btb --with-ras --with-gshare"
+
+        if args.cfu:
+            VexiiRiscv.vexii_args += " --with-cfu"
+            args.cpu_variant += "_cfu"
+            args.cpu_cfu = args.cfu
 
         VexiiRiscv.jtag_tap = args.with_jtag_tap
         VexiiRiscv.jtag_instruction = args.with_jtag_instruction
@@ -217,12 +237,136 @@ class VexiiRiscvCustom(VexiiRiscv):
 
         # Connect CPU to the CFU:CPU bus.
         self.cpu_params.update(
-            o_vexiis_0_cfBus_node_bus_cmd_valid=cfu_bus.cmd.valid,
-            i_vexiis_0_cfBus_node_bus_cmd_ready=cfu_bus.cmd.ready,
-            o_vexiis_0_cfBus_node_bus_cmd_payload_function_id=cfu_bus.cmd.payload.function_id,
-            o_vexiis_0_cfBus_node_bus_cmd_payload_inputs_0=cfu_bus.cmd.payload.inputs_0,
-            o_vexiis_0_cfBus_node_bus_cmd_payload_inputs_1=cfu_bus.cmd.payload.inputs_1,
-            i_vexiis_0_cfBus_node_bus_rsp_valid=cfu_bus.rsp.valid,
-            o_vexiis_0_cfBus_node_bus_rsp_ready=cfu_bus.rsp.ready,
-            i_vexiis_0_cfBus_node_bus_rsp_payload_outputs_0=cfu_bus.rsp.payload.outputs_0,
+            o_vexiis_0_cfuBus_node_cmd_valid=cfu_bus.cmd.valid,
+            i_vexiis_0_cfuBus_node_cmd_ready=cfu_bus.cmd.ready,
+            o_vexiis_0_cfuBus_node_cmd_payload_function_id=cfu_bus.cmd.payload.function_id,
+            o_vexiis_0_cfuBus_node_cmd_payload_inputs_0=cfu_bus.cmd.payload.inputs_0,
+            o_vexiis_0_cfuBus_node_cmd_payload_inputs_1=cfu_bus.cmd.payload.inputs_1,
+            i_vexiis_0_cfuBus_node_rsp_valid=cfu_bus.rsp.valid,
+            o_vexiis_0_cfuBus_node_rsp_ready=cfu_bus.rsp.ready,
+            i_vexiis_0_cfuBus_node_rsp_payload_outputs_0=cfu_bus.rsp.payload.outputs_0,
         )
+
+    def add_cxus(self, cxus: List[str]):
+        # Check CFU presence.
+        for i, cxu_filename in enumerate(cxus):
+            if not os.path.exists(cxu_filename):
+                raise OSError(f"Unable to find VexRiscv CFU plugin {cfu_filename}.")
+
+            # output wire          vexiis_0_cxuBus_buses_0_node_cmd_valid,
+            # input  wire          vexiis_0_cxuBus_buses_0_node_cmd_ready,
+            # output wire [2:0]    vexiis_0_cxuBus_buses_0_node_cmd_payload_function_id,
+            # output wire [31:0]   vexiis_0_cxuBus_buses_0_node_cmd_payload_inputs_0,
+            # output wire [31:0]   vexiis_0_cxuBus_buses_0_node_cmd_payload_inputs_1,
+            # output wire [2:0]    vexiis_0_cxuBus_buses_0_node_cmd_payload_state_id,
+            # output wire [3:0]    vexiis_0_cxuBus_buses_0_node_cmd_payload_cxu_id,
+            # output wire [31:0]   vexiis_0_cxuBus_buses_0_node_cmd_payload_raw_insn,
+            # output wire          vexiis_0_cxuBus_buses_0_node_cmd_payload_ready,
+            # input  wire          vexiis_0_cxuBus_buses_0_node_rsp_valid,
+            # output wire          vexiis_0_cxuBus_buses_0_node_rsp_ready,
+            # input  wire [31:0]   vexiis_0_cxuBus_buses_0_node_rsp_payload_outputs_0,
+            # input  wire          vexiis_0_cxuBus_buses_0_node_rsp_payload_ready,
+            # CXU:CPU Bus Layout.
+            cxu_bus_layout = [
+                (
+                    "cmd",
+                    [
+                        ("valid", 1),
+                        ("ready", 1),
+                        (
+                            "payload",
+                            [
+                                ("function_id", 10),
+                                ("inputs_0", 32),
+                                ("inputs_1", 32),
+                            ],
+                        ),
+                    ],
+                ),
+                (
+                    "rsp",
+                    [
+                        ("valid", 1),
+                        ("ready", 1),
+                        (
+                            "payload",
+                            [
+                                ("outputs_0", 32),
+                            ],
+                        ),
+                    ],
+                ),
+            ]
+
+            # The CXU:CPU Bus.
+            self.cxu_bus = cfu_bus = Record(cxu_bus_layout)
+
+            # Connect CXU to the CXU:CPU bus.
+            self.cxu_params = dict(
+                {
+                    "i_cmd_valid": cxu_bus.cmd.valid,
+                    "o_cmd_ready": cxu_bus.cmd.ready,
+                    "i_cmd_payload_function_id": cxu_bus.cmd.payload.function_id,
+                    "i_cmd_payload_inputs_0": cxu_bus.cmd.payload.inputs_0,
+                    "i_cmd_payload_inputs_1": cxu_bus.cmd.payload.inputs_1,
+                    "o_rsp_valid": cxu_bus.rsp.valid,
+                    "i_rsp_ready": cxu_bus.rsp.ready,
+                    "o_rsp_payload_outputs_0": cxu_bus.rsp.payload.outputs_0,
+                    "i_clk": ClockSignal("sys"),
+                    "i_reset": ResetSignal("sys") | self.reset,
+                }
+            )
+            self.platform.add_source(cxu_filename)
+
+            # Connect CPU to the CFU:CPU bus.
+            self.cpu_params.update(
+                {
+                    f"o_vexiis_0_cxuBus_buses_{i}_node_cmd_valid": cxu_bus.cmd.valid,
+                    f"i_vexiis_0_cxuBus_buses_{i}_node_cmd_ready": cxu_bus.cmd.ready,
+                    f"o_vexiis_0_cxuBus_buses_{i}_node_cmd_payload_function_id": cxu_bus.cmd.payload.function_id,
+                    f"o_vexiis_0_cxuBus_buses_{i}_node_cmd_payload_inputs_0": cxu_bus.cmd.payload.inputs_0,
+                    f"o_vexiis_0_cxuBus_buses_{i}_node_cmd_payload_inputs_1": cxu_bus.cmd.payload.inputs_1,
+                    f"i_vexiis_0_cxuBus_buses_{i}_node_rsp_valid": cxu_bus.rsp.valid,
+                    f"o_vexiis_0_cxuBus_buses_{i}_node_rsp_ready": cxu_bus.rsp.ready,
+                    f"i_vexiis_0_cxuBus_buses_{i}_node_rsp_payload_outputs_0": cxu_bus.rsp.payload.outputs_0,
+                }
+            )
+
+    def do_finalize(self):
+        assert hasattr(self, "reset_address")
+
+        # Generate memory map from CPU perspective
+        # vexiiriscv modes:
+        # r,w,x,c  : readable, writeable, executable, caching allowed
+        # io       : IO region (Implies P bus, preserve memory order, no dcache)
+        # vexiiriscv bus:
+        # p        : peripheral
+        # m        : memory
+        VexiiRiscv.memory_regions = []
+        # for name, region in self.soc_bus.io_regions.items():
+        #     VexiiRiscv.memory_regions.append( (region.origin, region.size, "io", "p") ) # IO is only allowed on the p bus
+        for name, region in self.soc_bus.regions.items():
+            if region.linker:  # Remove virtual regions.
+                continue
+            if len(self.memory_buses) and name == "main_ram":  # m bus
+                bus = "m"
+            else:
+                bus = "p"
+            mode = region.mode
+            mode += "c" if region.cached else ""
+            VexiiRiscv.memory_regions.append((region.origin, region.size, mode, bus))
+
+        from litex.build.efinix import EfinixPlatform
+
+        if isinstance(self.platform, EfinixPlatform):
+            VexiiRiscv.vexii_args = "--mmu-sync-read " + VexiiRiscv.vexii_args
+
+        self.generate_netlist_name()
+
+        # Do verilog instance.
+        self.specials += Instance(self.netlist_name, **self.cpu_params)
+
+        # Add verilog sources.
+        self.add_sources(self.platform)
+        if hasattr(self, "cfu_params"):
+            self.specials += Instance("Cfu", **self.cfu_params)
