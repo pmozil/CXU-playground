@@ -1,19 +1,23 @@
 // Generator : SpinalHDL dev    git head : 008a72bc159840e8d5ca7ed6a07e1bdc5f0a9224
-// Component : VexiiRiscvLitex_95749c2db14e75e1b027a7fee8f62d40
+// Component : VexiiRiscvLitex_6d425f11f43c90d04aca763a596e0f71
 // Git hash  : 1f6254b7a271c5c08df470bd492a24cd4c6945ab
 
 `timescale 1ns/1ps
 
-module VexiiRiscvLitex_95749c2db14e75e1b027a7fee8f62d40 (
+module VexiiRiscvLitex_6d425f11f43c90d04aca763a596e0f71 (
   input  wire          litex_reset,
-  output wire          vexiis_0_cfuBus_node_cmd_valid,
-  input  wire          vexiis_0_cfuBus_node_cmd_ready,
-  output wire [2:0]    vexiis_0_cfuBus_node_cmd_payload_function_id,
-  output wire [31:0]   vexiis_0_cfuBus_node_cmd_payload_inputs_0,
-  output wire [31:0]   vexiis_0_cfuBus_node_cmd_payload_inputs_1,
-  input  wire          vexiis_0_cfuBus_node_rsp_valid,
-  output wire          vexiis_0_cfuBus_node_rsp_ready,
-  input  wire [31:0]   vexiis_0_cfuBus_node_rsp_payload_outputs_0,
+  output wire          vexiis_0_cxuBus_buses_0_node_cmd_valid,
+  input  wire          vexiis_0_cxuBus_buses_0_node_cmd_ready,
+  output wire [2:0]    vexiis_0_cxuBus_buses_0_node_cmd_payload_function_id,
+  output wire [31:0]   vexiis_0_cxuBus_buses_0_node_cmd_payload_inputs_0,
+  output wire [31:0]   vexiis_0_cxuBus_buses_0_node_cmd_payload_inputs_1,
+  output wire [2:0]    vexiis_0_cxuBus_buses_0_node_cmd_payload_state_id,
+  output wire [3:0]    vexiis_0_cxuBus_buses_0_node_cmd_payload_cxu_id,
+  output wire          vexiis_0_cxuBus_buses_0_node_cmd_payload_ready,
+  input  wire          vexiis_0_cxuBus_buses_0_node_rsp_valid,
+  output wire          vexiis_0_cxuBus_buses_0_node_rsp_ready,
+  input  wire [31:0]   vexiis_0_cxuBus_buses_0_node_rsp_payload_outputs_0,
+  input  wire          vexiis_0_cxuBus_buses_0_node_rsp_payload_ready,
   input  wire [31:0]   peripheral_externalInterrupts_port,
   output wire          mBus_awvalid,
   input  wire          mBus_awready,
@@ -78,17 +82,23 @@ module VexiiRiscvLitex_95749c2db14e75e1b027a7fee8f62d40 (
   localparam D_GRANT_DATA = 3'd5;
   localparam D_RELEASE_ACK = 3'd6;
 
+  reg                 vexiis_0_logic_core_CxuPlugin_logic_cxuBus_cmd_ready;
+  reg                 vexiis_0_logic_core_CxuPlugin_logic_cxuBus_rsp_valid;
+  reg        [31:0]   vexiis_0_logic_core_CxuPlugin_logic_cxuBus_rsp_payload_outputs_0;
+  reg                 vexiis_0_logic_core_CxuPlugin_logic_cxuBus_rsp_payload_ready;
   wire                peripheral_clint_thread_core_io_stop;
   reg        [30:0]   peripheral_plic_thread_logic_io_sources;
   wire                peripheral_bus_decoder_core_io_up_d_ready;
-  wire                vexiis_0_logic_core_CfuPlugin_logic_bus_cmd_valid;
-  wire       [2:0]    vexiis_0_logic_core_CfuPlugin_logic_bus_cmd_payload_function_id;
-  wire       [31:0]   vexiis_0_logic_core_CfuPlugin_logic_bus_cmd_payload_inputs_0;
-  wire       [31:0]   vexiis_0_logic_core_CfuPlugin_logic_bus_cmd_payload_inputs_1;
-  wire       [2:0]    vexiis_0_logic_core_CfuPlugin_logic_bus_cmd_payload_state_index;
-  wire       [3:0]    vexiis_0_logic_core_CfuPlugin_logic_bus_cmd_payload_cfu_index;
-  wire       [31:0]   vexiis_0_logic_core_CfuPlugin_logic_bus_cmd_payload_raw_insn;
-  wire                vexiis_0_logic_core_CfuPlugin_logic_bus_rsp_ready;
+  wire                vexiis_0_logic_core_CxuPlugin_logic_cxuBus_cmd_valid;
+  wire       [2:0]    vexiis_0_logic_core_CxuPlugin_logic_cxuBus_cmd_payload_function_id;
+  wire       [31:0]   vexiis_0_logic_core_CxuPlugin_logic_cxuBus_cmd_payload_inputs_0;
+  wire       [31:0]   vexiis_0_logic_core_CxuPlugin_logic_cxuBus_cmd_payload_inputs_1;
+  wire       [2:0]    vexiis_0_logic_core_CxuPlugin_logic_cxuBus_cmd_payload_state_id;
+  wire       [3:0]    vexiis_0_logic_core_CxuPlugin_logic_cxuBus_cmd_payload_cxu_id;
+  wire       [31:0]   vexiis_0_logic_core_CxuPlugin_logic_cxuBus_cmd_payload_raw_insn;
+  wire                vexiis_0_logic_core_CxuPlugin_logic_cxuBus_cmd_payload_ready;
+  wire                vexiis_0_logic_core_CxuPlugin_logic_cxuBus_rsp_ready;
+  wire       [3:0]    vexiis_0_logic_core_CxuPlugin_logic_mcx_selector;
   wire                vexiis_0_logic_core_FetchL1TileLinkPlugin_logic_down_a_valid;
   wire       [2:0]    vexiis_0_logic_core_FetchL1TileLinkPlugin_logic_down_a_payload_opcode;
   wire       [2:0]    vexiis_0_logic_core_FetchL1TileLinkPlugin_logic_down_a_payload_param;
@@ -347,9 +357,8 @@ module VexiiRiscvLitex_95749c2db14e75e1b027a7fee8f62d40 (
   wire                peripheral_bus_decoder_core_io_downs_2_a_payload_corrupt;
   wire                peripheral_bus_decoder_core_io_downs_2_d_ready;
   wire                cpuResetCtrl_reset;
-  wire       [2:0]    vexiis_0_cfuBus_node_cmd_payload_state_index;
-  wire       [3:0]    vexiis_0_cfuBus_node_cmd_payload_cfu_index;
-  wire       [31:0]   vexiis_0_cfuBus_node_cmd_payload_raw_insn;
+  wire       [31:0]   vexiis_0_cxuBus_buses_0_node_cmd_payload_raw_insn;
+  wire       [3:0]    vexiis_0_cxuBus_mcx_selector;
   wire                vexiis_0_priv_mti_flag;
   wire                vexiis_0_priv_msi_flag;
   wire                vexiis_0_priv_mei_flag;
@@ -1248,6 +1257,8 @@ module VexiiRiscvLitex_95749c2db14e75e1b027a7fee8f62d40 (
   reg        [1:0]    mBus_r_s2mPipe_rData_resp;
   reg                 mBus_r_s2mPipe_rData_last;
   wire                when_Stream_l399_8;
+  wire                when_TilelinkVexiiRiscvFiber_l194;
+  wire                when_TilelinkVexiiRiscvFiber_l199;
   wire                peripheral_toAxiLite4_down_aw_valid;
   wire                peripheral_toAxiLite4_down_aw_ready;
   wire       [31:0]   peripheral_toAxiLite4_down_aw_payload_addr;
@@ -1495,17 +1506,20 @@ module VexiiRiscvLitex_95749c2db14e75e1b027a7fee8f62d40 (
 
 
   VexiiRiscv vexiis_0_logic_core (
-    .CfuPlugin_logic_bus_cmd_valid                         (vexiis_0_logic_core_CfuPlugin_logic_bus_cmd_valid                              ), //o
-    .CfuPlugin_logic_bus_cmd_ready                         (vexiis_0_cfuBus_node_cmd_ready                                                 ), //i
-    .CfuPlugin_logic_bus_cmd_payload_function_id           (vexiis_0_logic_core_CfuPlugin_logic_bus_cmd_payload_function_id[2:0]           ), //o
-    .CfuPlugin_logic_bus_cmd_payload_inputs_0              (vexiis_0_logic_core_CfuPlugin_logic_bus_cmd_payload_inputs_0[31:0]             ), //o
-    .CfuPlugin_logic_bus_cmd_payload_inputs_1              (vexiis_0_logic_core_CfuPlugin_logic_bus_cmd_payload_inputs_1[31:0]             ), //o
-    .CfuPlugin_logic_bus_cmd_payload_state_index           (vexiis_0_logic_core_CfuPlugin_logic_bus_cmd_payload_state_index[2:0]           ), //o
-    .CfuPlugin_logic_bus_cmd_payload_cfu_index             (vexiis_0_logic_core_CfuPlugin_logic_bus_cmd_payload_cfu_index[3:0]             ), //o
-    .CfuPlugin_logic_bus_cmd_payload_raw_insn              (vexiis_0_logic_core_CfuPlugin_logic_bus_cmd_payload_raw_insn[31:0]             ), //o
-    .CfuPlugin_logic_bus_rsp_valid                         (vexiis_0_cfuBus_node_rsp_valid                                                 ), //i
-    .CfuPlugin_logic_bus_rsp_ready                         (vexiis_0_logic_core_CfuPlugin_logic_bus_rsp_ready                              ), //o
-    .CfuPlugin_logic_bus_rsp_payload_outputs_0             (vexiis_0_cfuBus_node_rsp_payload_outputs_0[31:0]                               ), //i
+    .CxuPlugin_logic_cxuBus_cmd_valid                      (vexiis_0_logic_core_CxuPlugin_logic_cxuBus_cmd_valid                           ), //o
+    .CxuPlugin_logic_cxuBus_cmd_ready                      (vexiis_0_logic_core_CxuPlugin_logic_cxuBus_cmd_ready                           ), //i
+    .CxuPlugin_logic_cxuBus_cmd_payload_function_id        (vexiis_0_logic_core_CxuPlugin_logic_cxuBus_cmd_payload_function_id[2:0]        ), //o
+    .CxuPlugin_logic_cxuBus_cmd_payload_inputs_0           (vexiis_0_logic_core_CxuPlugin_logic_cxuBus_cmd_payload_inputs_0[31:0]          ), //o
+    .CxuPlugin_logic_cxuBus_cmd_payload_inputs_1           (vexiis_0_logic_core_CxuPlugin_logic_cxuBus_cmd_payload_inputs_1[31:0]          ), //o
+    .CxuPlugin_logic_cxuBus_cmd_payload_state_id           (vexiis_0_logic_core_CxuPlugin_logic_cxuBus_cmd_payload_state_id[2:0]           ), //o
+    .CxuPlugin_logic_cxuBus_cmd_payload_cxu_id             (vexiis_0_logic_core_CxuPlugin_logic_cxuBus_cmd_payload_cxu_id[3:0]             ), //o
+    .CxuPlugin_logic_cxuBus_cmd_payload_raw_insn           (vexiis_0_logic_core_CxuPlugin_logic_cxuBus_cmd_payload_raw_insn[31:0]          ), //o
+    .CxuPlugin_logic_cxuBus_cmd_payload_ready              (vexiis_0_logic_core_CxuPlugin_logic_cxuBus_cmd_payload_ready                   ), //o
+    .CxuPlugin_logic_cxuBus_rsp_valid                      (vexiis_0_logic_core_CxuPlugin_logic_cxuBus_rsp_valid                           ), //i
+    .CxuPlugin_logic_cxuBus_rsp_ready                      (vexiis_0_logic_core_CxuPlugin_logic_cxuBus_rsp_ready                           ), //o
+    .CxuPlugin_logic_cxuBus_rsp_payload_outputs_0          (vexiis_0_logic_core_CxuPlugin_logic_cxuBus_rsp_payload_outputs_0[31:0]         ), //i
+    .CxuPlugin_logic_cxuBus_rsp_payload_ready              (vexiis_0_logic_core_CxuPlugin_logic_cxuBus_rsp_payload_ready                   ), //i
+    .CxuPlugin_logic_mcx_selector                          (vexiis_0_logic_core_CxuPlugin_logic_mcx_selector[3:0]                          ), //o
     .PrivilegedPlugin_logic_rdtime                         (vexiis_0_priv_rdtime[63:0]                                                     ), //i
     .PrivilegedPlugin_logic_harts_0_int_m_timer            (vexiis_0_priv_mti_flag                                                         ), //i
     .PrivilegedPlugin_logic_harts_0_int_m_software         (vexiis_0_priv_msi_flag                                                         ), //i
@@ -3674,11 +3688,46 @@ module VexiiRiscvLitex_95749c2db14e75e1b027a7fee8f62d40 (
   assign mBusAxi_r_payload_id = mBus_r_s2mPipe_m2sPipe_payload_id;
   assign mBusAxi_r_payload_resp = mBus_r_s2mPipe_m2sPipe_payload_resp;
   assign mBusAxi_r_payload_last = mBus_r_s2mPipe_m2sPipe_payload_last;
-  assign vexiis_0_cfuBus_node_cmd_valid = vexiis_0_logic_core_CfuPlugin_logic_bus_cmd_valid;
-  assign vexiis_0_cfuBus_node_rsp_ready = vexiis_0_logic_core_CfuPlugin_logic_bus_rsp_ready;
-  assign vexiis_0_cfuBus_node_cmd_payload_function_id = vexiis_0_logic_core_CfuPlugin_logic_bus_cmd_payload_function_id;
-  assign vexiis_0_cfuBus_node_cmd_payload_inputs_0 = vexiis_0_logic_core_CfuPlugin_logic_bus_cmd_payload_inputs_0;
-  assign vexiis_0_cfuBus_node_cmd_payload_inputs_1 = vexiis_0_logic_core_CfuPlugin_logic_bus_cmd_payload_inputs_1;
+  assign vexiis_0_cxuBus_mcx_selector = vexiis_0_logic_core_CxuPlugin_logic_mcx_selector;
+  always @(*) begin
+    vexiis_0_logic_core_CxuPlugin_logic_cxuBus_cmd_ready = 1'b0;
+    if(when_TilelinkVexiiRiscvFiber_l194) begin
+      vexiis_0_logic_core_CxuPlugin_logic_cxuBus_cmd_ready = vexiis_0_cxuBus_buses_0_node_cmd_ready;
+    end
+  end
+
+  always @(*) begin
+    vexiis_0_logic_core_CxuPlugin_logic_cxuBus_rsp_valid = 1'b0;
+    if(when_TilelinkVexiiRiscvFiber_l199) begin
+      vexiis_0_logic_core_CxuPlugin_logic_cxuBus_rsp_valid = 1'b1;
+    end
+  end
+
+  always @(*) begin
+    vexiis_0_logic_core_CxuPlugin_logic_cxuBus_rsp_payload_outputs_0 = 32'h0;
+    if(when_TilelinkVexiiRiscvFiber_l199) begin
+      vexiis_0_logic_core_CxuPlugin_logic_cxuBus_rsp_payload_outputs_0 = vexiis_0_cxuBus_buses_0_node_rsp_payload_outputs_0;
+    end
+  end
+
+  always @(*) begin
+    vexiis_0_logic_core_CxuPlugin_logic_cxuBus_rsp_payload_ready = 1'b0;
+    if(when_TilelinkVexiiRiscvFiber_l199) begin
+      vexiis_0_logic_core_CxuPlugin_logic_cxuBus_rsp_payload_ready = vexiis_0_cxuBus_buses_0_node_rsp_payload_ready;
+    end
+  end
+
+  assign when_TilelinkVexiiRiscvFiber_l194 = (vexiis_0_cxuBus_mcx_selector == 4'b0000);
+  assign vexiis_0_cxuBus_buses_0_node_cmd_valid = (vexiis_0_logic_core_CxuPlugin_logic_cxuBus_cmd_valid && when_TilelinkVexiiRiscvFiber_l194);
+  assign vexiis_0_cxuBus_buses_0_node_cmd_payload_function_id = vexiis_0_logic_core_CxuPlugin_logic_cxuBus_cmd_payload_function_id;
+  assign vexiis_0_cxuBus_buses_0_node_cmd_payload_inputs_0 = vexiis_0_logic_core_CxuPlugin_logic_cxuBus_cmd_payload_inputs_0;
+  assign vexiis_0_cxuBus_buses_0_node_cmd_payload_inputs_1 = vexiis_0_logic_core_CxuPlugin_logic_cxuBus_cmd_payload_inputs_1;
+  assign vexiis_0_cxuBus_buses_0_node_cmd_payload_state_id = vexiis_0_logic_core_CxuPlugin_logic_cxuBus_cmd_payload_state_id;
+  assign vexiis_0_cxuBus_buses_0_node_cmd_payload_cxu_id = vexiis_0_logic_core_CxuPlugin_logic_cxuBus_cmd_payload_cxu_id;
+  assign vexiis_0_cxuBus_buses_0_node_cmd_payload_raw_insn = vexiis_0_logic_core_CxuPlugin_logic_cxuBus_cmd_payload_raw_insn;
+  assign vexiis_0_cxuBus_buses_0_node_cmd_payload_ready = vexiis_0_logic_core_CxuPlugin_logic_cxuBus_cmd_payload_ready;
+  assign when_TilelinkVexiiRiscvFiber_l199 = (vexiis_0_cxuBus_buses_0_node_rsp_valid && when_TilelinkVexiiRiscvFiber_l194);
+  assign vexiis_0_cxuBus_buses_0_node_rsp_ready = (vexiis_0_logic_core_CxuPlugin_logic_cxuBus_rsp_ready && when_TilelinkVexiiRiscvFiber_l194);
   assign vexiis_0_priv_stoptime = 1'b0;
   assign peripheral_clint_node_bus_a_ready = peripheral_clint_thread_core_io_bus_a_ready;
   assign peripheral_clint_node_bus_d_valid = peripheral_clint_thread_core_io_bus_d_valid;
@@ -10805,17 +10854,20 @@ module BufferCC (
 endmodule
 
 module VexiiRiscv (
-  output wire          CfuPlugin_logic_bus_cmd_valid,
-  input  wire          CfuPlugin_logic_bus_cmd_ready,
-  output wire [2:0]    CfuPlugin_logic_bus_cmd_payload_function_id,
-  output wire [31:0]   CfuPlugin_logic_bus_cmd_payload_inputs_0,
-  output wire [31:0]   CfuPlugin_logic_bus_cmd_payload_inputs_1,
-  output wire [2:0]    CfuPlugin_logic_bus_cmd_payload_state_index,
-  output wire [3:0]    CfuPlugin_logic_bus_cmd_payload_cfu_index,
-  output wire [31:0]   CfuPlugin_logic_bus_cmd_payload_raw_insn,
-  input  wire          CfuPlugin_logic_bus_rsp_valid,
-  output wire          CfuPlugin_logic_bus_rsp_ready,
-  input  wire [31:0]   CfuPlugin_logic_bus_rsp_payload_outputs_0,
+  output wire          CxuPlugin_logic_cxuBus_cmd_valid,
+  input  wire          CxuPlugin_logic_cxuBus_cmd_ready,
+  output wire [2:0]    CxuPlugin_logic_cxuBus_cmd_payload_function_id,
+  output wire [31:0]   CxuPlugin_logic_cxuBus_cmd_payload_inputs_0,
+  output wire [31:0]   CxuPlugin_logic_cxuBus_cmd_payload_inputs_1,
+  output wire [2:0]    CxuPlugin_logic_cxuBus_cmd_payload_state_id,
+  output wire [3:0]    CxuPlugin_logic_cxuBus_cmd_payload_cxu_id,
+  output wire [31:0]   CxuPlugin_logic_cxuBus_cmd_payload_raw_insn,
+  output wire          CxuPlugin_logic_cxuBus_cmd_payload_ready,
+  input  wire          CxuPlugin_logic_cxuBus_rsp_valid,
+  output wire          CxuPlugin_logic_cxuBus_rsp_ready,
+  input  wire [31:0]   CxuPlugin_logic_cxuBus_rsp_payload_outputs_0,
+  input  wire          CxuPlugin_logic_cxuBus_rsp_payload_ready,
+  output reg  [3:0]    CxuPlugin_logic_mcx_selector,
   input  wire [63:0]   PrivilegedPlugin_logic_rdtime,
   input  wire          PrivilegedPlugin_logic_harts_0_int_m_timer /* verilator public */ ,
   input  wire          PrivilegedPlugin_logic_harts_0_int_m_software /* verilator public */ ,
@@ -10939,7 +10991,7 @@ module VexiiRiscv (
   localparam PerformanceCounterPlugin_logic_fsm_CSR_WRITE = 3'd6;
 
   wire                early0_DivPlugin_logic_processing_div_io_cmd_valid;
-  wire                CfuPlugin_logic_onJoin_busRspStream_fifo_io_pop_ready;
+  wire                CxuPlugin_logic_onJoin_busRspStream_fifo_io_pop_ready;
   reg                 LsuPlugin_logic_flusher_arbiter_io_output_ready;
   wire                LsuPlugin_logic_onAddress0_arbiter_io_output_ready;
   reg                 MmuPlugin_logic_refill_arbiter_io_output_ready;
@@ -10993,11 +11045,12 @@ module VexiiRiscv (
   wire                early0_DivPlugin_logic_processing_div_io_rsp_valid;
   wire       [31:0]   early0_DivPlugin_logic_processing_div_io_rsp_payload_result;
   wire       [31:0]   early0_DivPlugin_logic_processing_div_io_rsp_payload_remain;
-  wire                CfuPlugin_logic_onJoin_busRspStream_fifo_io_push_ready;
-  wire                CfuPlugin_logic_onJoin_busRspStream_fifo_io_pop_valid;
-  wire       [31:0]   CfuPlugin_logic_onJoin_busRspStream_fifo_io_pop_payload_outputs_0;
-  wire       [1:0]    CfuPlugin_logic_onJoin_busRspStream_fifo_io_occupancy;
-  wire       [1:0]    CfuPlugin_logic_onJoin_busRspStream_fifo_io_availability;
+  wire                CxuPlugin_logic_onJoin_busRspStream_fifo_io_push_ready;
+  wire                CxuPlugin_logic_onJoin_busRspStream_fifo_io_pop_valid;
+  wire       [31:0]   CxuPlugin_logic_onJoin_busRspStream_fifo_io_pop_payload_outputs_0;
+  wire                CxuPlugin_logic_onJoin_busRspStream_fifo_io_pop_payload_ready;
+  wire       [1:0]    CxuPlugin_logic_onJoin_busRspStream_fifo_io_occupancy;
+  wire       [1:0]    CxuPlugin_logic_onJoin_busRspStream_fifo_io_availability;
   wire                LsuPlugin_logic_flusher_arbiter_io_inputs_0_ready;
   wire                LsuPlugin_logic_flusher_arbiter_io_output_valid;
   wire       [0:0]    LsuPlugin_logic_flusher_arbiter_io_chosenOH;
@@ -11167,9 +11220,9 @@ module VexiiRiscv (
   wire       [3:0]    _zz_execute_ctrl2_down_early0_BranchPlugin_pcCalc_PC_FALSE_lane0_1;
   wire       [31:0]   _zz_execute_ctrl2_down_early0_BranchPlugin_pcCalc_PC_LAST_SLICE_lane0;
   wire       [1:0]    _zz_execute_ctrl2_down_early0_BranchPlugin_pcCalc_PC_LAST_SLICE_lane0_1;
-  reg        [2:0]    _zz_CfuPlugin_logic_bus_cmd_payload_function_id;
-  wire       [31:0]   _zz__zz_CfuPlugin_logic_bus_cmd_payload_inputs_1;
-  wire       [7:0]    _zz__zz_CfuPlugin_logic_bus_cmd_payload_inputs_1_1;
+  reg        [2:0]    _zz_CxuPlugin_logic_cxuBus_cmd_payload_function_id;
+  wire       [31:0]   _zz__zz_CxuPlugin_logic_cxuBus_cmd_payload_inputs_1;
+  wire       [7:0]    _zz__zz_CxuPlugin_logic_cxuBus_cmd_payload_inputs_1_1;
   wire       [3:0]    _zz_early0_EnvPlugin_logic_trapPort_payload_code;
   wire       [31:0]   _zz_early0_BranchPlugin_logic_alu_expectedMsb;
   wire       [12:0]   _zz_early0_BranchPlugin_logic_jumpLogic_history_shifter_1;
@@ -11224,8 +11277,6 @@ module VexiiRiscv (
   wire       [13:0]   _zz_GSharePlugin_logic_onLearn_hash_4;
   wire       [11:0]   _zz_GSharePlugin_logic_onLearn_hash_5;
   wire       [29:0]   _zz_BtbPlugin_logic_memWrite_payload_address;
-  wire       [0:0]    _zz_decode_ctrls_1_down_CfuPlugin_logic_CFU_ENABLE_0;
-  wire       [0:0]    _zz_decode_ctrls_1_down_CfuPlugin_logic_CFU_ENABLE_0_1;
   wire       [0:0]    _zz_decode_ctrls_1_down_DecoderPlugin_logic_NEED_FPU_0;
   wire       [0:0]    _zz_decode_ctrls_1_down_DecoderPlugin_logic_NEED_FPU_0_1;
   wire       [0:0]    _zz_decode_ctrls_1_down_DecoderPlugin_logic_NEED_RM_0;
@@ -11489,176 +11540,178 @@ module VexiiRiscv (
   wire       [31:0]   _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_40;
   wire       [31:0]   _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_41;
   wire       [31:0]   _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_42;
-  wire       [18:0]   _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_43;
+  wire       [28:0]   _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_43;
   wire       [31:0]   _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_44;
-  wire       [3:0]    _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_45;
+  wire       [18:0]   _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_45;
   wire       [31:0]   _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_46;
   wire       [31:0]   _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_47;
-  wire       [5:0]    _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_48;
+  wire       [3:0]    _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_48;
   wire       [31:0]   _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_49;
   wire       [31:0]   _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_50;
   wire       [31:0]   _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_51;
-  wire       [31:0]   _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_52;
-  wire       [7:0]    _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_53;
+  wire       [5:0]    _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_52;
+  wire       [31:0]   _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_53;
   wire       [31:0]   _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_54;
   wire       [31:0]   _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_55;
   wire       [31:0]   _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_56;
-  wire       [3:0]    _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_57;
+  wire       [7:0]    _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_57;
   wire       [31:0]   _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_58;
-  wire       [12:0]   _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_59;
+  wire       [3:0]    _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_59;
   wire       [31:0]   _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_60;
   wire       [31:0]   _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_61;
-  wire       [31:0]   _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_62;
-  wire       [17:0]   _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_63;
+  wire       [12:0]   _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_62;
+  wire       [31:0]   _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_63;
   wire       [31:0]   _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_64;
   wire       [31:0]   _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_65;
   wire       [31:0]   _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_66;
-  wire       [14:0]   _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_67;
+  wire       [17:0]   _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_67;
   wire       [31:0]   _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_68;
-  wire       [22:0]   _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_69;
+  wire       [14:0]   _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_69;
   wire       [31:0]   _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_70;
   wire       [31:0]   _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_71;
-  wire       [20:0]   _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_72;
+  wire       [22:0]   _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_72;
   wire       [31:0]   _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_73;
-  wire       [21:0]   _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_74;
+  wire       [20:0]   _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_74;
   wire       [31:0]   _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_75;
   wire       [31:0]   _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_76;
   wire       [31:0]   _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_77;
-  wire       [31:0]   _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_78;
-  wire       [3:0]    _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_79;
+  wire       [21:0]   _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_78;
+  wire       [31:0]   _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_79;
   wire       [31:0]   _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_80;
   wire       [31:0]   _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_81;
-  wire       [11:0]   _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_82;
+  wire       [3:0]    _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_82;
   wire       [31:0]   _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_83;
-  wire       [7:0]    _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_84;
+  wire       [11:0]   _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_84;
   wire       [31:0]   _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_85;
   wire       [31:0]   _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_86;
   wire       [31:0]   _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_87;
-  wire       [3:0]    _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_88;
+  wire       [7:0]    _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_88;
   wire       [31:0]   _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_89;
-  wire       [11:0]   _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_90;
+  wire       [3:0]    _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_90;
   wire       [31:0]   _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_91;
   wire       [31:0]   _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_92;
-  wire       [7:0]    _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_93;
+  wire       [11:0]   _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_93;
   wire       [31:0]   _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_94;
-  wire       [3:0]    _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_95;
+  wire       [7:0]    _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_95;
   wire       [31:0]   _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_96;
   wire       [31:0]   _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_97;
   wire       [31:0]   _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_98;
-  wire       [0:0]    _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_99;
+  wire       [3:0]    _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_99;
   wire       [31:0]   _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_100;
-  wire       [3:0]    _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_101;
+  wire       [0:0]    _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_101;
   wire       [31:0]   _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_102;
   wire       [31:0]   _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_103;
-  wire       [8:0]    _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_104;
+  wire       [3:0]    _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_104;
   wire       [31:0]   _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_105;
-  wire       [9:0]    _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_106;
+  wire       [8:0]    _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_106;
   wire       [31:0]   _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_107;
   wire       [31:0]   _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_108;
   wire       [31:0]   _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_109;
-  wire       [12:0]   _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_110;
+  wire       [9:0]    _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_110;
   wire       [31:0]   _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_111;
-  wire       [13:0]   _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_112;
+  wire       [12:0]   _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_112;
   wire       [31:0]   _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_113;
   wire       [31:0]   _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_114;
-  wire       [15:0]   _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_115;
+  wire       [13:0]   _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_115;
   wire       [31:0]   _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_116;
-  wire       [9:0]    _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_117;
+  wire       [15:0]   _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_117;
   wire       [31:0]   _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_118;
   wire       [31:0]   _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_119;
   wire       [31:0]   _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_120;
-  wire       [5:0]    _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_121;
+  wire       [9:0]    _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_121;
   wire       [31:0]   _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_122;
-  wire       [1:0]    _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_123;
+  wire       [5:0]    _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_123;
   wire       [31:0]   _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_124;
   wire       [31:0]   _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_125;
   wire       [1:0]    _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_126;
   wire       [31:0]   _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_127;
-  wire       [31:0]   _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_128;
+  wire       [1:0]    _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_128;
   wire       [31:0]   _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_129;
   wire       [31:0]   _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_130;
-  wire       [3:0]    _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_131;
+  wire       [31:0]   _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_131;
   wire       [31:0]   _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_132;
-  wire       [31:0]   _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_133;
+  wire       [3:0]    _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_133;
   wire       [31:0]   _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_134;
-  wire       [8:0]    _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_135;
+  wire       [31:0]   _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_135;
   wire       [31:0]   _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_136;
-  wire       [5:0]    _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_137;
+  wire       [8:0]    _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_137;
   wire       [31:0]   _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_138;
   wire       [31:0]   _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_139;
   wire       [31:0]   _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_140;
-  wire       [1:0]    _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_141;
+  wire       [5:0]    _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_141;
   wire       [31:0]   _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_142;
-  wire       [8:0]    _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_143;
+  wire       [1:0]    _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_143;
   wire       [31:0]   _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_144;
   wire       [31:0]   _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_145;
-  wire       [5:0]    _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_146;
+  wire       [8:0]    _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_146;
   wire       [31:0]   _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_147;
-  wire       [1:0]    _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_148;
+  wire       [5:0]    _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_148;
   wire       [31:0]   _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_149;
   wire       [31:0]   _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_150;
   wire       [31:0]   _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_151;
-  wire       [31:0]   _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_152;
-  wire       [14:0]   _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_153;
+  wire       [1:0]    _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_152;
+  wire       [31:0]   _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_153;
   wire       [31:0]   _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_154;
   wire       [31:0]   _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_155;
-  wire       [9:0]    _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_156;
+  wire       [14:0]   _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_156;
   wire       [31:0]   _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_157;
   wire       [9:0]    _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_158;
   wire       [31:0]   _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_159;
   wire       [31:0]   _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_160;
   wire       [31:0]   _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_161;
-  wire       [5:0]    _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_162;
+  wire       [9:0]    _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_162;
   wire       [31:0]   _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_163;
   wire       [5:0]    _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_164;
   wire       [31:0]   _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_165;
   wire       [31:0]   _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_166;
-  wire       [1:0]    _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_167;
+  wire       [5:0]    _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_167;
   wire       [31:0]   _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_168;
   wire       [1:0]    _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_169;
   wire       [31:0]   _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_170;
   wire       [31:0]   _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_171;
   wire       [31:0]   _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_172;
-  wire       [9:0]    _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_173;
+  wire       [1:0]    _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_173;
   wire       [31:0]   _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_174;
   wire       [9:0]    _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_175;
   wire       [31:0]   _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_176;
   wire       [31:0]   _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_177;
-  wire       [5:0]    _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_178;
+  wire       [9:0]    _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_178;
   wire       [31:0]   _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_179;
   wire       [5:0]    _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_180;
   wire       [31:0]   _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_181;
-  wire       [1:0]    _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_182;
+  wire       [5:0]    _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_182;
   wire       [31:0]   _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_183;
   wire       [1:0]    _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_184;
   wire       [31:0]   _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_185;
-  wire                _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_186;
+  wire       [1:0]    _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_186;
   wire       [31:0]   _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_187;
-  wire       [31:0]   _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_188;
+  wire                _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_188;
   wire       [31:0]   _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_189;
-  wire                _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_190;
+  wire       [31:0]   _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_190;
   wire       [31:0]   _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_191;
-  wire       [31:0]   _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_192;
+  wire                _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_192;
   wire       [31:0]   _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_193;
-  wire       [0:0]    _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_194;
+  wire       [31:0]   _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_194;
   wire       [31:0]   _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_195;
   wire       [0:0]    _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_196;
   wire       [31:0]   _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_197;
   wire       [0:0]    _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_198;
   wire       [31:0]   _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_199;
-  wire       [2:0]    _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_200;
+  wire       [0:0]    _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_200;
   wire       [31:0]   _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_201;
   wire       [2:0]    _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_202;
   wire       [31:0]   _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_203;
   wire       [2:0]    _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_204;
   wire       [31:0]   _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_205;
-  wire       [31:0]   _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_206;
+  wire       [2:0]    _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_206;
   wire       [31:0]   _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_207;
-  wire       [13:0]   _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_208;
+  wire       [31:0]   _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_208;
   wire       [31:0]   _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_209;
   wire       [13:0]   _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_210;
   wire       [31:0]   _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_211;
   wire       [13:0]   _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_212;
+  wire       [31:0]   _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_213;
+  wire       [13:0]   _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_214;
   wire       [31:0]   _zz_CsrAccessPlugin_logic_fsm_writeLogic_alu_mask;
   wire       [4:0]    _zz_CsrAccessPlugin_logic_fsm_writeLogic_alu_mask_1;
   wire       [0:0]    _zz_FetchL1Plugin_pmaBuilder_onTransfers_0_addressHit;
@@ -11698,8 +11751,8 @@ module VexiiRiscv (
   wire       [0:0]    _zz_execute_ctrl1_down_early0_DivPlugin_SEL_lane0_1;
   wire       [0:0]    _zz_execute_ctrl1_down_early0_EnvPlugin_SEL_lane0;
   wire       [0:0]    _zz_execute_ctrl1_down_early0_EnvPlugin_SEL_lane0_1;
-  wire       [0:0]    _zz_execute_ctrl1_down_CfuPlugin_logic_CFU_ENABLE_lane0;
-  wire       [0:0]    _zz_execute_ctrl1_down_CfuPlugin_logic_CFU_ENABLE_lane0_1;
+  wire       [0:0]    _zz_execute_ctrl1_down_CxuPlugin_logic_CXU_ENABLE_lane0;
+  wire       [0:0]    _zz_execute_ctrl1_down_CxuPlugin_logic_CXU_ENABLE_lane0_1;
   wire       [0:0]    _zz_execute_ctrl1_down_CsrAccessPlugin_SEL_lane0;
   wire       [0:0]    _zz_execute_ctrl1_down_CsrAccessPlugin_SEL_lane0_1;
   wire       [0:0]    _zz_execute_ctrl1_down_AguPlugin_SEL_lane0_1;
@@ -11820,7 +11873,7 @@ module VexiiRiscv (
   wire                execute_ctrl3_down_LsuL1_INVALID_lane0;
   wire                execute_ctrl3_down_LsuL1_CLEAN_lane0;
   wire       [3:0]    execute_ctrl3_down_LsuL1_MASK_lane0;
-  wire                execute_ctrl3_down_CfuPlugin_logic_CFU_IN_FLIGHT_lane0;
+  wire                execute_ctrl3_down_CxuPlugin_logic_CXU_IN_FLIGHT_lane0;
   wire                execute_ctrl3_down_LsuPlugin_logic_LSU_PREFETCH_lane0;
   wire                execute_ctrl3_down_AguPlugin_FLOAT_lane0;
   wire                execute_ctrl3_down_AguPlugin_ATOMIC_lane0;
@@ -11831,7 +11884,7 @@ module VexiiRiscv (
   wire                execute_ctrl3_down_lane0_logic_completions_onCtrl_2_ENABLE_lane0;
   wire                execute_ctrl3_down_COMPLETION_AT_4_lane0;
   wire                execute_ctrl3_down_lane0_integer_WriteBackPlugin_SEL_lane0;
-  wire                execute_ctrl3_down_CfuPlugin_logic_CFU_ENABLE_lane0;
+  wire                execute_ctrl3_down_CxuPlugin_logic_CXU_ENABLE_lane0;
   wire                execute_ctrl3_down_early0_MulPlugin_SEL_lane0;
   wire       [31:0]   execute_ctrl3_down_integer_RS2_lane0;
   wire       [1:0]    execute_ctrl3_down_AguPlugin_SIZE_lane0;
@@ -11909,7 +11962,7 @@ module VexiiRiscv (
   reg                 execute_ctrl4_up_lane0_integer_WriteBackPlugin_SEL_lane0;
   reg                 execute_ctrl4_up_LsuPlugin_logic_FENCE_lane0;
   reg                 execute_ctrl4_up_AguPlugin_SEL_lane0;
-  reg                 execute_ctrl4_up_CfuPlugin_logic_CFU_ENABLE_lane0;
+  reg                 execute_ctrl4_up_CxuPlugin_logic_CXU_ENABLE_lane0;
   reg                 execute_ctrl4_up_early0_MulPlugin_SEL_lane0;
   reg        [1:0]    execute_ctrl4_up_AguPlugin_SIZE_lane0;
   reg        [4:0]    execute_ctrl4_up_RD_PHYS_lane0;
@@ -12017,7 +12070,7 @@ module VexiiRiscv (
   reg                 execute_ctrl3_up_LsuPlugin_logic_FENCE_lane0;
   reg                 execute_ctrl3_up_AguPlugin_SEL_lane0;
   reg                 execute_ctrl3_up_CsrAccessPlugin_SEL_lane0;
-  reg                 execute_ctrl3_up_CfuPlugin_logic_CFU_ENABLE_lane0;
+  reg                 execute_ctrl3_up_CxuPlugin_logic_CXU_ENABLE_lane0;
   reg                 execute_ctrl3_up_early0_DivPlugin_SEL_lane0;
   reg                 execute_ctrl3_up_early0_MulPlugin_SEL_lane0;
   reg                 execute_ctrl3_up_early0_BranchPlugin_SEL_lane0;
@@ -12052,8 +12105,8 @@ module VexiiRiscv (
   reg                 execute_ctrl2_up_RsUnsignedPlugin_RS2_SIGNED_lane0;
   reg                 execute_ctrl2_up_RsUnsignedPlugin_RS1_SIGNED_lane0;
   reg                 execute_ctrl2_up_MulPlugin_HIGH_lane0;
-  reg        [0:0]    execute_ctrl2_up_CfuPlugin_logic_CFU_INPUT_2_KIND_lane0;
-  reg        [0:0]    execute_ctrl2_up_CfuPlugin_logic_CFU_ENCODING_lane0;
+  reg        [0:0]    execute_ctrl2_up_CxuPlugin_logic_CXU_INPUT_2_KIND_lane0;
+  reg        [0:0]    execute_ctrl2_up_CxuPlugin_logic_CXU_ENCODING_lane0;
   reg        [1:0]    execute_ctrl2_up_BranchPlugin_BRANCH_CTRL_lane0;
   reg                 execute_ctrl2_up_BarrelShifterPlugin_SIGNED_lane0;
   reg                 execute_ctrl2_up_BarrelShifterPlugin_LEFT_lane0;
@@ -12076,7 +12129,7 @@ module VexiiRiscv (
   reg                 execute_ctrl2_up_LsuPlugin_logic_FENCE_lane0;
   reg                 execute_ctrl2_up_AguPlugin_SEL_lane0;
   reg                 execute_ctrl2_up_CsrAccessPlugin_SEL_lane0;
-  reg                 execute_ctrl2_up_CfuPlugin_logic_CFU_ENABLE_lane0;
+  reg                 execute_ctrl2_up_CxuPlugin_logic_CXU_ENABLE_lane0;
   reg                 execute_ctrl2_up_early0_EnvPlugin_SEL_lane0;
   reg                 execute_ctrl2_up_early0_DivPlugin_SEL_lane0;
   reg                 execute_ctrl2_up_early0_MulPlugin_SEL_lane0;
@@ -12262,8 +12315,8 @@ module VexiiRiscv (
   wire                execute_ctrl1_down_RsUnsignedPlugin_RS2_SIGNED_lane0;
   wire                execute_ctrl1_down_RsUnsignedPlugin_RS1_SIGNED_lane0;
   wire                execute_ctrl1_down_MulPlugin_HIGH_lane0;
-  wire       [0:0]    execute_ctrl1_down_CfuPlugin_logic_CFU_INPUT_2_KIND_lane0;
-  wire       [0:0]    execute_ctrl1_down_CfuPlugin_logic_CFU_ENCODING_lane0;
+  wire       [0:0]    execute_ctrl1_down_CxuPlugin_logic_CXU_INPUT_2_KIND_lane0;
+  wire       [0:0]    execute_ctrl1_down_CxuPlugin_logic_CXU_ENCODING_lane0;
   wire       [1:0]    execute_ctrl1_down_BranchPlugin_BRANCH_CTRL_lane0;
   wire                execute_ctrl1_down_BarrelShifterPlugin_SIGNED_lane0;
   wire                execute_ctrl1_down_BarrelShifterPlugin_LEFT_lane0;
@@ -12286,7 +12339,7 @@ module VexiiRiscv (
   reg                 execute_ctrl1_down_LsuPlugin_logic_FENCE_lane0;
   reg                 execute_ctrl1_down_AguPlugin_SEL_lane0;
   reg                 execute_ctrl1_down_CsrAccessPlugin_SEL_lane0;
-  reg                 execute_ctrl1_down_CfuPlugin_logic_CFU_ENABLE_lane0;
+  reg                 execute_ctrl1_down_CxuPlugin_logic_CXU_ENABLE_lane0;
   reg                 execute_ctrl1_down_early0_EnvPlugin_SEL_lane0;
   reg                 execute_ctrl1_down_early0_DivPlugin_SEL_lane0;
   reg                 execute_ctrl1_down_early0_MulPlugin_SEL_lane0;
@@ -12668,6 +12721,7 @@ module VexiiRiscv (
   wire       [15:0]   execute_ctrl4_down_Decode_UOP_ID_lane0;
   wire                execute_ctrl4_down_COMMIT_lane0;
   reg                 execute_ctrl4_up_RD_ENABLE_lane0;
+  wire                execute_ctrl4_down_isReady;
   wire                execute_ctrl4_down_LANE_SEL_lane0;
   wire       [31:0]   execute_ctrl4_down_lane0_integer_WriteBackPlugin_logic_DATA_lane0;
   wire       [31:0]   execute_ctrl4_lane0_integer_WriteBackPlugin_logic_DATA_lane0_bypass;
@@ -12742,9 +12796,8 @@ module VexiiRiscv (
   wire                decode_ctrls_1_down_Prediction_ALIGNED_JUMPED_0;
   reg                 decode_ctrls_1_up_LANE_SEL_0;
   wire       [31:0]   decode_ctrls_1_down_Decode_INSTRUCTION_RAW_0;
-  wire                decode_ctrls_1_down_CfuPlugin_logic_CFU_ENABLE_0;
   wire                decode_ctrls_1_down_Decode_DECOMPRESSION_FAULT_0;
-  reg                 decode_ctrls_1_down_Decode_LEGAL_0;
+  wire                decode_ctrls_1_down_Decode_LEGAL_0;
   wire       [4:0]    decode_ctrls_1_down_RD_PHYS_0;
   reg                 decode_ctrls_1_down_RD_ENABLE_0;
   wire       [4:0]    decode_ctrls_1_down_RS2_PHYS_0;
@@ -12814,13 +12867,12 @@ module VexiiRiscv (
   wire                execute_ctrl3_down_LsuL1_FLUSH_lane0;
   wire                execute_ctrl3_down_LsuL1_SEL_lane0;
   wire       [31:0]   execute_ctrl0_down_Decode_UOP_lane0;
-  reg                 execute_ctrl4_up_CfuPlugin_logic_CFU_IN_FLIGHT_lane0;
-  reg                 execute_ctrl3_up_CfuPlugin_logic_CFU_IN_FLIGHT_lane0;
-  wire                execute_ctrl4_down_isReady;
-  wire                execute_ctrl4_down_CfuPlugin_logic_CFU_ENABLE_lane0;
-  wire                execute_ctrl4_down_CfuPlugin_logic_CFU_IN_FLIGHT_lane0;
-  wire       [0:0]    execute_ctrl2_down_CfuPlugin_logic_CFU_INPUT_2_KIND_lane0;
-  wire       [0:0]    execute_ctrl2_down_CfuPlugin_logic_CFU_ENCODING_lane0;
+  reg                 execute_ctrl4_up_CxuPlugin_logic_CXU_IN_FLIGHT_lane0;
+  reg                 execute_ctrl3_up_CxuPlugin_logic_CXU_IN_FLIGHT_lane0;
+  wire                execute_ctrl4_down_CxuPlugin_logic_CXU_ENABLE_lane0;
+  wire                execute_ctrl4_down_CxuPlugin_logic_CXU_IN_FLIGHT_lane0;
+  wire       [0:0]    execute_ctrl2_down_CxuPlugin_logic_CXU_INPUT_2_KIND_lane0;
+  wire       [0:0]    execute_ctrl2_down_CxuPlugin_logic_CXU_ENCODING_lane0;
   wire                decode_ctrls_0_up_isValid;
   wire                decode_ctrls_0_up_valid;
   wire                decode_ctrls_0_up_Prediction_ALIGN_REDO_0;
@@ -13028,8 +13080,8 @@ module VexiiRiscv (
   wire       [32:0]   execute_ctrl2_down_MUL_SRC1_lane0;
   reg        [31:0]   execute_ctrl2_up_integer_RS2_lane0;
   reg        [31:0]   execute_ctrl2_up_integer_RS1_lane0;
-  wire                execute_ctrl2_down_CfuPlugin_logic_CFU_IN_FLIGHT_lane0;
-  wire                execute_ctrl2_down_CfuPlugin_logic_CFU_ENABLE_lane0;
+  wire                execute_ctrl2_down_CxuPlugin_logic_CXU_IN_FLIGHT_lane0;
+  wire                execute_ctrl2_down_CxuPlugin_logic_CXU_ENABLE_lane0;
   reg                 execute_ctrl2_up_LANE_SEL_lane0;
   wire                execute_ctrl2_down_early0_BarrelShifterPlugin_SEL_lane0;
   wire       [31:0]   execute_ctrl2_down_early0_BarrelShifterPlugin_SHIFT_RESULT_lane0;
@@ -13126,18 +13178,19 @@ module VexiiRiscv (
   wire                early0_BranchPlugin_logic_historyPort_valid;
   wire       [11:0]   early0_BranchPlugin_logic_historyPort_payload_history;
   wire                early0_BranchPlugin_logic_flushPort_valid;
-  wire                CfuPlugin_logic_wb_valid;
-  wire       [31:0]   CfuPlugin_logic_wb_payload;
-  reg                 CfuPlugin_logic_en;
+  reg        [2:0]    CxuPlugin_logic_mcx_version;
+  reg                 CxuPlugin_logic_mcx_cxe;
+  reg        [2:0]    CxuPlugin_logic_mcx_state_id;
+  wire                when_CxuPlugin_l74;
+  wire                CxuPlugin_logic_wb_valid;
+  wire       [31:0]   CxuPlugin_logic_wb_payload;
   wire                _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_3;
-  reg        [2:0]    CfuPlugin_logic_csr_stateId;
-  reg        [3:0]    CfuPlugin_logic_csr_cfuIndex;
-  wire                CfuPlugin_logic_onFork_schedule;
-  wire                CfuPlugin_logic_onFork_hold;
-  reg                 CfuPlugin_logic_onFork_fired;
-  wire                CfuPlugin_logic_bus_cmd_fire;
-  wire                when_CfuPlugin_l147;
-  wire                CfuPlugin_logic_onFork_freezeIt;
+  wire                CxuPlugin_logic_onFork_schedule;
+  wire                CxuPlugin_logic_onFork_hold;
+  reg                 CxuPlugin_logic_onFork_fired;
+  wire                CxuPlugin_logic_cxuBus_cmd_fire;
+  wire                when_CxuPlugin_l159;
+  wire                CxuPlugin_logic_onFork_freezeIt;
   reg                 LsuPlugin_logic_events_waiting;
   reg                 LsuPlugin_logic_trapPort_valid;
   reg                 LsuPlugin_logic_trapPort_payload_exception;
@@ -13652,15 +13705,22 @@ module VexiiRiscv (
   reg        [0:0]    AlignerPlugin_logic_nobuffer_mask;
   wire       [0:0]    AlignerPlugin_logic_nobuffer_remaningMask;
   wire                when_AlignerPlugin_l292;
-  wire       [2:0]    CfuPlugin_logic_onFork_functionsIds_0;
-  wire       [2:0]    CfuPlugin_logic_onFork_functionsIds_1;
-  reg        [31:0]   _zz_CfuPlugin_logic_bus_cmd_payload_inputs_1;
-  wire                CfuPlugin_logic_bus_rsp_toFlow_valid;
-  wire       [31:0]   CfuPlugin_logic_bus_rsp_toFlow_payload_outputs_0;
-  wire                CfuPlugin_logic_onJoin_busRspStream_valid;
-  wire                CfuPlugin_logic_onJoin_busRspStream_ready;
-  wire       [31:0]   CfuPlugin_logic_onJoin_busRspStream_payload_outputs_0;
-  wire                CfuPlugin_logic_onJoin_freezeIt;
+  wire       [2:0]    CxuPlugin_logic_onFork_functionsIds_0;
+  wire       [2:0]    CxuPlugin_logic_onFork_functionsIds_1;
+  reg        [31:0]   _zz_CxuPlugin_logic_cxuBus_cmd_payload_inputs_1;
+  reg        [0:0]    CxuPlugin_logic_onFork_pendingRequests_count;
+  wire                CxuPlugin_logic_onFork_pendingRequests_full;
+  wire                CxuPlugin_logic_cxuBus_rsp_fire;
+  wire                when_CxuPlugin_l185;
+  wire                when_CxuPlugin_l186;
+  wire                CxuPlugin_logic_cxuBus_rsp_toFlow_valid;
+  wire       [31:0]   CxuPlugin_logic_cxuBus_rsp_toFlow_payload_outputs_0;
+  wire                CxuPlugin_logic_cxuBus_rsp_toFlow_payload_ready;
+  wire                CxuPlugin_logic_onJoin_busRspStream_valid;
+  wire                CxuPlugin_logic_onJoin_busRspStream_ready;
+  wire       [31:0]   CxuPlugin_logic_onJoin_busRspStream_payload_outputs_0;
+  wire                CxuPlugin_logic_onJoin_busRspStream_payload_ready;
+  wire                CxuPlugin_logic_onJoin_freezeIt;
   wire                LsuPlugin_logic_bus_cmd_valid;
   wire                LsuPlugin_logic_bus_cmd_ready;
   wire                LsuPlugin_logic_bus_cmd_payload_write;
@@ -13793,7 +13853,6 @@ module VexiiRiscv (
   reg        [0:0]    DecoderPlugin_logic_interrupt_buffered;
   wire                _zz_decode_ctrls_1_down_DispatchPlugin_MAY_FLUSH_0;
   wire                _zz_decode_ctrls_1_down_DONT_FLUSH_PRECISE_4_0;
-  wire                when_CfuPlugin_l115;
   wire                DecoderPlugin_logic_laneLogic_0_interruptPending;
   reg                 DecoderPlugin_logic_laneLogic_0_trapPort_valid;
   reg                 DecoderPlugin_logic_laneLogic_0_trapPort_payload_exception;
@@ -15129,9 +15188,9 @@ module VexiiRiscv (
   wire       [1:0]    _zz_execute_ctrl1_down_BranchPlugin_BRANCH_CTRL_lane0;
   wire       [1:0]    _zz_execute_ctrl1_down_BranchPlugin_BRANCH_CTRL_lane0_1;
   wire       [1:0]    _zz_execute_ctrl1_down_BranchPlugin_BRANCH_CTRL_lane0_2;
-  wire       [0:0]    _zz_execute_ctrl1_down_CfuPlugin_logic_CFU_INPUT_2_KIND_lane0;
-  wire       [0:0]    _zz_execute_ctrl1_down_CfuPlugin_logic_CFU_INPUT_2_KIND_lane0_1;
-  wire       [0:0]    _zz_execute_ctrl1_down_CfuPlugin_logic_CFU_INPUT_2_KIND_lane0_2;
+  wire       [0:0]    _zz_execute_ctrl1_down_CxuPlugin_logic_CXU_INPUT_2_KIND_lane0;
+  wire       [0:0]    _zz_execute_ctrl1_down_CxuPlugin_logic_CXU_INPUT_2_KIND_lane0_1;
+  wire       [0:0]    _zz_execute_ctrl1_down_CxuPlugin_logic_CXU_INPUT_2_KIND_lane0_2;
   wire                _zz_execute_ctrl1_down_CsrAccessPlugin_CSR_MASK_lane0;
   wire                _zz_execute_ctrl1_down_early0_EnvPlugin_OP_lane0;
   wire       [2:0]    _zz_execute_ctrl1_down_early0_EnvPlugin_OP_lane0_1;
@@ -15396,15 +15455,15 @@ module VexiiRiscv (
   `ifndef SYNTHESIS
   reg [31:0] execute_ctrl3_up_BranchPlugin_BRANCH_CTRL_lane0_string;
   reg [79:0] execute_ctrl2_up_early0_EnvPlugin_OP_lane0_string;
-  reg [39:0] execute_ctrl2_up_CfuPlugin_logic_CFU_INPUT_2_KIND_lane0_string;
+  reg [39:0] execute_ctrl2_up_CxuPlugin_logic_CXU_INPUT_2_KIND_lane0_string;
   reg [31:0] execute_ctrl2_up_BranchPlugin_BRANCH_CTRL_lane0_string;
   reg [39:0] execute_ctrl2_up_early0_IntAluPlugin_ALU_BITWISE_CTRL_lane0_string;
   reg [79:0] execute_ctrl1_down_early0_EnvPlugin_OP_lane0_string;
-  reg [39:0] execute_ctrl1_down_CfuPlugin_logic_CFU_INPUT_2_KIND_lane0_string;
+  reg [39:0] execute_ctrl1_down_CxuPlugin_logic_CXU_INPUT_2_KIND_lane0_string;
   reg [31:0] execute_ctrl1_down_BranchPlugin_BRANCH_CTRL_lane0_string;
   reg [39:0] execute_ctrl1_down_early0_IntAluPlugin_ALU_BITWISE_CTRL_lane0_string;
   reg [31:0] execute_ctrl3_down_BranchPlugin_BRANCH_CTRL_lane0_string;
-  reg [39:0] execute_ctrl2_down_CfuPlugin_logic_CFU_INPUT_2_KIND_lane0_string;
+  reg [39:0] execute_ctrl2_down_CxuPlugin_logic_CXU_INPUT_2_KIND_lane0_string;
   reg [31:0] execute_ctrl2_down_BranchPlugin_BRANCH_CTRL_lane0_string;
   reg [79:0] execute_ctrl2_down_early0_EnvPlugin_OP_lane0_string;
   reg [39:0] execute_ctrl2_down_early0_IntAluPlugin_ALU_BITWISE_CTRL_lane0_string;
@@ -15424,9 +15483,9 @@ module VexiiRiscv (
   reg [31:0] _zz_execute_ctrl1_down_BranchPlugin_BRANCH_CTRL_lane0_string;
   reg [31:0] _zz_execute_ctrl1_down_BranchPlugin_BRANCH_CTRL_lane0_1_string;
   reg [31:0] _zz_execute_ctrl1_down_BranchPlugin_BRANCH_CTRL_lane0_2_string;
-  reg [39:0] _zz_execute_ctrl1_down_CfuPlugin_logic_CFU_INPUT_2_KIND_lane0_string;
-  reg [39:0] _zz_execute_ctrl1_down_CfuPlugin_logic_CFU_INPUT_2_KIND_lane0_1_string;
-  reg [39:0] _zz_execute_ctrl1_down_CfuPlugin_logic_CFU_INPUT_2_KIND_lane0_2_string;
+  reg [39:0] _zz_execute_ctrl1_down_CxuPlugin_logic_CXU_INPUT_2_KIND_lane0_string;
+  reg [39:0] _zz_execute_ctrl1_down_CxuPlugin_logic_CXU_INPUT_2_KIND_lane0_1_string;
+  reg [39:0] _zz_execute_ctrl1_down_CxuPlugin_logic_CXU_INPUT_2_KIND_lane0_2_string;
   reg [79:0] _zz_execute_ctrl1_down_early0_EnvPlugin_OP_lane0_1_string;
   reg [79:0] _zz_execute_ctrl1_down_early0_EnvPlugin_OP_lane0_2_string;
   reg [79:0] _zz_execute_ctrl1_down_early0_EnvPlugin_OP_lane0_3_string;
@@ -15548,8 +15607,8 @@ module VexiiRiscv (
   assign _zz_execute_ctrl2_down_early0_BranchPlugin_pcCalc_PC_FALSE_lane0 = {28'd0, _zz_execute_ctrl2_down_early0_BranchPlugin_pcCalc_PC_FALSE_lane0_1};
   assign _zz_execute_ctrl2_down_early0_BranchPlugin_pcCalc_PC_LAST_SLICE_lane0_1 = 2'b00;
   assign _zz_execute_ctrl2_down_early0_BranchPlugin_pcCalc_PC_LAST_SLICE_lane0 = {30'd0, _zz_execute_ctrl2_down_early0_BranchPlugin_pcCalc_PC_LAST_SLICE_lane0_1};
-  assign _zz__zz_CfuPlugin_logic_bus_cmd_payload_inputs_1_1 = execute_ctrl2_down_Decode_UOP_lane0[31 : 24];
-  assign _zz__zz_CfuPlugin_logic_bus_cmd_payload_inputs_1 = {{24{_zz__zz_CfuPlugin_logic_bus_cmd_payload_inputs_1_1[7]}}, _zz__zz_CfuPlugin_logic_bus_cmd_payload_inputs_1_1};
+  assign _zz__zz_CxuPlugin_logic_cxuBus_cmd_payload_inputs_1_1 = execute_ctrl2_down_Decode_UOP_lane0[31 : 24];
+  assign _zz__zz_CxuPlugin_logic_cxuBus_cmd_payload_inputs_1 = {{24{_zz__zz_CxuPlugin_logic_cxuBus_cmd_payload_inputs_1_1[7]}}, _zz__zz_CxuPlugin_logic_cxuBus_cmd_payload_inputs_1_1};
   assign _zz_early0_EnvPlugin_logic_trapPort_payload_code = {2'd0, early0_EnvPlugin_logic_exe_privilege};
   assign _zz_early0_BranchPlugin_logic_alu_expectedMsb = execute_ctrl2_down_early0_SrcPlugin_SRC1_lane0;
   assign _zz_early0_BranchPlugin_logic_jumpLogic_history_shifter_1 = {early0_BranchPlugin_logic_jumpLogic_history_shifter,execute_ctrl3_down_early0_BranchPlugin_logic_jumpLogic_COND_lane0};
@@ -15565,8 +15624,6 @@ module VexiiRiscv (
   assign _zz_GSharePlugin_logic_onLearn_hash_5 = LearnPlugin_logic_learn_payload_history;
   assign _zz_GSharePlugin_logic_onLearn_hash_4 = {2'd0, _zz_GSharePlugin_logic_onLearn_hash_5};
   assign _zz_BtbPlugin_logic_memWrite_payload_address = (LearnPlugin_logic_learn_payload_pcOnLastSlice >>> 2'd2);
-  assign _zz_decode_ctrls_1_down_CfuPlugin_logic_CFU_ENABLE_0 = _zz_decode_ctrls_1_down_CfuPlugin_logic_CFU_ENABLE_0_1[0];
-  assign _zz_decode_ctrls_1_down_CfuPlugin_logic_CFU_ENABLE_0_1 = (|_zz_decode_ctrls_1_down_DONT_FLUSH_PRECISE_4_0);
   assign _zz_decode_ctrls_1_down_DecoderPlugin_logic_NEED_FPU_0 = _zz_decode_ctrls_1_down_DecoderPlugin_logic_NEED_FPU_0_1[0];
   assign _zz_decode_ctrls_1_down_DecoderPlugin_logic_NEED_FPU_0_1 = 1'b0;
   assign _zz_decode_ctrls_1_down_DecoderPlugin_logic_NEED_RM_0 = _zz_decode_ctrls_1_down_DecoderPlugin_logic_NEED_RM_0_1[0];
@@ -15648,128 +15705,130 @@ module VexiiRiscv (
   assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_34 = {10'd0, _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_35};
   assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_38 = (_zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_2 ? MmuPlugin_logic_satp_ppn : 20'h0);
   assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_37 = {12'd0, _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_38};
-  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_39 = ({31'd0,(_zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_3 ? CfuPlugin_logic_en : 1'b0)} <<< 5'd31);
-  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_43 = ({16'd0,(_zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_3 ? CfuPlugin_logic_csr_stateId : 3'b000)} <<< 5'd16);
-  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_42 = {13'd0, _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_43};
-  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_45 = (_zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_3 ? CfuPlugin_logic_csr_cfuIndex : 4'b0000);
-  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_44 = {28'd0, _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_45};
-  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_48 = ((when_CsrService_l199 && REG_CSR_3858) ? 6'h2e : 6'h0);
-  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_47 = {26'd0, _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_48};
-  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_53 = ({7'd0,(_zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_4 ? PrivilegedPlugin_logic_harts_0_m_status_mpie : 1'b0)} <<< 3'd7);
-  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_52 = {24'd0, _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_53};
-  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_57 = ({3'd0,(_zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_4 ? PrivilegedPlugin_logic_harts_0_m_status_mie : 1'b0)} <<< 2'd3);
-  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_56 = {28'd0, _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_57};
-  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_59 = ({11'd0,(_zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_4 ? PrivilegedPlugin_logic_harts_0_m_status_mpp : 2'b00)} <<< 4'd11);
-  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_58 = {19'd0, _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_59};
-  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_61 = ({31'd0,(_zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_4 ? PrivilegedPlugin_logic_harts_0_m_status_sd : 1'b0)} <<< 5'd31);
-  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_63 = ({17'd0,(_zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_4 ? PrivilegedPlugin_logic_harts_0_m_status_mprv : 1'b0)} <<< 5'd17);
-  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_62 = {14'd0, _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_63};
-  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_67 = ({13'd0,(_zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_4 ? PrivilegedPlugin_logic_harts_0_m_status_fs : 2'b00)} <<< 4'd13);
-  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_66 = {17'd0, _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_67};
-  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_69 = ({22'd0,(_zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_4 ? PrivilegedPlugin_logic_harts_0_m_status_tsr : 1'b0)} <<< 5'd22);
-  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_68 = {9'd0, _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_69};
-  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_72 = ({20'd0,(_zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_4 ? PrivilegedPlugin_logic_harts_0_m_status_tvm : 1'b0)} <<< 5'd20);
-  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_71 = {11'd0, _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_72};
-  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_74 = ({21'd0,(_zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_4 ? PrivilegedPlugin_logic_harts_0_m_status_tw : 1'b0)} <<< 5'd21);
-  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_73 = {10'd0, _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_74};
-  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_77 = ({31'd0,(_zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_5 ? PrivilegedPlugin_logic_harts_0_m_cause_interrupt : 1'b0)} <<< 5'd31);
-  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_79 = (_zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_5 ? PrivilegedPlugin_logic_harts_0_m_cause_code : 4'b0000);
-  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_78 = {28'd0, _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_79};
-  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_82 = ({11'd0,(_zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_7 ? PrivilegedPlugin_logic_harts_0_m_ip_meip : 1'b0)} <<< 4'd11);
-  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_81 = {20'd0, _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_82};
-  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_84 = ({7'd0,(_zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_7 ? PrivilegedPlugin_logic_harts_0_m_ip_mtip : 1'b0)} <<< 3'd7);
-  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_83 = {24'd0, _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_84};
-  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_88 = ({3'd0,(_zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_7 ? PrivilegedPlugin_logic_harts_0_m_ip_msip : 1'b0)} <<< 2'd3);
-  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_87 = {28'd0, _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_88};
-  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_90 = ({11'd0,(_zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_9 ? PrivilegedPlugin_logic_harts_0_m_ie_meie : 1'b0)} <<< 4'd11);
-  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_89 = {20'd0, _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_90};
-  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_93 = ({7'd0,(_zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_9 ? PrivilegedPlugin_logic_harts_0_m_ie_mtie : 1'b0)} <<< 3'd7);
-  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_92 = {24'd0, _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_93};
-  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_95 = ({3'd0,(_zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_9 ? PrivilegedPlugin_logic_harts_0_m_ie_msie : 1'b0)} <<< 2'd3);
-  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_94 = {28'd0, _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_95};
-  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_99 = (_zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_10 ? PrivilegedPlugin_logic_harts_0_m_edeleg_iam : 1'b0);
-  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_98 = {31'd0, _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_99};
-  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_101 = ({3'd0,(_zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_10 ? PrivilegedPlugin_logic_harts_0_m_edeleg_bp : 1'b0)} <<< 2'd3);
-  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_100 = {28'd0, _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_101};
-  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_104 = ({8'd0,(_zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_10 ? PrivilegedPlugin_logic_harts_0_m_edeleg_eu : 1'b0)} <<< 4'd8);
-  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_103 = {23'd0, _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_104};
-  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_106 = ({9'd0,(_zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_10 ? PrivilegedPlugin_logic_harts_0_m_edeleg_es : 1'b0)} <<< 4'd9);
-  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_105 = {22'd0, _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_106};
-  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_110 = ({12'd0,(_zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_10 ? PrivilegedPlugin_logic_harts_0_m_edeleg_ipf : 1'b0)} <<< 4'd12);
-  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_109 = {19'd0, _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_110};
-  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_112 = ({13'd0,(_zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_10 ? PrivilegedPlugin_logic_harts_0_m_edeleg_lpf : 1'b0)} <<< 4'd13);
-  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_111 = {18'd0, _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_112};
-  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_115 = ({15'd0,(_zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_10 ? PrivilegedPlugin_logic_harts_0_m_edeleg_spf : 1'b0)} <<< 4'd15);
-  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_114 = {16'd0, _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_115};
-  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_117 = ({9'd0,(_zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_12 ? PrivilegedPlugin_logic_harts_0_m_ideleg_se : 1'b0)} <<< 4'd9);
-  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_116 = {22'd0, _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_117};
-  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_121 = ({5'd0,(_zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_12 ? PrivilegedPlugin_logic_harts_0_m_ideleg_st : 1'b0)} <<< 3'd5);
-  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_120 = {26'd0, _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_121};
-  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_123 = ({1'd0,(_zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_12 ? PrivilegedPlugin_logic_harts_0_m_ideleg_ss : 1'b0)} <<< 1'd1);
-  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_122 = {30'd0, _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_123};
-  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_126 = ({1'd0,((when_CsrService_l199 && _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_13) ? PrivilegedPlugin_logic_harts_0_mcounteren_tm : 1'b0)} <<< 1'd1);
+  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_39 = ({29'd0,(_zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_3 ? CxuPlugin_logic_mcx_version : 3'b000)} <<< 5'd29);
+  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_43 = ({28'd0,(_zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_3 ? CxuPlugin_logic_mcx_cxe : 1'b0)} <<< 5'd28);
+  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_42 = {3'd0, _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_43};
+  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_45 = ({16'd0,(_zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_3 ? CxuPlugin_logic_mcx_state_id : 3'b000)} <<< 5'd16);
+  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_44 = {13'd0, _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_45};
+  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_48 = (_zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_3 ? CxuPlugin_logic_mcx_selector : 4'b0000);
+  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_47 = {28'd0, _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_48};
+  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_52 = ((when_CsrService_l199 && REG_CSR_3858) ? 6'h2e : 6'h0);
+  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_51 = {26'd0, _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_52};
+  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_57 = ({7'd0,(_zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_4 ? PrivilegedPlugin_logic_harts_0_m_status_mpie : 1'b0)} <<< 3'd7);
+  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_56 = {24'd0, _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_57};
+  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_59 = ({3'd0,(_zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_4 ? PrivilegedPlugin_logic_harts_0_m_status_mie : 1'b0)} <<< 2'd3);
+  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_58 = {28'd0, _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_59};
+  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_62 = ({11'd0,(_zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_4 ? PrivilegedPlugin_logic_harts_0_m_status_mpp : 2'b00)} <<< 4'd11);
+  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_61 = {19'd0, _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_62};
+  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_63 = ({31'd0,(_zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_4 ? PrivilegedPlugin_logic_harts_0_m_status_sd : 1'b0)} <<< 5'd31);
+  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_67 = ({17'd0,(_zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_4 ? PrivilegedPlugin_logic_harts_0_m_status_mprv : 1'b0)} <<< 5'd17);
+  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_66 = {14'd0, _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_67};
+  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_69 = ({13'd0,(_zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_4 ? PrivilegedPlugin_logic_harts_0_m_status_fs : 2'b00)} <<< 4'd13);
+  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_68 = {17'd0, _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_69};
+  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_72 = ({22'd0,(_zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_4 ? PrivilegedPlugin_logic_harts_0_m_status_tsr : 1'b0)} <<< 5'd22);
+  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_71 = {9'd0, _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_72};
+  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_74 = ({20'd0,(_zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_4 ? PrivilegedPlugin_logic_harts_0_m_status_tvm : 1'b0)} <<< 5'd20);
+  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_73 = {11'd0, _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_74};
+  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_78 = ({21'd0,(_zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_4 ? PrivilegedPlugin_logic_harts_0_m_status_tw : 1'b0)} <<< 5'd21);
+  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_77 = {10'd0, _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_78};
+  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_79 = ({31'd0,(_zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_5 ? PrivilegedPlugin_logic_harts_0_m_cause_interrupt : 1'b0)} <<< 5'd31);
+  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_82 = (_zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_5 ? PrivilegedPlugin_logic_harts_0_m_cause_code : 4'b0000);
+  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_81 = {28'd0, _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_82};
+  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_84 = ({11'd0,(_zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_7 ? PrivilegedPlugin_logic_harts_0_m_ip_meip : 1'b0)} <<< 4'd11);
+  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_83 = {20'd0, _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_84};
+  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_88 = ({7'd0,(_zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_7 ? PrivilegedPlugin_logic_harts_0_m_ip_mtip : 1'b0)} <<< 3'd7);
+  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_87 = {24'd0, _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_88};
+  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_90 = ({3'd0,(_zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_7 ? PrivilegedPlugin_logic_harts_0_m_ip_msip : 1'b0)} <<< 2'd3);
+  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_89 = {28'd0, _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_90};
+  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_93 = ({11'd0,(_zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_9 ? PrivilegedPlugin_logic_harts_0_m_ie_meie : 1'b0)} <<< 4'd11);
+  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_92 = {20'd0, _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_93};
+  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_95 = ({7'd0,(_zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_9 ? PrivilegedPlugin_logic_harts_0_m_ie_mtie : 1'b0)} <<< 3'd7);
+  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_94 = {24'd0, _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_95};
+  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_99 = ({3'd0,(_zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_9 ? PrivilegedPlugin_logic_harts_0_m_ie_msie : 1'b0)} <<< 2'd3);
+  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_98 = {28'd0, _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_99};
+  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_101 = (_zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_10 ? PrivilegedPlugin_logic_harts_0_m_edeleg_iam : 1'b0);
+  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_100 = {31'd0, _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_101};
+  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_104 = ({3'd0,(_zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_10 ? PrivilegedPlugin_logic_harts_0_m_edeleg_bp : 1'b0)} <<< 2'd3);
+  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_103 = {28'd0, _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_104};
+  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_106 = ({8'd0,(_zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_10 ? PrivilegedPlugin_logic_harts_0_m_edeleg_eu : 1'b0)} <<< 4'd8);
+  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_105 = {23'd0, _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_106};
+  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_110 = ({9'd0,(_zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_10 ? PrivilegedPlugin_logic_harts_0_m_edeleg_es : 1'b0)} <<< 4'd9);
+  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_109 = {22'd0, _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_110};
+  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_112 = ({12'd0,(_zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_10 ? PrivilegedPlugin_logic_harts_0_m_edeleg_ipf : 1'b0)} <<< 4'd12);
+  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_111 = {19'd0, _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_112};
+  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_115 = ({13'd0,(_zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_10 ? PrivilegedPlugin_logic_harts_0_m_edeleg_lpf : 1'b0)} <<< 4'd13);
+  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_114 = {18'd0, _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_115};
+  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_117 = ({15'd0,(_zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_10 ? PrivilegedPlugin_logic_harts_0_m_edeleg_spf : 1'b0)} <<< 4'd15);
+  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_116 = {16'd0, _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_117};
+  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_121 = ({9'd0,(_zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_12 ? PrivilegedPlugin_logic_harts_0_m_ideleg_se : 1'b0)} <<< 4'd9);
+  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_120 = {22'd0, _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_121};
+  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_123 = ({5'd0,(_zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_12 ? PrivilegedPlugin_logic_harts_0_m_ideleg_st : 1'b0)} <<< 3'd5);
+  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_122 = {26'd0, _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_123};
+  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_126 = ({1'd0,(_zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_12 ? PrivilegedPlugin_logic_harts_0_m_ideleg_ss : 1'b0)} <<< 1'd1);
   assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_125 = {30'd0, _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_126};
-  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_127 = ({31'd0,(_zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_14 ? PrivilegedPlugin_logic_harts_0_s_cause_interrupt : 1'b0)} <<< 5'd31);
-  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_131 = (_zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_14 ? PrivilegedPlugin_logic_harts_0_s_cause_code : 4'b0000);
-  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_130 = {28'd0, _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_131};
-  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_132 = ({31'd0,(_zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_15 ? PrivilegedPlugin_logic_harts_0_m_status_sd : 1'b0)} <<< 5'd31);
-  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_135 = ({8'd0,(_zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_4 ? PrivilegedPlugin_logic_harts_0_s_status_spp : 1'b0)} <<< 4'd8);
-  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_134 = {23'd0, _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_135};
-  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_137 = ({5'd0,(_zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_4 ? PrivilegedPlugin_logic_harts_0_s_status_spie : 1'b0)} <<< 3'd5);
-  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_136 = {26'd0, _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_137};
-  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_141 = ({1'd0,(_zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_4 ? PrivilegedPlugin_logic_harts_0_s_status_sie : 1'b0)} <<< 1'd1);
-  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_140 = {30'd0, _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_141};
-  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_143 = ({8'd0,(_zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_15 ? PrivilegedPlugin_logic_harts_0_s_status_spp : 1'b0)} <<< 4'd8);
-  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_142 = {23'd0, _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_143};
-  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_146 = ({5'd0,(_zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_15 ? PrivilegedPlugin_logic_harts_0_s_status_spie : 1'b0)} <<< 3'd5);
-  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_145 = {26'd0, _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_146};
-  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_148 = ({1'd0,(_zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_15 ? PrivilegedPlugin_logic_harts_0_s_status_sie : 1'b0)} <<< 1'd1);
-  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_147 = {30'd0, _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_148};
-  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_151 = ({31'd0,((when_CsrService_l199 && REG_CSR_794) ? PrivilegedPlugin_logic_harts_0_s_sstc_envcfg_enable : 1'b0)} <<< 5'd31);
-  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_153 = ({13'd0,(_zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_15 ? PrivilegedPlugin_logic_harts_0_m_status_fs : 2'b00)} <<< 4'd13);
-  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_152 = {17'd0, _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_153};
-  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_156 = ({9'd0,(_zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_9 ? PrivilegedPlugin_logic_harts_0_s_ie_seie : 1'b0)} <<< 4'd9);
-  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_155 = {22'd0, _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_156};
-  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_158 = ({9'd0,(_zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_16 ? (PrivilegedPlugin_logic_harts_0_s_ie_seie && PrivilegedPlugin_logic_harts_0_m_ideleg_se) : 1'b0)} <<< 4'd9);
+  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_128 = ({1'd0,((when_CsrService_l199 && _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_13) ? PrivilegedPlugin_logic_harts_0_mcounteren_tm : 1'b0)} <<< 1'd1);
+  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_127 = {30'd0, _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_128};
+  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_131 = ({31'd0,(_zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_14 ? PrivilegedPlugin_logic_harts_0_s_cause_interrupt : 1'b0)} <<< 5'd31);
+  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_133 = (_zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_14 ? PrivilegedPlugin_logic_harts_0_s_cause_code : 4'b0000);
+  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_132 = {28'd0, _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_133};
+  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_135 = ({31'd0,(_zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_15 ? PrivilegedPlugin_logic_harts_0_m_status_sd : 1'b0)} <<< 5'd31);
+  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_137 = ({8'd0,(_zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_4 ? PrivilegedPlugin_logic_harts_0_s_status_spp : 1'b0)} <<< 4'd8);
+  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_136 = {23'd0, _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_137};
+  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_141 = ({5'd0,(_zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_4 ? PrivilegedPlugin_logic_harts_0_s_status_spie : 1'b0)} <<< 3'd5);
+  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_140 = {26'd0, _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_141};
+  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_143 = ({1'd0,(_zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_4 ? PrivilegedPlugin_logic_harts_0_s_status_sie : 1'b0)} <<< 1'd1);
+  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_142 = {30'd0, _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_143};
+  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_146 = ({8'd0,(_zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_15 ? PrivilegedPlugin_logic_harts_0_s_status_spp : 1'b0)} <<< 4'd8);
+  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_145 = {23'd0, _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_146};
+  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_148 = ({5'd0,(_zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_15 ? PrivilegedPlugin_logic_harts_0_s_status_spie : 1'b0)} <<< 3'd5);
+  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_147 = {26'd0, _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_148};
+  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_152 = ({1'd0,(_zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_15 ? PrivilegedPlugin_logic_harts_0_s_status_sie : 1'b0)} <<< 1'd1);
+  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_151 = {30'd0, _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_152};
+  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_153 = ({31'd0,((when_CsrService_l199 && REG_CSR_794) ? PrivilegedPlugin_logic_harts_0_s_sstc_envcfg_enable : 1'b0)} <<< 5'd31);
+  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_156 = ({13'd0,(_zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_15 ? PrivilegedPlugin_logic_harts_0_m_status_fs : 2'b00)} <<< 4'd13);
+  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_155 = {17'd0, _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_156};
+  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_158 = ({9'd0,(_zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_9 ? PrivilegedPlugin_logic_harts_0_s_ie_seie : 1'b0)} <<< 4'd9);
   assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_157 = {22'd0, _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_158};
-  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_162 = ({5'd0,(_zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_9 ? PrivilegedPlugin_logic_harts_0_s_ie_stie : 1'b0)} <<< 3'd5);
-  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_161 = {26'd0, _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_162};
-  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_164 = ({5'd0,(_zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_16 ? (PrivilegedPlugin_logic_harts_0_s_ie_stie && PrivilegedPlugin_logic_harts_0_m_ideleg_st) : 1'b0)} <<< 3'd5);
+  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_162 = ({9'd0,(_zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_16 ? (PrivilegedPlugin_logic_harts_0_s_ie_seie && PrivilegedPlugin_logic_harts_0_m_ideleg_se) : 1'b0)} <<< 4'd9);
+  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_161 = {22'd0, _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_162};
+  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_164 = ({5'd0,(_zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_9 ? PrivilegedPlugin_logic_harts_0_s_ie_stie : 1'b0)} <<< 3'd5);
   assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_163 = {26'd0, _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_164};
-  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_167 = ({1'd0,(_zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_9 ? PrivilegedPlugin_logic_harts_0_s_ie_ssie : 1'b0)} <<< 1'd1);
-  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_166 = {30'd0, _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_167};
-  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_169 = ({1'd0,(_zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_16 ? (PrivilegedPlugin_logic_harts_0_s_ie_ssie && PrivilegedPlugin_logic_harts_0_m_ideleg_ss) : 1'b0)} <<< 1'd1);
+  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_167 = ({5'd0,(_zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_16 ? (PrivilegedPlugin_logic_harts_0_s_ie_stie && PrivilegedPlugin_logic_harts_0_m_ideleg_st) : 1'b0)} <<< 3'd5);
+  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_166 = {26'd0, _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_167};
+  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_169 = ({1'd0,(_zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_9 ? PrivilegedPlugin_logic_harts_0_s_ie_ssie : 1'b0)} <<< 1'd1);
   assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_168 = {30'd0, _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_169};
-  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_173 = ({9'd0,(_zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_7 ? PrivilegedPlugin_logic_harts_0_s_ip_seipOr : 1'b0)} <<< 4'd9);
-  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_172 = {22'd0, _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_173};
-  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_175 = ({9'd0,(_zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_17 ? (PrivilegedPlugin_logic_harts_0_s_ip_seipOr && PrivilegedPlugin_logic_harts_0_m_ideleg_se) : 1'b0)} <<< 4'd9);
+  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_173 = ({1'd0,(_zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_16 ? (PrivilegedPlugin_logic_harts_0_s_ie_ssie && PrivilegedPlugin_logic_harts_0_m_ideleg_ss) : 1'b0)} <<< 1'd1);
+  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_172 = {30'd0, _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_173};
+  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_175 = ({9'd0,(_zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_7 ? PrivilegedPlugin_logic_harts_0_s_ip_seipOr : 1'b0)} <<< 4'd9);
   assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_174 = {22'd0, _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_175};
-  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_178 = ({5'd0,(_zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_7 ? PrivilegedPlugin_logic_harts_0_s_ip_stipOr : 1'b0)} <<< 3'd5);
-  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_177 = {26'd0, _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_178};
-  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_180 = ({5'd0,(_zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_17 ? (PrivilegedPlugin_logic_harts_0_s_ip_stipOr && PrivilegedPlugin_logic_harts_0_m_ideleg_st) : 1'b0)} <<< 3'd5);
+  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_178 = ({9'd0,(_zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_17 ? (PrivilegedPlugin_logic_harts_0_s_ip_seipOr && PrivilegedPlugin_logic_harts_0_m_ideleg_se) : 1'b0)} <<< 4'd9);
+  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_177 = {22'd0, _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_178};
+  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_180 = ({5'd0,(_zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_7 ? PrivilegedPlugin_logic_harts_0_s_ip_stipOr : 1'b0)} <<< 3'd5);
   assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_179 = {26'd0, _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_180};
-  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_182 = ({1'd0,(_zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_7 ? PrivilegedPlugin_logic_harts_0_s_ip_ssip : 1'b0)} <<< 1'd1);
-  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_181 = {30'd0, _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_182};
-  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_184 = ({1'd0,(_zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_17 ? (PrivilegedPlugin_logic_harts_0_s_ip_ssip && PrivilegedPlugin_logic_harts_0_m_ideleg_ss) : 1'b0)} <<< 1'd1);
+  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_182 = ({5'd0,(_zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_17 ? (PrivilegedPlugin_logic_harts_0_s_ip_stipOr && PrivilegedPlugin_logic_harts_0_m_ideleg_st) : 1'b0)} <<< 3'd5);
+  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_181 = {26'd0, _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_182};
+  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_184 = ({1'd0,(_zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_7 ? PrivilegedPlugin_logic_harts_0_s_ip_ssip : 1'b0)} <<< 1'd1);
   assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_183 = {30'd0, _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_184};
-  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_194 = (_zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_13 ? PerformanceCounterPlugin_logic_counters_cycle_mcounteren : 1'b0);
-  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_193 = {31'd0, _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_194};
-  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_196 = (_zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_18 ? PerformanceCounterPlugin_logic_counters_cycle_scounteren : 1'b0);
+  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_186 = ({1'd0,(_zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_17 ? (PrivilegedPlugin_logic_harts_0_s_ip_ssip && PrivilegedPlugin_logic_harts_0_m_ideleg_ss) : 1'b0)} <<< 1'd1);
+  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_185 = {30'd0, _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_186};
+  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_196 = (_zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_13 ? PerformanceCounterPlugin_logic_counters_cycle_mcounteren : 1'b0);
   assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_195 = {31'd0, _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_196};
-  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_198 = (_zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_19 ? PerformanceCounterPlugin_logic_counters_cycle_mcountinhibit : 1'b0);
+  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_198 = (_zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_18 ? PerformanceCounterPlugin_logic_counters_cycle_scounteren : 1'b0);
   assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_197 = {31'd0, _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_198};
-  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_200 = ({2'd0,(_zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_13 ? PerformanceCounterPlugin_logic_counters_instret_mcounteren : 1'b0)} <<< 2'd2);
-  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_199 = {29'd0, _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_200};
-  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_202 = ({2'd0,(_zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_18 ? PerformanceCounterPlugin_logic_counters_instret_scounteren : 1'b0)} <<< 2'd2);
+  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_200 = (_zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_19 ? PerformanceCounterPlugin_logic_counters_cycle_mcountinhibit : 1'b0);
+  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_199 = {31'd0, _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_200};
+  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_202 = ({2'd0,(_zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_13 ? PerformanceCounterPlugin_logic_counters_instret_mcounteren : 1'b0)} <<< 2'd2);
   assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_201 = {29'd0, _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_202};
-  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_204 = ({2'd0,(_zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_19 ? PerformanceCounterPlugin_logic_counters_instret_mcountinhibit : 1'b0)} <<< 2'd2);
+  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_204 = ({2'd0,(_zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_18 ? PerformanceCounterPlugin_logic_counters_instret_scounteren : 1'b0)} <<< 2'd2);
   assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_203 = {29'd0, _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_204};
-  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_208 = ({13'd0,(_zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_6 ? PerformanceCounterPlugin_logic_interrupt_ip : 1'b0)} <<< 4'd13);
-  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_207 = {18'd0, _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_208};
-  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_210 = ({13'd0,(_zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_8 ? PerformanceCounterPlugin_logic_interrupt_ie : 1'b0)} <<< 4'd13);
+  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_206 = ({2'd0,(_zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_19 ? PerformanceCounterPlugin_logic_counters_instret_mcountinhibit : 1'b0)} <<< 2'd2);
+  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_205 = {29'd0, _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_206};
+  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_210 = ({13'd0,(_zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_6 ? PerformanceCounterPlugin_logic_interrupt_ip : 1'b0)} <<< 4'd13);
   assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_209 = {18'd0, _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_210};
-  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_212 = ({13'd0,(_zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_11 ? PerformanceCounterPlugin_logic_interrupt_sup_deleg : 1'b0)} <<< 4'd13);
+  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_212 = ({13'd0,(_zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_8 ? PerformanceCounterPlugin_logic_interrupt_ie : 1'b0)} <<< 4'd13);
   assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_211 = {18'd0, _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_212};
+  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_214 = ({13'd0,(_zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_11 ? PerformanceCounterPlugin_logic_interrupt_sup_deleg : 1'b0)} <<< 4'd13);
+  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_213 = {18'd0, _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_214};
   assign _zz_CsrAccessPlugin_logic_fsm_writeLogic_alu_mask_1 = CsrAccessPlugin_logic_fsm_interface_uop[19 : 15];
   assign _zz_CsrAccessPlugin_logic_fsm_writeLogic_alu_mask = {27'd0, _zz_CsrAccessPlugin_logic_fsm_writeLogic_alu_mask_1};
   assign _zz_FetchL1Plugin_pmaBuilder_onTransfers_0_addressHit = (|_zz_FetchL1Plugin_logic_ctrl_pmaPort_rsp_io);
@@ -15795,8 +15854,8 @@ module VexiiRiscv (
   assign _zz_execute_ctrl1_down_early0_DivPlugin_SEL_lane0_1 = (|((execute_lane0_logic_decoding_decodingBits & 32'h0200406c) == 32'h02004020));
   assign _zz_execute_ctrl1_down_early0_EnvPlugin_SEL_lane0 = _zz_execute_ctrl1_down_early0_EnvPlugin_SEL_lane0_1[0];
   assign _zz_execute_ctrl1_down_early0_EnvPlugin_SEL_lane0_1 = (|{((execute_lane0_logic_decoding_decodingBits & 32'h00001054) == 32'h00001004),((execute_lane0_logic_decoding_decodingBits & 32'h00003050) == 32'h00000050)});
-  assign _zz_execute_ctrl1_down_CfuPlugin_logic_CFU_ENABLE_lane0 = _zz_execute_ctrl1_down_CfuPlugin_logic_CFU_ENABLE_lane0_1[0];
-  assign _zz_execute_ctrl1_down_CfuPlugin_logic_CFU_ENABLE_lane0_1 = (|_zz_execute_ctrl1_down_lane0_integer_WriteBackPlugin_SEL_lane0);
+  assign _zz_execute_ctrl1_down_CxuPlugin_logic_CXU_ENABLE_lane0 = _zz_execute_ctrl1_down_CxuPlugin_logic_CXU_ENABLE_lane0_1[0];
+  assign _zz_execute_ctrl1_down_CxuPlugin_logic_CXU_ENABLE_lane0_1 = (|_zz_execute_ctrl1_down_lane0_integer_WriteBackPlugin_SEL_lane0);
   assign _zz_execute_ctrl1_down_CsrAccessPlugin_SEL_lane0 = _zz_execute_ctrl1_down_CsrAccessPlugin_SEL_lane0_1[0];
   assign _zz_execute_ctrl1_down_CsrAccessPlugin_SEL_lane0_1 = (|{((execute_lane0_logic_decoding_decodingBits & 32'h00001050) == 32'h00001050),((execute_lane0_logic_decoding_decodingBits & 32'h00002050) == 32'h00002050)});
   assign _zz_execute_ctrl1_down_AguPlugin_SEL_lane0_1 = _zz_execute_ctrl1_down_AguPlugin_SEL_lane0_2[0];
@@ -16108,7 +16167,7 @@ module VexiiRiscv (
   assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_20 = (_zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_21 | _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_26);
   assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_31 = (_zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_32 | _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_36);
   assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_40 = (_zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_41 | _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_46);
-  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_49 = (_zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_50 | _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_51);
+  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_49 = (_zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_50 | _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_53);
   assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_54 = (_zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_55 | _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_60);
   assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_64 = (_zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_65 | _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_70);
   assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_75 = (_zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_76 | _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_80);
@@ -16116,27 +16175,27 @@ module VexiiRiscv (
   assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_96 = (_zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_97 | _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_102);
   assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_107 = (_zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_108 | _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_113);
   assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_118 = (_zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_119 | _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_124);
-  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_128 = (_zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_129 | _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_133);
+  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_129 = (_zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_130 | _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_134);
   assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_138 = (_zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_139 | _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_144);
   assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_149 = (_zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_150 | _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_154);
   assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_159 = (_zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_160 | _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_165);
   assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_170 = (_zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_171 | _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_176);
-  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_185 = (_zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_186 ? _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_187 : _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_188);
-  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_189 = (_zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_190 ? _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_191 : _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_192);
-  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_205 = (CsrRamPlugin_csrMapper_withRead ? CsrRamPlugin_csrMapper_read_data : _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_206);
+  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_187 = (_zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_188 ? _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_189 : _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_190);
+  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_191 = (_zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_192 ? _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_193 : _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_194);
+  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_207 = (CsrRamPlugin_csrMapper_withRead ? CsrRamPlugin_csrMapper_read_data : _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_208);
   assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_21 = (_zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_22 | _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_24);
   assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_26 = (_zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_27 | _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_29);
   assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_32 = (_zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_33 | _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_34);
   assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_36 = (_zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_37 | _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_39);
   assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_41 = (_zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_42 | _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_44);
-  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_46 = (32'h0 | _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_47);
-  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_50 = (32'h0 | 32'h0);
-  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_51 = (((when_CsrService_l199 && REG_CSR_769) ? 32'h40141101 : 32'h0) | _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_52);
+  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_46 = (_zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_47 | 32'h0);
+  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_50 = (_zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_51 | 32'h0);
+  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_53 = (32'h0 | ((when_CsrService_l199 && REG_CSR_769) ? 32'h40141101 : 32'h0));
   assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_55 = (_zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_56 | _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_58);
-  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_60 = (_zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_61 | _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_62);
+  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_60 = (_zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_61 | _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_63);
   assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_65 = (_zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_66 | _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_68);
   assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_70 = (_zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_71 | _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_73);
-  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_76 = (_zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_77 | _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_78);
+  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_76 = (_zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_77 | _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_79);
   assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_80 = (_zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_81 | _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_83);
   assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_86 = (_zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_87 | _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_89);
   assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_91 = (_zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_92 | _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_94);
@@ -16146,23 +16205,23 @@ module VexiiRiscv (
   assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_113 = (_zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_114 | _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_116);
   assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_119 = (_zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_120 | _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_122);
   assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_124 = (_zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_125 | _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_127);
-  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_129 = (_zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_130 | _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_132);
-  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_133 = (_zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_134 | _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_136);
+  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_130 = (_zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_131 | _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_132);
+  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_134 = (_zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_135 | _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_136);
   assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_139 = (_zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_140 | _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_142);
   assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_144 = (_zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_145 | _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_147);
-  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_150 = (_zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_151 | _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_152);
+  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_150 = (_zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_151 | _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_153);
   assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_154 = (_zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_155 | _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_157);
   assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_160 = (_zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_161 | _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_163);
   assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_165 = (_zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_166 | _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_168);
   assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_171 = (_zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_172 | _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_174);
   assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_176 = (_zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_177 | _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_179);
-  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_186 = (when_CsrService_l199 && REG_CSR_PrivilegedPlugin_logic_harts_0_time_filter);
-  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_187 = PrivilegedPlugin_logic_rdtime[31 : 0];
-  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_188 = 32'h0;
-  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_190 = (when_CsrService_l199 && REG_CSR_PrivilegedPlugin_logic_harts_0_time_filterh);
-  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_191 = PrivilegedPlugin_logic_rdtime[63 : 32];
-  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_192 = 32'h0;
-  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_206 = 32'h0;
+  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_188 = (when_CsrService_l199 && REG_CSR_PrivilegedPlugin_logic_harts_0_time_filter);
+  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_189 = PrivilegedPlugin_logic_rdtime[31 : 0];
+  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_190 = 32'h0;
+  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_192 = (when_CsrService_l199 && REG_CSR_PrivilegedPlugin_logic_harts_0_time_filterh);
+  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_193 = PrivilegedPlugin_logic_rdtime[63 : 32];
+  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_194 = 32'h0;
+  assign _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_208 = 32'h0;
   assign _zz_FetchL1Plugin_logic_ctrl_pmaPort_rsp_fault = 32'hfffff000;
   assign _zz_FetchL1Plugin_logic_ctrl_pmaPort_rsp_fault_1 = 32'hfffff800;
   assign _zz_LsuPlugin_logic_onPma_cached_rsp_fault = 32'hffff0000;
@@ -16421,16 +16480,18 @@ module VexiiRiscv (
     .litex_clk                 (litex_clk                                                        ), //i
     .cpuResetCtrl_reset        (cpuResetCtrl_reset                                               )  //i
   );
-  StreamFifoLowLatency CfuPlugin_logic_onJoin_busRspStream_fifo (
-    .io_push_valid             (CfuPlugin_logic_onJoin_busRspStream_valid                              ), //i
-    .io_push_ready             (CfuPlugin_logic_onJoin_busRspStream_fifo_io_push_ready                 ), //o
-    .io_push_payload_outputs_0 (CfuPlugin_logic_onJoin_busRspStream_payload_outputs_0[31:0]            ), //i
-    .io_pop_valid              (CfuPlugin_logic_onJoin_busRspStream_fifo_io_pop_valid                  ), //o
-    .io_pop_ready              (CfuPlugin_logic_onJoin_busRspStream_fifo_io_pop_ready                  ), //i
-    .io_pop_payload_outputs_0  (CfuPlugin_logic_onJoin_busRspStream_fifo_io_pop_payload_outputs_0[31:0]), //o
+  StreamFifoLowLatency CxuPlugin_logic_onJoin_busRspStream_fifo (
+    .io_push_valid             (CxuPlugin_logic_onJoin_busRspStream_valid                              ), //i
+    .io_push_ready             (CxuPlugin_logic_onJoin_busRspStream_fifo_io_push_ready                 ), //o
+    .io_push_payload_outputs_0 (CxuPlugin_logic_onJoin_busRspStream_payload_outputs_0[31:0]            ), //i
+    .io_push_payload_ready     (CxuPlugin_logic_onJoin_busRspStream_payload_ready                      ), //i
+    .io_pop_valid              (CxuPlugin_logic_onJoin_busRspStream_fifo_io_pop_valid                  ), //o
+    .io_pop_ready              (CxuPlugin_logic_onJoin_busRspStream_fifo_io_pop_ready                  ), //i
+    .io_pop_payload_outputs_0  (CxuPlugin_logic_onJoin_busRspStream_fifo_io_pop_payload_outputs_0[31:0]), //o
+    .io_pop_payload_ready      (CxuPlugin_logic_onJoin_busRspStream_fifo_io_pop_payload_ready          ), //o
     .io_flush                  (1'b0                                                                   ), //i
-    .io_occupancy              (CfuPlugin_logic_onJoin_busRspStream_fifo_io_occupancy[1:0]             ), //o
-    .io_availability           (CfuPlugin_logic_onJoin_busRspStream_fifo_io_availability[1:0]          ), //o
+    .io_occupancy              (CxuPlugin_logic_onJoin_busRspStream_fifo_io_occupancy[1:0]             ), //o
+    .io_availability           (CxuPlugin_logic_onJoin_busRspStream_fifo_io_availability[1:0]          ), //o
     .litex_clk                 (litex_clk                                                              ), //i
     .cpuResetCtrl_reset        (cpuResetCtrl_reset                                                     )  //i
   );
@@ -16856,9 +16917,9 @@ module VexiiRiscv (
   end
 
   always @(*) begin
-    case(execute_ctrl2_down_CfuPlugin_logic_CFU_ENCODING_lane0)
-      1'b0 : _zz_CfuPlugin_logic_bus_cmd_payload_function_id = CfuPlugin_logic_onFork_functionsIds_0;
-      default : _zz_CfuPlugin_logic_bus_cmd_payload_function_id = CfuPlugin_logic_onFork_functionsIds_1;
+    case(execute_ctrl2_down_CxuPlugin_logic_CXU_ENCODING_lane0)
+      1'b0 : _zz_CxuPlugin_logic_cxuBus_cmd_payload_function_id = CxuPlugin_logic_onFork_functionsIds_0;
+      default : _zz_CxuPlugin_logic_cxuBus_cmd_payload_function_id = CxuPlugin_logic_onFork_functionsIds_1;
     endcase
   end
 
@@ -17137,10 +17198,10 @@ module VexiiRiscv (
     endcase
   end
   always @(*) begin
-    case(execute_ctrl2_up_CfuPlugin_logic_CFU_INPUT_2_KIND_lane0)
-      Input2Kind_RS : execute_ctrl2_up_CfuPlugin_logic_CFU_INPUT_2_KIND_lane0_string = "RS   ";
-      Input2Kind_IMM_I : execute_ctrl2_up_CfuPlugin_logic_CFU_INPUT_2_KIND_lane0_string = "IMM_I";
-      default : execute_ctrl2_up_CfuPlugin_logic_CFU_INPUT_2_KIND_lane0_string = "?????";
+    case(execute_ctrl2_up_CxuPlugin_logic_CXU_INPUT_2_KIND_lane0)
+      Input2Kind_RS : execute_ctrl2_up_CxuPlugin_logic_CXU_INPUT_2_KIND_lane0_string = "RS   ";
+      Input2Kind_IMM_I : execute_ctrl2_up_CxuPlugin_logic_CXU_INPUT_2_KIND_lane0_string = "IMM_I";
+      default : execute_ctrl2_up_CxuPlugin_logic_CXU_INPUT_2_KIND_lane0_string = "?????";
     endcase
   end
   always @(*) begin
@@ -17172,10 +17233,10 @@ module VexiiRiscv (
     endcase
   end
   always @(*) begin
-    case(execute_ctrl1_down_CfuPlugin_logic_CFU_INPUT_2_KIND_lane0)
-      Input2Kind_RS : execute_ctrl1_down_CfuPlugin_logic_CFU_INPUT_2_KIND_lane0_string = "RS   ";
-      Input2Kind_IMM_I : execute_ctrl1_down_CfuPlugin_logic_CFU_INPUT_2_KIND_lane0_string = "IMM_I";
-      default : execute_ctrl1_down_CfuPlugin_logic_CFU_INPUT_2_KIND_lane0_string = "?????";
+    case(execute_ctrl1_down_CxuPlugin_logic_CXU_INPUT_2_KIND_lane0)
+      Input2Kind_RS : execute_ctrl1_down_CxuPlugin_logic_CXU_INPUT_2_KIND_lane0_string = "RS   ";
+      Input2Kind_IMM_I : execute_ctrl1_down_CxuPlugin_logic_CXU_INPUT_2_KIND_lane0_string = "IMM_I";
+      default : execute_ctrl1_down_CxuPlugin_logic_CXU_INPUT_2_KIND_lane0_string = "?????";
     endcase
   end
   always @(*) begin
@@ -17204,10 +17265,10 @@ module VexiiRiscv (
     endcase
   end
   always @(*) begin
-    case(execute_ctrl2_down_CfuPlugin_logic_CFU_INPUT_2_KIND_lane0)
-      Input2Kind_RS : execute_ctrl2_down_CfuPlugin_logic_CFU_INPUT_2_KIND_lane0_string = "RS   ";
-      Input2Kind_IMM_I : execute_ctrl2_down_CfuPlugin_logic_CFU_INPUT_2_KIND_lane0_string = "IMM_I";
-      default : execute_ctrl2_down_CfuPlugin_logic_CFU_INPUT_2_KIND_lane0_string = "?????";
+    case(execute_ctrl2_down_CxuPlugin_logic_CXU_INPUT_2_KIND_lane0)
+      Input2Kind_RS : execute_ctrl2_down_CxuPlugin_logic_CXU_INPUT_2_KIND_lane0_string = "RS   ";
+      Input2Kind_IMM_I : execute_ctrl2_down_CxuPlugin_logic_CXU_INPUT_2_KIND_lane0_string = "IMM_I";
+      default : execute_ctrl2_down_CxuPlugin_logic_CXU_INPUT_2_KIND_lane0_string = "?????";
     endcase
   end
   always @(*) begin
@@ -17390,24 +17451,24 @@ module VexiiRiscv (
     endcase
   end
   always @(*) begin
-    case(_zz_execute_ctrl1_down_CfuPlugin_logic_CFU_INPUT_2_KIND_lane0)
-      Input2Kind_RS : _zz_execute_ctrl1_down_CfuPlugin_logic_CFU_INPUT_2_KIND_lane0_string = "RS   ";
-      Input2Kind_IMM_I : _zz_execute_ctrl1_down_CfuPlugin_logic_CFU_INPUT_2_KIND_lane0_string = "IMM_I";
-      default : _zz_execute_ctrl1_down_CfuPlugin_logic_CFU_INPUT_2_KIND_lane0_string = "?????";
+    case(_zz_execute_ctrl1_down_CxuPlugin_logic_CXU_INPUT_2_KIND_lane0)
+      Input2Kind_RS : _zz_execute_ctrl1_down_CxuPlugin_logic_CXU_INPUT_2_KIND_lane0_string = "RS   ";
+      Input2Kind_IMM_I : _zz_execute_ctrl1_down_CxuPlugin_logic_CXU_INPUT_2_KIND_lane0_string = "IMM_I";
+      default : _zz_execute_ctrl1_down_CxuPlugin_logic_CXU_INPUT_2_KIND_lane0_string = "?????";
     endcase
   end
   always @(*) begin
-    case(_zz_execute_ctrl1_down_CfuPlugin_logic_CFU_INPUT_2_KIND_lane0_1)
-      Input2Kind_RS : _zz_execute_ctrl1_down_CfuPlugin_logic_CFU_INPUT_2_KIND_lane0_1_string = "RS   ";
-      Input2Kind_IMM_I : _zz_execute_ctrl1_down_CfuPlugin_logic_CFU_INPUT_2_KIND_lane0_1_string = "IMM_I";
-      default : _zz_execute_ctrl1_down_CfuPlugin_logic_CFU_INPUT_2_KIND_lane0_1_string = "?????";
+    case(_zz_execute_ctrl1_down_CxuPlugin_logic_CXU_INPUT_2_KIND_lane0_1)
+      Input2Kind_RS : _zz_execute_ctrl1_down_CxuPlugin_logic_CXU_INPUT_2_KIND_lane0_1_string = "RS   ";
+      Input2Kind_IMM_I : _zz_execute_ctrl1_down_CxuPlugin_logic_CXU_INPUT_2_KIND_lane0_1_string = "IMM_I";
+      default : _zz_execute_ctrl1_down_CxuPlugin_logic_CXU_INPUT_2_KIND_lane0_1_string = "?????";
     endcase
   end
   always @(*) begin
-    case(_zz_execute_ctrl1_down_CfuPlugin_logic_CFU_INPUT_2_KIND_lane0_2)
-      Input2Kind_RS : _zz_execute_ctrl1_down_CfuPlugin_logic_CFU_INPUT_2_KIND_lane0_2_string = "RS   ";
-      Input2Kind_IMM_I : _zz_execute_ctrl1_down_CfuPlugin_logic_CFU_INPUT_2_KIND_lane0_2_string = "IMM_I";
-      default : _zz_execute_ctrl1_down_CfuPlugin_logic_CFU_INPUT_2_KIND_lane0_2_string = "?????";
+    case(_zz_execute_ctrl1_down_CxuPlugin_logic_CXU_INPUT_2_KIND_lane0_2)
+      Input2Kind_RS : _zz_execute_ctrl1_down_CxuPlugin_logic_CXU_INPUT_2_KIND_lane0_2_string = "RS   ";
+      Input2Kind_IMM_I : _zz_execute_ctrl1_down_CxuPlugin_logic_CXU_INPUT_2_KIND_lane0_2_string = "IMM_I";
+      default : _zz_execute_ctrl1_down_CxuPlugin_logic_CXU_INPUT_2_KIND_lane0_2_string = "?????";
     endcase
   end
   always @(*) begin
@@ -18039,13 +18100,16 @@ module VexiiRiscv (
   assign execute_ctrl2_down_early0_BarrelShifterPlugin_SHIFT_RESULT_lane0 = early0_BarrelShifterPlugin_logic_shift_patched;
   assign early0_BarrelShifterPlugin_logic_wb_valid = execute_ctrl2_down_early0_BarrelShifterPlugin_SEL_lane0;
   assign early0_BarrelShifterPlugin_logic_wb_payload = execute_ctrl2_down_early0_BarrelShifterPlugin_SHIFT_RESULT_lane0;
-  assign CfuPlugin_logic_onFork_schedule = (execute_ctrl2_up_LANE_SEL_lane0 && execute_ctrl2_down_CfuPlugin_logic_CFU_ENABLE_lane0);
-  assign CfuPlugin_logic_onFork_hold = 1'b0;
-  assign CfuPlugin_logic_bus_cmd_fire = (CfuPlugin_logic_bus_cmd_valid && CfuPlugin_logic_bus_cmd_ready);
-  assign when_CfuPlugin_l147 = (! execute_freeze_valid);
-  assign execute_ctrl2_down_CfuPlugin_logic_CFU_IN_FLIGHT_lane0 = ((CfuPlugin_logic_onFork_schedule || CfuPlugin_logic_onFork_hold) || CfuPlugin_logic_onFork_fired);
-  assign CfuPlugin_logic_bus_cmd_valid = ((CfuPlugin_logic_onFork_schedule || CfuPlugin_logic_onFork_hold) && (! CfuPlugin_logic_onFork_fired));
-  assign CfuPlugin_logic_onFork_freezeIt = (CfuPlugin_logic_bus_cmd_valid && (! CfuPlugin_logic_bus_cmd_ready));
+  assign when_CxuPlugin_l74 = (CxuPlugin_logic_mcx_version != 3'b001);
+  assign CxuPlugin_logic_onFork_schedule = (execute_ctrl2_up_LANE_SEL_lane0 && execute_ctrl2_down_CxuPlugin_logic_CXU_ENABLE_lane0);
+  assign CxuPlugin_logic_onFork_hold = 1'b0;
+  assign CxuPlugin_logic_cxuBus_cmd_fire = (CxuPlugin_logic_cxuBus_cmd_valid && CxuPlugin_logic_cxuBus_cmd_ready);
+  assign when_CxuPlugin_l159 = (! execute_freeze_valid);
+  assign execute_ctrl2_down_CxuPlugin_logic_CXU_IN_FLIGHT_lane0 = ((CxuPlugin_logic_onFork_schedule || CxuPlugin_logic_onFork_hold) || CxuPlugin_logic_onFork_fired);
+  assign CxuPlugin_logic_cxuBus_cmd_valid = ((CxuPlugin_logic_onFork_schedule || CxuPlugin_logic_onFork_hold) && (! CxuPlugin_logic_onFork_fired));
+  assign CxuPlugin_logic_cxuBus_cmd_payload_cxu_id = CxuPlugin_logic_mcx_selector;
+  assign CxuPlugin_logic_cxuBus_cmd_payload_state_id = CxuPlugin_logic_mcx_state_id;
+  assign CxuPlugin_logic_onFork_freezeIt = (CxuPlugin_logic_cxuBus_cmd_valid && (! CxuPlugin_logic_cxuBus_cmd_ready));
   always @(*) begin
     LsuPlugin_logic_events_waiting = 1'b0;
     if(LsuPlugin_logic_onCtrl_hartRegulation_valid) begin
@@ -19097,35 +19161,40 @@ module VexiiRiscv (
   assign decode_ctrls_0_up_valid = (|AlignerPlugin_logic_feeder_lanes_0_valid);
   assign AlignerPlugin_logic_nobuffer_remaningMask = (AlignerPlugin_logic_nobuffer_mask & (~ AlignerPlugin_logic_usedMask_1));
   assign when_AlignerPlugin_l292 = (decode_ctrls_0_up_isValid && decode_ctrls_0_up_isReady);
-  assign CfuPlugin_logic_onFork_functionsIds_0 = execute_ctrl2_down_Decode_UOP_lane0[14 : 12];
-  assign CfuPlugin_logic_onFork_functionsIds_1 = execute_ctrl2_down_Decode_UOP_lane0[14 : 12];
-  assign CfuPlugin_logic_bus_cmd_payload_cfu_index = CfuPlugin_logic_csr_cfuIndex;
-  assign CfuPlugin_logic_bus_cmd_payload_state_index = CfuPlugin_logic_csr_stateId;
-  assign CfuPlugin_logic_bus_cmd_payload_function_id = _zz_CfuPlugin_logic_bus_cmd_payload_function_id;
-  assign CfuPlugin_logic_bus_cmd_payload_raw_insn = execute_ctrl2_down_Decode_UOP_lane0;
-  assign CfuPlugin_logic_bus_cmd_payload_inputs_0 = execute_ctrl2_up_integer_RS1_lane0;
+  assign CxuPlugin_logic_onFork_functionsIds_0 = execute_ctrl2_down_Decode_UOP_lane0[14 : 12];
+  assign CxuPlugin_logic_onFork_functionsIds_1 = execute_ctrl2_down_Decode_UOP_lane0[14 : 12];
+  assign CxuPlugin_logic_cxuBus_cmd_payload_function_id = _zz_CxuPlugin_logic_cxuBus_cmd_payload_function_id;
+  assign CxuPlugin_logic_cxuBus_cmd_payload_raw_insn = execute_ctrl2_down_Decode_UOP_lane0;
+  assign CxuPlugin_logic_cxuBus_cmd_payload_inputs_0 = execute_ctrl2_up_integer_RS1_lane0;
   always @(*) begin
-    case(execute_ctrl2_down_CfuPlugin_logic_CFU_INPUT_2_KIND_lane0)
+    case(execute_ctrl2_down_CxuPlugin_logic_CXU_INPUT_2_KIND_lane0)
       Input2Kind_RS : begin
-        _zz_CfuPlugin_logic_bus_cmd_payload_inputs_1 = execute_ctrl2_up_integer_RS2_lane0;
+        _zz_CxuPlugin_logic_cxuBus_cmd_payload_inputs_1 = execute_ctrl2_up_integer_RS2_lane0;
       end
       default : begin
-        _zz_CfuPlugin_logic_bus_cmd_payload_inputs_1 = _zz__zz_CfuPlugin_logic_bus_cmd_payload_inputs_1;
+        _zz_CxuPlugin_logic_cxuBus_cmd_payload_inputs_1 = _zz__zz_CxuPlugin_logic_cxuBus_cmd_payload_inputs_1;
       end
     endcase
   end
 
-  assign CfuPlugin_logic_bus_cmd_payload_inputs_1 = _zz_CfuPlugin_logic_bus_cmd_payload_inputs_1;
-  assign CfuPlugin_logic_bus_rsp_ready = 1'b1;
-  assign CfuPlugin_logic_bus_rsp_toFlow_valid = CfuPlugin_logic_bus_rsp_valid;
-  assign CfuPlugin_logic_bus_rsp_toFlow_payload_outputs_0 = CfuPlugin_logic_bus_rsp_payload_outputs_0;
-  assign CfuPlugin_logic_onJoin_busRspStream_valid = CfuPlugin_logic_bus_rsp_toFlow_valid;
-  assign CfuPlugin_logic_onJoin_busRspStream_payload_outputs_0 = CfuPlugin_logic_bus_rsp_toFlow_payload_outputs_0;
-  assign CfuPlugin_logic_onJoin_busRspStream_ready = CfuPlugin_logic_onJoin_busRspStream_fifo_io_push_ready;
-  assign CfuPlugin_logic_onJoin_freezeIt = (execute_ctrl4_down_CfuPlugin_logic_CFU_IN_FLIGHT_lane0 && (! CfuPlugin_logic_onJoin_busRspStream_fifo_io_pop_valid));
-  assign CfuPlugin_logic_onJoin_busRspStream_fifo_io_pop_ready = (execute_ctrl4_down_CfuPlugin_logic_CFU_IN_FLIGHT_lane0 && (! execute_freeze_valid));
-  assign CfuPlugin_logic_wb_valid = (execute_ctrl4_up_LANE_SEL_lane0 && execute_ctrl4_down_CfuPlugin_logic_CFU_ENABLE_lane0);
-  assign CfuPlugin_logic_wb_payload = CfuPlugin_logic_onJoin_busRspStream_fifo_io_pop_payload_outputs_0;
+  assign CxuPlugin_logic_cxuBus_cmd_payload_inputs_1 = _zz_CxuPlugin_logic_cxuBus_cmd_payload_inputs_1;
+  assign CxuPlugin_logic_onFork_pendingRequests_full = (CxuPlugin_logic_onFork_pendingRequests_count == 1'b1);
+  assign CxuPlugin_logic_cxuBus_rsp_fire = (CxuPlugin_logic_cxuBus_rsp_valid && CxuPlugin_logic_cxuBus_rsp_ready);
+  assign when_CxuPlugin_l185 = (CxuPlugin_logic_cxuBus_cmd_fire && (! CxuPlugin_logic_cxuBus_rsp_fire));
+  assign when_CxuPlugin_l186 = ((! CxuPlugin_logic_cxuBus_cmd_fire) && CxuPlugin_logic_cxuBus_rsp_fire);
+  assign CxuPlugin_logic_cxuBus_cmd_payload_ready = (! CxuPlugin_logic_onFork_pendingRequests_full);
+  assign CxuPlugin_logic_cxuBus_rsp_ready = 1'b1;
+  assign CxuPlugin_logic_cxuBus_rsp_toFlow_valid = CxuPlugin_logic_cxuBus_rsp_valid;
+  assign CxuPlugin_logic_cxuBus_rsp_toFlow_payload_outputs_0 = CxuPlugin_logic_cxuBus_rsp_payload_outputs_0;
+  assign CxuPlugin_logic_cxuBus_rsp_toFlow_payload_ready = CxuPlugin_logic_cxuBus_rsp_payload_ready;
+  assign CxuPlugin_logic_onJoin_busRspStream_valid = CxuPlugin_logic_cxuBus_rsp_toFlow_valid;
+  assign CxuPlugin_logic_onJoin_busRspStream_payload_outputs_0 = CxuPlugin_logic_cxuBus_rsp_toFlow_payload_outputs_0;
+  assign CxuPlugin_logic_onJoin_busRspStream_payload_ready = CxuPlugin_logic_cxuBus_rsp_toFlow_payload_ready;
+  assign CxuPlugin_logic_onJoin_busRspStream_ready = CxuPlugin_logic_onJoin_busRspStream_fifo_io_push_ready;
+  assign CxuPlugin_logic_onJoin_freezeIt = (execute_ctrl4_down_CxuPlugin_logic_CXU_IN_FLIGHT_lane0 && (! CxuPlugin_logic_onJoin_busRspStream_fifo_io_pop_valid));
+  assign CxuPlugin_logic_onJoin_busRspStream_fifo_io_pop_ready = (execute_ctrl4_down_CxuPlugin_logic_CXU_IN_FLIGHT_lane0 && (! execute_freeze_valid));
+  assign CxuPlugin_logic_wb_valid = (execute_ctrl4_up_LANE_SEL_lane0 && execute_ctrl4_down_CxuPlugin_logic_CXU_ENABLE_lane0);
+  assign CxuPlugin_logic_wb_payload = CxuPlugin_logic_onJoin_busRspStream_fifo_io_pop_payload_outputs_0;
   assign execute_ctrl0_down_AguPlugin_SIZE_lane0 = execute_ctrl0_down_Decode_UOP_lane0[13 : 12];
   assign LsuPlugin_logic_flusher_wantExit = 1'b0;
   always @(*) begin
@@ -19339,14 +19408,7 @@ module VexiiRiscv (
   end
 
   assign decode_ctrls_1_down_RD_PHYS_0 = _zz_decode_ctrls_1_down_RD_PHYS_0[4 : 0];
-  always @(*) begin
-    decode_ctrls_1_down_Decode_LEGAL_0 = ((|{((decode_ctrls_1_down_Decode_INSTRUCTION_0 & 32'h0000005f) == 32'h00000017),{((decode_ctrls_1_down_Decode_INSTRUCTION_0 & 32'h0000005f) == 32'h0000000b),{((decode_ctrls_1_down_Decode_INSTRUCTION_0 & _zz_decode_ctrls_1_down_Decode_LEGAL_0) == 32'h0000006f),{(_zz_decode_ctrls_1_down_Decode_LEGAL_0_1 == _zz_decode_ctrls_1_down_Decode_LEGAL_0_2),{_zz_decode_ctrls_1_down_Decode_LEGAL_0_3,{_zz_decode_ctrls_1_down_Decode_LEGAL_0_4,_zz_decode_ctrls_1_down_Decode_LEGAL_0_5}}}}}}) && (! decode_ctrls_1_down_Decode_DECOMPRESSION_FAULT_0));
-    if(when_CfuPlugin_l115) begin
-      decode_ctrls_1_down_Decode_LEGAL_0 = 1'b0;
-    end
-  end
-
-  assign when_CfuPlugin_l115 = (decode_ctrls_1_down_CfuPlugin_logic_CFU_ENABLE_0 && (! CfuPlugin_logic_en));
+  assign decode_ctrls_1_down_Decode_LEGAL_0 = ((|{((decode_ctrls_1_down_Decode_INSTRUCTION_0 & 32'h0000005f) == 32'h00000017),{((decode_ctrls_1_down_Decode_INSTRUCTION_0 & 32'h0000005f) == 32'h0000000b),{((decode_ctrls_1_down_Decode_INSTRUCTION_0 & _zz_decode_ctrls_1_down_Decode_LEGAL_0) == 32'h0000006f),{(_zz_decode_ctrls_1_down_Decode_LEGAL_0_1 == _zz_decode_ctrls_1_down_Decode_LEGAL_0_2),{_zz_decode_ctrls_1_down_Decode_LEGAL_0_3,{_zz_decode_ctrls_1_down_Decode_LEGAL_0_4,_zz_decode_ctrls_1_down_Decode_LEGAL_0_5}}}}}}) && (! decode_ctrls_1_down_Decode_DECOMPRESSION_FAULT_0));
   assign DecoderPlugin_logic_laneLogic_0_interruptPending = DecoderPlugin_logic_interrupt_buffered[0];
   always @(*) begin
     DecoderPlugin_logic_laneLogic_0_trapPort_valid = 1'b0;
@@ -19611,8 +19673,8 @@ module VexiiRiscv (
   assign lane0_integer_WriteBackPlugin_logic_stages_1_write_valid = (((((execute_ctrl3_down_LANE_SEL_lane0 && execute_ctrl3_down_isReady) && (! execute_lane0_ctrls_3_downIsCancel)) && (|lane0_integer_WriteBackPlugin_logic_stages_1_hits)) && execute_ctrl3_up_RD_ENABLE_lane0) && execute_ctrl3_down_COMMIT_lane0);
   assign lane0_integer_WriteBackPlugin_logic_stages_1_write_payload_uopId = execute_ctrl3_down_Decode_UOP_ID_lane0;
   assign lane0_integer_WriteBackPlugin_logic_stages_1_write_payload_data = lane0_integer_WriteBackPlugin_logic_stages_1_muxed;
-  assign lane0_integer_WriteBackPlugin_logic_stages_2_hits = {lane0_IntFormatPlugin_logic_stages_1_wb_valid,CfuPlugin_logic_wb_valid};
-  assign lane0_integer_WriteBackPlugin_logic_stages_2_muxed = ((lane0_integer_WriteBackPlugin_logic_stages_2_hits[0] ? CfuPlugin_logic_wb_payload : 32'h0) | (lane0_integer_WriteBackPlugin_logic_stages_2_hits[1] ? lane0_IntFormatPlugin_logic_stages_1_wb_payload : 32'h0));
+  assign lane0_integer_WriteBackPlugin_logic_stages_2_hits = {lane0_IntFormatPlugin_logic_stages_1_wb_valid,CxuPlugin_logic_wb_valid};
+  assign lane0_integer_WriteBackPlugin_logic_stages_2_muxed = ((lane0_integer_WriteBackPlugin_logic_stages_2_hits[0] ? CxuPlugin_logic_wb_payload : 32'h0) | (lane0_integer_WriteBackPlugin_logic_stages_2_hits[1] ? lane0_IntFormatPlugin_logic_stages_1_wb_payload : 32'h0));
   assign lane0_integer_WriteBackPlugin_logic_stages_2_merged = (execute_ctrl4_up_lane0_integer_WriteBackPlugin_logic_DATA_lane0 | lane0_integer_WriteBackPlugin_logic_stages_2_muxed);
   assign execute_ctrl4_lane0_integer_WriteBackPlugin_logic_DATA_lane0_bypass = lane0_integer_WriteBackPlugin_logic_stages_2_merged;
   assign lane0_integer_WriteBackPlugin_logic_stages_2_write_valid = (((((execute_ctrl4_down_LANE_SEL_lane0 && execute_ctrl4_down_isReady) && (! execute_lane0_ctrls_4_downIsCancel)) && (|lane0_integer_WriteBackPlugin_logic_stages_2_hits)) && execute_ctrl4_up_RD_ENABLE_lane0) && execute_ctrl4_down_COMMIT_lane0);
@@ -19622,7 +19684,6 @@ module VexiiRiscv (
   assign lane0_integer_WriteBackPlugin_logic_write_port_address = execute_ctrl4_down_RD_PHYS_lane0[4 : 0];
   assign lane0_integer_WriteBackPlugin_logic_write_port_data = execute_ctrl4_down_lane0_integer_WriteBackPlugin_logic_DATA_lane0;
   assign lane0_integer_WriteBackPlugin_logic_write_port_uopId = execute_ctrl4_down_Decode_UOP_ID_lane0;
-  assign decode_ctrls_1_down_CfuPlugin_logic_CFU_ENABLE_0 = _zz_decode_ctrls_1_down_CfuPlugin_logic_CFU_ENABLE_0[0];
   assign decode_ctrls_1_down_DecoderPlugin_logic_NEED_FPU_0 = _zz_decode_ctrls_1_down_DecoderPlugin_logic_NEED_FPU_0[0];
   assign decode_ctrls_1_down_DecoderPlugin_logic_NEED_RM_0 = _zz_decode_ctrls_1_down_DecoderPlugin_logic_NEED_RM_0[0];
   assign _zz_decode_ctrls_1_down_DispatchPlugin_logic_hcs_0_onRs_1_ENABLES_0_0 = ((decode_ctrls_1_down_Decode_INSTRUCTION_0 & 32'h0) == 32'h0);
@@ -24184,7 +24245,7 @@ module VexiiRiscv (
   assign CsrAccessPlugin_bus_read_address = CsrAccessPlugin_logic_fsm_interface_uop[31 : 20];
   assign CsrAccessPlugin_bus_read_moving = (! CsrAccessPlugin_bus_read_halt);
   assign when_CsrAccessPlugin_l254 = (CsrAccessPlugin_logic_fsm_readLogic_onReadsDo && REG_CSR_CsrRamPlugin_csrMapper_selFilter);
-  assign CsrAccessPlugin_logic_fsm_readLogic_csrValue = (((((_zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_20 | _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_31) | (_zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_40 | _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_49)) | ((_zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_54 | _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_64) | (_zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_75 | _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_85))) | (((_zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_96 | _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_107) | (_zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_118 | _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_128)) | ((_zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_138 | _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_149) | (_zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_159 | _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_170)))) | ((((_zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_181 | _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_183) | (_zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_185 | _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_189)) | ((_zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_193 | _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_195) | (_zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_197 | _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_199))) | (((_zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_201 | _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_203) | (_zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_205 | _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_207)) | (_zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_209 | _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_211))));
+  assign CsrAccessPlugin_logic_fsm_readLogic_csrValue = (((((_zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_20 | _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_31) | (_zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_40 | _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_49)) | ((_zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_54 | _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_64) | (_zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_75 | _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_85))) | (((_zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_96 | _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_107) | (_zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_118 | _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_129)) | ((_zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_138 | _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_149) | (_zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_159 | _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_170)))) | ((((_zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_181 | _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_183) | (_zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_185 | _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_187)) | ((_zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_191 | _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_195) | (_zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_197 | _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_199))) | (((_zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_201 | _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_203) | (_zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_205 | _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_207)) | ((_zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_209 | _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_211) | _zz_CsrAccessPlugin_logic_fsm_readLogic_csrValue_213))));
   assign CsrAccessPlugin_bus_read_data = CsrAccessPlugin_logic_fsm_readLogic_csrValue;
   always @(*) begin
     CsrAccessPlugin_bus_read_toWriteBits = CsrAccessPlugin_logic_fsm_readLogic_csrValue;
@@ -24480,9 +24541,9 @@ module VexiiRiscv (
 
   assign _zz_execute_ctrl1_down_lane0_integer_WriteBackPlugin_SEL_lane0 = ((execute_lane0_logic_decoding_decodingBits & 32'h0000000c) == 32'h00000008);
   always @(*) begin
-    execute_ctrl1_down_CfuPlugin_logic_CFU_ENABLE_lane0 = _zz_execute_ctrl1_down_CfuPlugin_logic_CFU_ENABLE_lane0[0];
+    execute_ctrl1_down_CxuPlugin_logic_CXU_ENABLE_lane0 = _zz_execute_ctrl1_down_CxuPlugin_logic_CXU_ENABLE_lane0[0];
     if(execute_ctrl1_down_TRAP_lane0) begin
-      execute_ctrl1_down_CfuPlugin_logic_CFU_ENABLE_lane0 = 1'b0;
+      execute_ctrl1_down_CxuPlugin_logic_CXU_ENABLE_lane0 = 1'b0;
     end
   end
 
@@ -24600,11 +24661,11 @@ module VexiiRiscv (
   assign _zz_execute_ctrl1_down_BranchPlugin_BRANCH_CTRL_lane0 = _zz_execute_ctrl1_down_BranchPlugin_BRANCH_CTRL_lane0_1;
   assign _zz_execute_ctrl1_down_BranchPlugin_BRANCH_CTRL_lane0_2 = _zz_execute_ctrl1_down_BranchPlugin_BRANCH_CTRL_lane0;
   assign execute_ctrl1_down_BranchPlugin_BRANCH_CTRL_lane0 = _zz_execute_ctrl1_down_BranchPlugin_BRANCH_CTRL_lane0_2;
-  assign execute_ctrl1_down_CfuPlugin_logic_CFU_ENCODING_lane0 = (|((execute_lane0_logic_decoding_decodingBits & 32'h0) == 32'h0));
-  assign _zz_execute_ctrl1_down_CfuPlugin_logic_CFU_INPUT_2_KIND_lane0_1 = (|((execute_lane0_logic_decoding_decodingBits & 32'h00000020) == 32'h00000020));
-  assign _zz_execute_ctrl1_down_CfuPlugin_logic_CFU_INPUT_2_KIND_lane0 = _zz_execute_ctrl1_down_CfuPlugin_logic_CFU_INPUT_2_KIND_lane0_1;
-  assign _zz_execute_ctrl1_down_CfuPlugin_logic_CFU_INPUT_2_KIND_lane0_2 = _zz_execute_ctrl1_down_CfuPlugin_logic_CFU_INPUT_2_KIND_lane0;
-  assign execute_ctrl1_down_CfuPlugin_logic_CFU_INPUT_2_KIND_lane0 = _zz_execute_ctrl1_down_CfuPlugin_logic_CFU_INPUT_2_KIND_lane0_2;
+  assign execute_ctrl1_down_CxuPlugin_logic_CXU_ENCODING_lane0 = (|((execute_lane0_logic_decoding_decodingBits & 32'h0) == 32'h0));
+  assign _zz_execute_ctrl1_down_CxuPlugin_logic_CXU_INPUT_2_KIND_lane0_1 = (|((execute_lane0_logic_decoding_decodingBits & 32'h00000020) == 32'h00000020));
+  assign _zz_execute_ctrl1_down_CxuPlugin_logic_CXU_INPUT_2_KIND_lane0 = _zz_execute_ctrl1_down_CxuPlugin_logic_CXU_INPUT_2_KIND_lane0_1;
+  assign _zz_execute_ctrl1_down_CxuPlugin_logic_CXU_INPUT_2_KIND_lane0_2 = _zz_execute_ctrl1_down_CxuPlugin_logic_CXU_INPUT_2_KIND_lane0;
+  assign execute_ctrl1_down_CxuPlugin_logic_CXU_INPUT_2_KIND_lane0 = _zz_execute_ctrl1_down_CxuPlugin_logic_CXU_INPUT_2_KIND_lane0_2;
   assign _zz_execute_ctrl1_down_CsrAccessPlugin_CSR_MASK_lane0 = ((execute_lane0_logic_decoding_decodingBits & 32'h00002000) == 32'h00002000);
   assign execute_ctrl1_down_MulPlugin_HIGH_lane0 = _zz_execute_ctrl1_down_MulPlugin_HIGH_lane0[0];
   assign execute_ctrl1_down_RsUnsignedPlugin_RS1_SIGNED_lane0 = _zz_execute_ctrl1_down_RsUnsignedPlugin_RS1_SIGNED_lane0[0];
@@ -24778,7 +24839,7 @@ module VexiiRiscv (
   assign integer_write_0_address = integer_RegFilePlugin_logic_writeMerges_0_bus_address;
   assign integer_write_0_data = integer_RegFilePlugin_logic_writeMerges_0_bus_data;
   assign integer_write_0_uopId = integer_RegFilePlugin_logic_writeMerges_0_bus_uopId;
-  assign execute_freeze_valid = (|{CsrAccessPlugin_logic_fsm_inject_freeze,{LsuPlugin_logic_onCtrl_rva_freezeIt,{LsuPlugin_logic_onCtrl_io_freezeIt,{CfuPlugin_logic_onJoin_freezeIt,{early0_DivPlugin_logic_processing_freeze,CfuPlugin_logic_onFork_freezeIt}}}}});
+  assign execute_freeze_valid = (|{CsrAccessPlugin_logic_fsm_inject_freeze,{LsuPlugin_logic_onCtrl_rva_freezeIt,{LsuPlugin_logic_onCtrl_io_freezeIt,{CxuPlugin_logic_onJoin_freezeIt,{early0_DivPlugin_logic_processing_freeze,CxuPlugin_logic_onFork_freezeIt}}}}});
   assign execute_ctrl5_down_ready = (! execute_freeze_valid);
   assign TrapPlugin_logic_initHold = (|{(! CsrRamPlugin_logic_flush_done),{((! LsuL1Plugin_logic_initializer_done) || 1'b0),{(! integer_RegFilePlugin_logic_initalizer_done),{(FetchL1Plugin_logic_invalidate_firstEver || 1'b0),{1'b0,1'b0}}}}});
   assign WhiteboxerPlugin_logic_wfi = TrapPlugin_logic_harts_0_trap_fsm_wfi;
@@ -25063,7 +25124,7 @@ module VexiiRiscv (
   assign execute_ctrl2_down_early0_MulPlugin_SEL_lane0 = execute_ctrl2_up_early0_MulPlugin_SEL_lane0;
   assign execute_ctrl2_down_early0_DivPlugin_SEL_lane0 = execute_ctrl2_up_early0_DivPlugin_SEL_lane0;
   assign execute_ctrl2_down_early0_EnvPlugin_SEL_lane0 = execute_ctrl2_up_early0_EnvPlugin_SEL_lane0;
-  assign execute_ctrl2_down_CfuPlugin_logic_CFU_ENABLE_lane0 = execute_ctrl2_up_CfuPlugin_logic_CFU_ENABLE_lane0;
+  assign execute_ctrl2_down_CxuPlugin_logic_CXU_ENABLE_lane0 = execute_ctrl2_up_CxuPlugin_logic_CXU_ENABLE_lane0;
   assign execute_ctrl2_down_CsrAccessPlugin_SEL_lane0 = execute_ctrl2_up_CsrAccessPlugin_SEL_lane0;
   assign execute_ctrl2_down_AguPlugin_SEL_lane0 = execute_ctrl2_up_AguPlugin_SEL_lane0;
   assign execute_ctrl2_down_LsuPlugin_logic_FENCE_lane0 = execute_ctrl2_up_LsuPlugin_logic_FENCE_lane0;
@@ -25086,8 +25147,8 @@ module VexiiRiscv (
   assign execute_ctrl2_down_BarrelShifterPlugin_LEFT_lane0 = execute_ctrl2_up_BarrelShifterPlugin_LEFT_lane0;
   assign execute_ctrl2_down_BarrelShifterPlugin_SIGNED_lane0 = execute_ctrl2_up_BarrelShifterPlugin_SIGNED_lane0;
   assign execute_ctrl2_down_BranchPlugin_BRANCH_CTRL_lane0 = execute_ctrl2_up_BranchPlugin_BRANCH_CTRL_lane0;
-  assign execute_ctrl2_down_CfuPlugin_logic_CFU_ENCODING_lane0 = execute_ctrl2_up_CfuPlugin_logic_CFU_ENCODING_lane0;
-  assign execute_ctrl2_down_CfuPlugin_logic_CFU_INPUT_2_KIND_lane0 = execute_ctrl2_up_CfuPlugin_logic_CFU_INPUT_2_KIND_lane0;
+  assign execute_ctrl2_down_CxuPlugin_logic_CXU_ENCODING_lane0 = execute_ctrl2_up_CxuPlugin_logic_CXU_ENCODING_lane0;
+  assign execute_ctrl2_down_CxuPlugin_logic_CXU_INPUT_2_KIND_lane0 = execute_ctrl2_up_CxuPlugin_logic_CXU_INPUT_2_KIND_lane0;
   assign execute_ctrl2_down_MulPlugin_HIGH_lane0 = execute_ctrl2_up_MulPlugin_HIGH_lane0;
   assign execute_ctrl2_down_RsUnsignedPlugin_RS1_SIGNED_lane0 = execute_ctrl2_up_RsUnsignedPlugin_RS1_SIGNED_lane0;
   assign execute_ctrl2_down_RsUnsignedPlugin_RS2_SIGNED_lane0 = execute_ctrl2_up_RsUnsignedPlugin_RS2_SIGNED_lane0;
@@ -25114,7 +25175,7 @@ module VexiiRiscv (
   assign execute_ctrl3_down_early0_BranchPlugin_SEL_lane0 = execute_ctrl3_up_early0_BranchPlugin_SEL_lane0;
   assign execute_ctrl3_down_early0_MulPlugin_SEL_lane0 = execute_ctrl3_up_early0_MulPlugin_SEL_lane0;
   assign execute_ctrl3_down_early0_DivPlugin_SEL_lane0 = execute_ctrl3_up_early0_DivPlugin_SEL_lane0;
-  assign execute_ctrl3_down_CfuPlugin_logic_CFU_ENABLE_lane0 = execute_ctrl3_up_CfuPlugin_logic_CFU_ENABLE_lane0;
+  assign execute_ctrl3_down_CxuPlugin_logic_CXU_ENABLE_lane0 = execute_ctrl3_up_CxuPlugin_logic_CXU_ENABLE_lane0;
   assign execute_ctrl3_down_CsrAccessPlugin_SEL_lane0 = execute_ctrl3_up_CsrAccessPlugin_SEL_lane0;
   assign execute_ctrl3_down_AguPlugin_SEL_lane0 = execute_ctrl3_up_AguPlugin_SEL_lane0;
   assign execute_ctrl3_down_LsuPlugin_logic_FENCE_lane0 = execute_ctrl3_up_LsuPlugin_logic_FENCE_lane0;
@@ -25134,7 +25195,7 @@ module VexiiRiscv (
   assign execute_ctrl3_down_LsuPlugin_logic_LSU_PREFETCH_lane0 = execute_ctrl3_up_LsuPlugin_logic_LSU_PREFETCH_lane0;
   assign execute_ctrl3_down_early0_SrcPlugin_ADD_SUB_lane0 = execute_ctrl3_up_early0_SrcPlugin_ADD_SUB_lane0;
   assign execute_ctrl3_down_early0_SrcPlugin_LESS_lane0 = execute_ctrl3_up_early0_SrcPlugin_LESS_lane0;
-  assign execute_ctrl3_down_CfuPlugin_logic_CFU_IN_FLIGHT_lane0 = execute_ctrl3_up_CfuPlugin_logic_CFU_IN_FLIGHT_lane0;
+  assign execute_ctrl3_down_CxuPlugin_logic_CXU_IN_FLIGHT_lane0 = execute_ctrl3_up_CxuPlugin_logic_CXU_IN_FLIGHT_lane0;
   assign execute_ctrl3_down_early0_MulPlugin_logic_mul_VALUES_0_lane0 = execute_ctrl3_up_early0_MulPlugin_logic_mul_VALUES_0_lane0;
   assign execute_ctrl3_down_early0_MulPlugin_logic_mul_VALUES_1_lane0 = execute_ctrl3_up_early0_MulPlugin_logic_mul_VALUES_1_lane0;
   assign execute_ctrl3_down_early0_MulPlugin_logic_mul_VALUES_2_lane0 = execute_ctrl3_up_early0_MulPlugin_logic_mul_VALUES_2_lane0;
@@ -25209,7 +25270,7 @@ module VexiiRiscv (
   assign execute_ctrl4_down_AguPlugin_SIZE_lane0 = execute_ctrl4_up_AguPlugin_SIZE_lane0;
   assign execute_ctrl4_down_integer_RS2_lane0 = execute_ctrl4_up_integer_RS2_lane0;
   assign execute_ctrl4_down_early0_MulPlugin_SEL_lane0 = execute_ctrl4_up_early0_MulPlugin_SEL_lane0;
-  assign execute_ctrl4_down_CfuPlugin_logic_CFU_ENABLE_lane0 = execute_ctrl4_up_CfuPlugin_logic_CFU_ENABLE_lane0;
+  assign execute_ctrl4_down_CxuPlugin_logic_CXU_ENABLE_lane0 = execute_ctrl4_up_CxuPlugin_logic_CXU_ENABLE_lane0;
   assign execute_ctrl4_down_AguPlugin_SEL_lane0 = execute_ctrl4_up_AguPlugin_SEL_lane0;
   assign execute_ctrl4_down_LsuPlugin_logic_FENCE_lane0 = execute_ctrl4_up_LsuPlugin_logic_FENCE_lane0;
   assign execute_ctrl4_down_lane0_integer_WriteBackPlugin_SEL_lane0 = execute_ctrl4_up_lane0_integer_WriteBackPlugin_SEL_lane0;
@@ -25223,7 +25284,7 @@ module VexiiRiscv (
   assign execute_ctrl4_down_AguPlugin_ATOMIC_lane0 = execute_ctrl4_up_AguPlugin_ATOMIC_lane0;
   assign execute_ctrl4_down_AguPlugin_FLOAT_lane0 = execute_ctrl4_up_AguPlugin_FLOAT_lane0;
   assign execute_ctrl4_down_LsuPlugin_logic_LSU_PREFETCH_lane0 = execute_ctrl4_up_LsuPlugin_logic_LSU_PREFETCH_lane0;
-  assign execute_ctrl4_down_CfuPlugin_logic_CFU_IN_FLIGHT_lane0 = execute_ctrl4_up_CfuPlugin_logic_CFU_IN_FLIGHT_lane0;
+  assign execute_ctrl4_down_CxuPlugin_logic_CXU_IN_FLIGHT_lane0 = execute_ctrl4_up_CxuPlugin_logic_CXU_IN_FLIGHT_lane0;
   assign execute_ctrl4_down_early0_MulPlugin_logic_mul_VALUES_0_lane0 = execute_ctrl4_up_early0_MulPlugin_logic_mul_VALUES_0_lane0;
   assign execute_ctrl4_down_early0_MulPlugin_logic_mul_VALUES_1_lane0 = execute_ctrl4_up_early0_MulPlugin_logic_mul_VALUES_1_lane0;
   assign execute_ctrl4_down_early0_MulPlugin_logic_mul_VALUES_2_lane0 = execute_ctrl4_up_early0_MulPlugin_logic_mul_VALUES_2_lane0;
@@ -25765,10 +25826,10 @@ module VexiiRiscv (
       MmuPlugin_logic_satp_ppn <= 20'h0;
       MmuPlugin_logic_status_mxr <= 1'b0;
       MmuPlugin_logic_status_sum <= 1'b0;
-      CfuPlugin_logic_en <= 1'b0;
-      CfuPlugin_logic_csr_stateId <= 3'b000;
-      CfuPlugin_logic_csr_cfuIndex <= 4'b0000;
-      CfuPlugin_logic_onFork_fired <= 1'b0;
+      CxuPlugin_logic_mcx_version <= 3'b001;
+      CxuPlugin_logic_mcx_cxe <= 1'b0;
+      CxuPlugin_logic_mcx_state_id <= 3'b000;
+      CxuPlugin_logic_onFork_fired <= 1'b0;
       early0_DivPlugin_logic_processing_cmdSent <= 1'b0;
       early0_DivPlugin_logic_processing_unscheduleRequest <= 1'b0;
       FetchL1Plugin_logic_invalidate_counter <= 7'h0;
@@ -25837,8 +25898,9 @@ module VexiiRiscv (
       _zz_PerformanceCounterPlugin_logic_counters_instret_value <= 1'b0;
       AlignerPlugin_logic_feeder_harts_0_dopId <= 10'h0;
       AlignerPlugin_logic_nobuffer_mask <= 1'b1;
-      execute_ctrl3_up_CfuPlugin_logic_CFU_IN_FLIGHT_lane0 <= 1'b0;
-      execute_ctrl4_up_CfuPlugin_logic_CFU_IN_FLIGHT_lane0 <= 1'b0;
+      CxuPlugin_logic_onFork_pendingRequests_count <= 1'b0;
+      execute_ctrl3_up_CxuPlugin_logic_CXU_IN_FLIGHT_lane0 <= 1'b0;
+      execute_ctrl4_up_CxuPlugin_logic_CXU_IN_FLIGHT_lane0 <= 1'b0;
       DecoderPlugin_logic_harts_0_uopId <= 16'h0;
       DecoderPlugin_logic_interrupt_buffered <= 1'b0;
       decode_ctrls_1_up_LANE_SEL_0_regNext <= 1'b0;
@@ -25930,11 +25992,11 @@ module VexiiRiscv (
       PerformanceCounterPlugin_logic_fsm_stateReg <= PerformanceCounterPlugin_logic_fsm_BOOT;
       CsrAccessPlugin_logic_fsm_stateReg <= CsrAccessPlugin_logic_fsm_IDLE;
     end else begin
-      if(CfuPlugin_logic_bus_cmd_fire) begin
-        CfuPlugin_logic_onFork_fired <= 1'b1;
+      if(CxuPlugin_logic_cxuBus_cmd_fire) begin
+        CxuPlugin_logic_onFork_fired <= 1'b1;
       end
-      if(when_CfuPlugin_l147) begin
-        CfuPlugin_logic_onFork_fired <= 1'b0;
+      if(when_CxuPlugin_l159) begin
+        CxuPlugin_logic_onFork_fired <= 1'b0;
       end
       if(early0_DivPlugin_logic_processing_div_io_cmd_fire) begin
         early0_DivPlugin_logic_processing_cmdSent <= 1'b1;
@@ -26034,6 +26096,12 @@ module VexiiRiscv (
       end
       if(when_AlignerPlugin_l292) begin
         AlignerPlugin_logic_nobuffer_mask <= AlignerPlugin_logic_nobuffer_remaningMask;
+      end
+      if(when_CxuPlugin_l185) begin
+        CxuPlugin_logic_onFork_pendingRequests_count <= (CxuPlugin_logic_onFork_pendingRequests_count + 1'b1);
+      end
+      if(when_CxuPlugin_l186) begin
+        CxuPlugin_logic_onFork_pendingRequests_count <= (CxuPlugin_logic_onFork_pendingRequests_count - 1'b1);
       end
       if(when_DecoderPlugin_l143) begin
         DecoderPlugin_logic_harts_0_uopId <= (DecoderPlugin_logic_harts_0_uopId + 16'h0001);
@@ -26384,9 +26452,9 @@ module VexiiRiscv (
         end
       end
       if(when_CsrAccessPlugin_l348_3) begin
-        CfuPlugin_logic_en <= CsrAccessPlugin_bus_write_bits[31];
-        CfuPlugin_logic_csr_stateId <= CsrAccessPlugin_bus_write_bits[18 : 16];
-        CfuPlugin_logic_csr_cfuIndex <= CsrAccessPlugin_bus_write_bits[3 : 0];
+        CxuPlugin_logic_mcx_version <= CsrAccessPlugin_bus_write_bits[31 : 29];
+        CxuPlugin_logic_mcx_cxe <= CsrAccessPlugin_bus_write_bits[28];
+        CxuPlugin_logic_mcx_state_id <= CsrAccessPlugin_bus_write_bits[18 : 16];
       end
       if(when_CsrAccessPlugin_l348_4) begin
         PrivilegedPlugin_logic_harts_0_m_cause_interrupt <= CsrAccessPlugin_bus_write_bits[31];
@@ -26514,12 +26582,12 @@ module VexiiRiscv (
       end
       if(execute_ctrl2_down_isReady) begin
         execute_ctrl3_up_LANE_SEL_lane0 <= execute_ctrl2_down_LANE_SEL_lane0;
-        execute_ctrl3_up_CfuPlugin_logic_CFU_IN_FLIGHT_lane0 <= execute_ctrl2_down_CfuPlugin_logic_CFU_IN_FLIGHT_lane0;
+        execute_ctrl3_up_CxuPlugin_logic_CXU_IN_FLIGHT_lane0 <= execute_ctrl2_down_CxuPlugin_logic_CXU_IN_FLIGHT_lane0;
         execute_ctrl3_up_LsuL1_SEL_lane0 <= execute_ctrl2_down_LsuL1_SEL_lane0;
       end
       if(execute_ctrl3_down_isReady) begin
         execute_ctrl4_up_LANE_SEL_lane0 <= execute_ctrl3_down_LANE_SEL_lane0;
-        execute_ctrl4_up_CfuPlugin_logic_CFU_IN_FLIGHT_lane0 <= execute_ctrl3_down_CfuPlugin_logic_CFU_IN_FLIGHT_lane0;
+        execute_ctrl4_up_CxuPlugin_logic_CXU_IN_FLIGHT_lane0 <= execute_ctrl3_down_CxuPlugin_logic_CXU_IN_FLIGHT_lane0;
         execute_ctrl4_up_LsuL1_SEL_lane0 <= execute_ctrl3_down_LsuL1_SEL_lane0;
       end
       if(execute_ctrl4_down_isReady) begin
@@ -26705,6 +26773,9 @@ module VexiiRiscv (
   end
 
   always @(posedge litex_clk) begin
+    if(when_CxuPlugin_l74) begin
+      CxuPlugin_logic_mcx_selector <= 4'b0000;
+    end
     early0_DivPlugin_logic_processing_divRevertResult <= ((execute_ctrl2_down_RsUnsignedPlugin_RS1_REVERT_lane0 ^ (execute_ctrl2_down_RsUnsignedPlugin_RS2_REVERT_lane0 && (! execute_ctrl2_down_DivPlugin_REM_lane0))) && (! (((execute_ctrl2_down_RsUnsignedPlugin_RS2_FORMATED_lane0 == 32'h0) && execute_ctrl2_down_RsUnsignedPlugin_RS2_SIGNED_lane0) && (! execute_ctrl2_down_DivPlugin_REM_lane0))));
     if(when_FetchL1Plugin_l255) begin
       if(_zz_when) begin
@@ -26862,6 +26933,9 @@ module VexiiRiscv (
     CsrAccessPlugin_logic_fsm_inject_busTrapReg <= CsrAccessPlugin_bus_decode_trap;
     CsrAccessPlugin_logic_fsm_inject_busTrapCodeReg <= CsrAccessPlugin_bus_decode_trapCode;
     CsrAccessPlugin_logic_fsm_interface_onWriteBits <= CsrAccessPlugin_logic_fsm_writeLogic_alu_result;
+    if(when_CsrAccessPlugin_l348_3) begin
+      CxuPlugin_logic_mcx_selector <= CsrAccessPlugin_bus_write_bits[3 : 0];
+    end
     if(when_CsrAccessPlugin_l348_9) begin
       PrivilegedPlugin_logic_harts_0_mcounteren_tm <= CsrAccessPlugin_bus_write_bits[1];
     end
@@ -26979,7 +27053,7 @@ module VexiiRiscv (
       execute_ctrl2_up_early0_MulPlugin_SEL_lane0 <= execute_ctrl1_down_early0_MulPlugin_SEL_lane0;
       execute_ctrl2_up_early0_DivPlugin_SEL_lane0 <= execute_ctrl1_down_early0_DivPlugin_SEL_lane0;
       execute_ctrl2_up_early0_EnvPlugin_SEL_lane0 <= execute_ctrl1_down_early0_EnvPlugin_SEL_lane0;
-      execute_ctrl2_up_CfuPlugin_logic_CFU_ENABLE_lane0 <= execute_ctrl1_down_CfuPlugin_logic_CFU_ENABLE_lane0;
+      execute_ctrl2_up_CxuPlugin_logic_CXU_ENABLE_lane0 <= execute_ctrl1_down_CxuPlugin_logic_CXU_ENABLE_lane0;
       execute_ctrl2_up_CsrAccessPlugin_SEL_lane0 <= execute_ctrl1_down_CsrAccessPlugin_SEL_lane0;
       execute_ctrl2_up_AguPlugin_SEL_lane0 <= execute_ctrl1_down_AguPlugin_SEL_lane0;
       execute_ctrl2_up_LsuPlugin_logic_FENCE_lane0 <= execute_ctrl1_down_LsuPlugin_logic_FENCE_lane0;
@@ -27002,8 +27076,8 @@ module VexiiRiscv (
       execute_ctrl2_up_BarrelShifterPlugin_LEFT_lane0 <= execute_ctrl1_down_BarrelShifterPlugin_LEFT_lane0;
       execute_ctrl2_up_BarrelShifterPlugin_SIGNED_lane0 <= execute_ctrl1_down_BarrelShifterPlugin_SIGNED_lane0;
       execute_ctrl2_up_BranchPlugin_BRANCH_CTRL_lane0 <= execute_ctrl1_down_BranchPlugin_BRANCH_CTRL_lane0;
-      execute_ctrl2_up_CfuPlugin_logic_CFU_ENCODING_lane0 <= execute_ctrl1_down_CfuPlugin_logic_CFU_ENCODING_lane0;
-      execute_ctrl2_up_CfuPlugin_logic_CFU_INPUT_2_KIND_lane0 <= execute_ctrl1_down_CfuPlugin_logic_CFU_INPUT_2_KIND_lane0;
+      execute_ctrl2_up_CxuPlugin_logic_CXU_ENCODING_lane0 <= execute_ctrl1_down_CxuPlugin_logic_CXU_ENCODING_lane0;
+      execute_ctrl2_up_CxuPlugin_logic_CXU_INPUT_2_KIND_lane0 <= execute_ctrl1_down_CxuPlugin_logic_CXU_INPUT_2_KIND_lane0;
       execute_ctrl2_up_MulPlugin_HIGH_lane0 <= execute_ctrl1_down_MulPlugin_HIGH_lane0;
       execute_ctrl2_up_RsUnsignedPlugin_RS1_SIGNED_lane0 <= execute_ctrl1_down_RsUnsignedPlugin_RS1_SIGNED_lane0;
       execute_ctrl2_up_RsUnsignedPlugin_RS2_SIGNED_lane0 <= execute_ctrl1_down_RsUnsignedPlugin_RS2_SIGNED_lane0;
@@ -27034,7 +27108,7 @@ module VexiiRiscv (
       execute_ctrl3_up_early0_BranchPlugin_SEL_lane0 <= execute_ctrl2_down_early0_BranchPlugin_SEL_lane0;
       execute_ctrl3_up_early0_MulPlugin_SEL_lane0 <= execute_ctrl2_down_early0_MulPlugin_SEL_lane0;
       execute_ctrl3_up_early0_DivPlugin_SEL_lane0 <= execute_ctrl2_down_early0_DivPlugin_SEL_lane0;
-      execute_ctrl3_up_CfuPlugin_logic_CFU_ENABLE_lane0 <= execute_ctrl2_down_CfuPlugin_logic_CFU_ENABLE_lane0;
+      execute_ctrl3_up_CxuPlugin_logic_CXU_ENABLE_lane0 <= execute_ctrl2_down_CxuPlugin_logic_CXU_ENABLE_lane0;
       execute_ctrl3_up_CsrAccessPlugin_SEL_lane0 <= execute_ctrl2_down_CsrAccessPlugin_SEL_lane0;
       execute_ctrl3_up_AguPlugin_SEL_lane0 <= execute_ctrl2_down_AguPlugin_SEL_lane0;
       execute_ctrl3_up_LsuPlugin_logic_FENCE_lane0 <= execute_ctrl2_down_LsuPlugin_logic_FENCE_lane0;
@@ -27134,7 +27208,7 @@ module VexiiRiscv (
       execute_ctrl4_up_AguPlugin_SIZE_lane0 <= execute_ctrl3_down_AguPlugin_SIZE_lane0;
       execute_ctrl4_up_integer_RS2_lane0 <= execute_ctrl3_down_integer_RS2_lane0;
       execute_ctrl4_up_early0_MulPlugin_SEL_lane0 <= execute_ctrl3_down_early0_MulPlugin_SEL_lane0;
-      execute_ctrl4_up_CfuPlugin_logic_CFU_ENABLE_lane0 <= execute_ctrl3_down_CfuPlugin_logic_CFU_ENABLE_lane0;
+      execute_ctrl4_up_CxuPlugin_logic_CXU_ENABLE_lane0 <= execute_ctrl3_down_CxuPlugin_logic_CXU_ENABLE_lane0;
       execute_ctrl4_up_AguPlugin_SEL_lane0 <= execute_ctrl3_down_AguPlugin_SEL_lane0;
       execute_ctrl4_up_LsuPlugin_logic_FENCE_lane0 <= execute_ctrl3_down_LsuPlugin_logic_FENCE_lane0;
       execute_ctrl4_up_lane0_integer_WriteBackPlugin_SEL_lane0 <= execute_ctrl3_down_lane0_integer_WriteBackPlugin_SEL_lane0;
@@ -28960,9 +29034,11 @@ module StreamFifoLowLatency (
   input  wire          io_push_valid,
   output wire          io_push_ready,
   input  wire [31:0]   io_push_payload_outputs_0,
+  input  wire          io_push_payload_ready,
   output wire          io_pop_valid,
   input  wire          io_pop_ready,
   output wire [31:0]   io_pop_payload_outputs_0,
+  output wire          io_pop_payload_ready,
   input  wire          io_flush,
   output wire [1:0]    io_occupancy,
   output wire [1:0]    io_availability,
@@ -28973,6 +29049,7 @@ module StreamFifoLowLatency (
   wire                fifo_io_push_ready;
   wire                fifo_io_pop_valid;
   wire       [31:0]   fifo_io_pop_payload_outputs_0;
+  wire                fifo_io_pop_payload_ready;
   wire       [1:0]    fifo_io_occupancy;
   wire       [1:0]    fifo_io_availability;
 
@@ -28980,9 +29057,11 @@ module StreamFifoLowLatency (
     .io_push_valid             (io_push_valid                      ), //i
     .io_push_ready             (fifo_io_push_ready                 ), //o
     .io_push_payload_outputs_0 (io_push_payload_outputs_0[31:0]    ), //i
+    .io_push_payload_ready     (io_push_payload_ready              ), //i
     .io_pop_valid              (fifo_io_pop_valid                  ), //o
     .io_pop_ready              (io_pop_ready                       ), //i
     .io_pop_payload_outputs_0  (fifo_io_pop_payload_outputs_0[31:0]), //o
+    .io_pop_payload_ready      (fifo_io_pop_payload_ready          ), //o
     .io_flush                  (io_flush                           ), //i
     .io_occupancy              (fifo_io_occupancy[1:0]             ), //o
     .io_availability           (fifo_io_availability[1:0]          ), //o
@@ -28992,6 +29071,7 @@ module StreamFifoLowLatency (
   assign io_push_ready = fifo_io_push_ready;
   assign io_pop_valid = fifo_io_pop_valid;
   assign io_pop_payload_outputs_0 = fifo_io_pop_payload_outputs_0;
+  assign io_pop_payload_ready = fifo_io_pop_payload_ready;
   assign io_occupancy = fifo_io_occupancy;
   assign io_availability = fifo_io_availability;
 
@@ -29169,9 +29249,11 @@ module StreamFifo (
   input  wire          io_push_valid,
   output wire          io_push_ready,
   input  wire [31:0]   io_push_payload_outputs_0,
+  input  wire          io_push_payload_ready,
   output reg           io_pop_valid,
   input  wire          io_pop_ready,
   output reg  [31:0]   io_pop_payload_outputs_0,
+  output reg           io_pop_payload_ready,
   input  wire          io_flush,
   output wire [1:0]    io_occupancy,
   output wire [1:0]    io_availability,
@@ -29180,13 +29262,14 @@ module StreamFifo (
 );
 
   wire                logic_ram_wr_en;
-  wire       [31:0]   logic_ram_rd_data;
+  wire       [32:0]   logic_ram_wr_data;
+  wire       [32:0]   logic_ram_rd_data;
   wire       [1:0]    _zz_logic_ptr_notPow2_counter;
   wire       [1:0]    _zz_logic_ptr_notPow2_counter_1;
   wire       [0:0]    _zz_logic_ptr_notPow2_counter_2;
   wire       [1:0]    _zz_logic_ptr_notPow2_counter_3;
   wire       [0:0]    _zz_logic_ptr_notPow2_counter_4;
-  wire       [31:0]   _zz_logic_pop_async_readed_outputs_0;
+  wire       [31:0]   _zz_logic_pop_async_readed_outputs_0_1;
   reg                 _zz_wr_en;
   reg                 logic_ptr_doPush;
   wire                logic_ptr_doPop;
@@ -29206,40 +29289,44 @@ module StreamFifo (
   wire                logic_push_onRam_write_valid;
   wire       [1:0]    logic_push_onRam_write_payload_address;
   wire       [31:0]   logic_push_onRam_write_payload_data_outputs_0;
+  wire                logic_push_onRam_write_payload_data_ready;
   wire                logic_pop_addressGen_valid;
   wire                logic_pop_addressGen_ready;
   wire       [1:0]    logic_pop_addressGen_payload;
   wire                logic_pop_addressGen_fire;
   wire       [31:0]   logic_pop_async_readed_outputs_0;
+  wire                logic_pop_async_readed_ready;
+  wire       [32:0]   _zz_logic_pop_async_readed_outputs_0;
   wire                logic_pop_addressGen_translated_valid;
   wire                logic_pop_addressGen_translated_ready;
   wire       [31:0]   logic_pop_addressGen_translated_payload_outputs_0;
+  wire                logic_pop_addressGen_translated_payload_ready;
 
   assign _zz_logic_ptr_notPow2_counter = (logic_ptr_notPow2_counter + _zz_logic_ptr_notPow2_counter_1);
   assign _zz_logic_ptr_notPow2_counter_2 = io_push_fire;
   assign _zz_logic_ptr_notPow2_counter_1 = {1'd0, _zz_logic_ptr_notPow2_counter_2};
   assign _zz_logic_ptr_notPow2_counter_4 = io_pop_fire;
   assign _zz_logic_ptr_notPow2_counter_3 = {1'd0, _zz_logic_ptr_notPow2_counter_4};
-  assign _zz_logic_pop_async_readed_outputs_0 = logic_ram_rd_data[31 : 0];
+  assign _zz_logic_pop_async_readed_outputs_0_1 = _zz_logic_pop_async_readed_outputs_0[31 : 0];
   Ram_1w_1ra #(
     .wordCount      (3         ),
-    .wordWidth      (32        ),
+    .wordWidth      (33        ),
     .technology     ("auto"    ),
     .readUnderWrite ("dontCare"),
     .wrAddressWidth (2         ),
-    .wrDataWidth    (32        ),
+    .wrDataWidth    (33        ),
     .wrMaskWidth    (1         ),
     .wrMaskEnable   (1'b0      ),
     .rdAddressWidth (2         ),
-    .rdDataWidth    (32        )
+    .rdDataWidth    (33        )
   ) logic_ram (
-    .clk     (litex_clk                                          ), //i
-    .wr_en   (logic_ram_wr_en                                    ), //i
-    .wr_mask (1'b1                                               ), //i
-    .wr_addr (logic_push_onRam_write_payload_address[1:0]        ), //i
-    .wr_data (logic_push_onRam_write_payload_data_outputs_0[31:0]), //i
-    .rd_addr (logic_pop_addressGen_payload[1:0]                  ), //i
-    .rd_data (logic_ram_rd_data[31:0]                            )  //o
+    .clk     (litex_clk                                  ), //i
+    .wr_en   (logic_ram_wr_en                            ), //i
+    .wr_mask (1'b1                                       ), //i
+    .wr_addr (logic_push_onRam_write_payload_address[1:0]), //i
+    .wr_data (logic_ram_wr_data[32:0]                    ), //i
+    .rd_addr (logic_pop_addressGen_payload[1:0]          ), //i
+    .rd_data (logic_ram_rd_data[32:0]                    )  //o
   );
   always @(*) begin
     _zz_wr_en = 1'b0;
@@ -29269,14 +29356,18 @@ module StreamFifo (
   assign logic_push_onRam_write_valid = io_push_fire;
   assign logic_push_onRam_write_payload_address = logic_ptr_push;
   assign logic_push_onRam_write_payload_data_outputs_0 = io_push_payload_outputs_0;
+  assign logic_push_onRam_write_payload_data_ready = io_push_payload_ready;
   assign logic_pop_addressGen_valid = (! logic_ptr_empty);
   assign logic_pop_addressGen_payload = logic_ptr_pop;
   assign logic_pop_addressGen_fire = (logic_pop_addressGen_valid && logic_pop_addressGen_ready);
   assign logic_ptr_doPop = logic_pop_addressGen_fire;
-  assign logic_pop_async_readed_outputs_0 = _zz_logic_pop_async_readed_outputs_0[31 : 0];
+  assign _zz_logic_pop_async_readed_outputs_0 = logic_ram_rd_data;
+  assign logic_pop_async_readed_outputs_0 = _zz_logic_pop_async_readed_outputs_0_1[31 : 0];
+  assign logic_pop_async_readed_ready = _zz_logic_pop_async_readed_outputs_0[32];
   assign logic_pop_addressGen_translated_valid = logic_pop_addressGen_valid;
   assign logic_pop_addressGen_ready = logic_pop_addressGen_translated_ready;
   assign logic_pop_addressGen_translated_payload_outputs_0 = logic_pop_async_readed_outputs_0;
+  assign logic_pop_addressGen_translated_payload_ready = logic_pop_async_readed_ready;
   always @(*) begin
     io_pop_valid = logic_pop_addressGen_translated_valid;
     if(logic_ptr_empty) begin
@@ -29292,10 +29383,18 @@ module StreamFifo (
     end
   end
 
+  always @(*) begin
+    io_pop_payload_ready = logic_pop_addressGen_translated_payload_ready;
+    if(logic_ptr_empty) begin
+      io_pop_payload_ready = io_push_payload_ready;
+    end
+  end
+
   assign logic_ptr_popOnIo = logic_ptr_pop;
   assign io_occupancy = logic_ptr_occupancy;
   assign io_availability = (2'b11 - logic_ptr_occupancy);
   assign logic_ram_wr_en = (_zz_wr_en && 1'b1);
+  assign logic_ram_wr_data = {logic_push_onRam_write_payload_data_ready,logic_push_onRam_write_payload_data_outputs_0};
   always @(posedge litex_clk or posedge cpuResetCtrl_reset) begin
     if(cpuResetCtrl_reset) begin
       logic_ptr_push <= 2'b00;

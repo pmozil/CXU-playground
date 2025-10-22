@@ -72,7 +72,6 @@ def patched_init(
     # Others.
     **kwargs,
 ):
-    print("##############################PATCHED INIT##############################")
     from litex.soc.integration.soc import LiteXSoC
 
     # New LiteXSoC class -----------------------------------------------------------------------
@@ -332,7 +331,7 @@ def add_cpu(
 
     # Add optional CXU plugin.
     if "cxu" in variant and hasattr(self.cpu, "add_cxus"):
-        self.cpu.add_cxus(cxu=cxu)
+        self.cpu.add_cxus(cxus=cxus)
 
     # Update SoC with CPU constraints.
     # IO regions.

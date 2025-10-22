@@ -89,16 +89,16 @@ def main():
     )
     parser.add_argument("--cfu", default="", help="Path to CFU module")
     parser.add_argument(
-        "--cxu-l1", action="append", default=[], help="Path to CXU L1 module"
+        "--cxu-l0", action="append", default=[], help="Path to CXU L1 module"
     )
     parser.add_argument(
-        "--cxu-l2", action="append", default=[], help="Path to CXU L2 module"
+        "--cxu-l1", action="append", default=[], help="Path to CXU L2 module"
     )
     parser.add_argument(
-        "--cxu-l3", action="append", default=[], help="Path to CXU L3 module"
+        "--cxu-l2", action="append", default=[], help="Path to CXU L3 module"
     )
     parser.add_argument(
-        "--cxu-l4", action="append", default=[], help="Path to CXU L4 module"
+        "--cxu-l3", action="append", default=[], help="Path to CXU L4 module"
     )
     VexiiRiscvCustom.args_fill(parser)
     args = parser.parse_args()
@@ -157,6 +157,9 @@ def main():
             soc_kwargs.update(with_usb_host=True)
         if args.cfu:
             soc_kwargs.update(cpu_cfu=args.cfu)
+        cxus = args.cxu_l0 + args.cxu_l1 + args.cxu_l2 + args.cxu_l3
+        if len(cxus) > 0:
+            soc_kwargs.update(cxus=cxus)
 
         # SoC creation -----------------------------------------------------------------------------
         # soc = SoCLinux(board.soc_cls, **soc_kwargs)
