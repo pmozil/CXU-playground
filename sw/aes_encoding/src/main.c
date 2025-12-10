@@ -80,9 +80,9 @@ static void help(void) {
 #ifdef CSR_LEDS_BASE
   puts("led                - Led demo");
 #endif
-  puts("donut              - Spinning Donut demo");
   puts("helloc             - Hello C");
-  puts("cxu_demo           - CXU demo");
+  puts("aes_sw             - AES 256 software demo");
+  puts("aes_hw             - AES 256 CXU demo");
 #ifdef WITH_CXX
   puts("hellocpp           - Hello C++");
 #endif
@@ -125,25 +125,11 @@ static void led_cmd(void) {
 }
 #endif
 
-extern void donut(void);
-
-static void donut_cmd(void) {
-  printf("Donut demo...\n");
-  donut();
-}
-
 extern void helloc(void);
 
 static void helloc_cmd(void) {
   printf("Hello C demo...\n");
   helloc();
-}
-
-extern void cxu_demo(void);
-
-static void cxu_demo_cmd(void) {
-  printf("CXU demo...\n");
-  cxu_demo();
 }
 
 #ifdef WITH_CXX
@@ -154,6 +140,20 @@ static void hellocpp_cmd(void) {
   hellocpp();
 }
 #endif
+
+extern void aes_sw_demo(void);
+
+static void aes_sw_demo_cmd(void) {
+  printf("AES256 Software demo...\n");
+  aes_sw_demo();
+}
+
+extern void aes_hw_demo(void);
+
+static void aes_hw_demo_cmd(void) {
+  printf("AES256 CXU demo...\n");
+  aes_hw_demo();
+}
 
 /*-----------------------------------------------------------------------*/
 /* Console service / Main                                                */
@@ -175,12 +175,12 @@ static void console_service(void) {
   else if (strcmp(token, "led") == 0)
     led_cmd();
 #endif
-  else if (strcmp(token, "donut") == 0)
-    donut_cmd();
   else if (strcmp(token, "helloc") == 0)
     helloc_cmd();
-  else if (strcmp(token, "cxu_demo") == 0)
-    cxu_demo_cmd();
+  else if (strcmp(token, "aes_sw") == 0)
+    aes_sw_demo_cmd();
+  else if (strcmp(token, "aes_hw") == 0)
+    aes_hw_demo_cmd();
 #ifdef WITH_CXX
   else if (strcmp(token, "hellocpp") == 0)
     hellocpp_cmd();

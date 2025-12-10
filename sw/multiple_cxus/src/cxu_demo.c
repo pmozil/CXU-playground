@@ -4,6 +4,8 @@
 #include <stdio.h>
 #include <string.h>
 
+void cxu_demo(void);
+
 void cxu_demo(void) {
   int res = (int)cfu_op(1, 1, 10, 1);
 

@@ -47,7 +47,7 @@
 #define cfu_op7_hw(funct7, rs1, rs2) cfu_op_hw(7, funct7, rs1, rs2)
 
 // generic name for each custom instruction - via software
-// #define cfu_op_sw(funct3, funct7, rs1, rs2) \
+// #define cfu_op_sw(funct3, funct7, rs1, rs2)
 //   software_cfu(funct3, funct7, rs1, rs2)
 #define cfu_op0_sw(funct7, rs1, rs2) cfu_op_sw(0, funct7, rs1, rs2)
 #define cfu_op1_sw(funct7, rs1, rs2) cfu_op_sw(1, funct7, rs1, rs2)

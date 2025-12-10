@@ -1,4 +1,4 @@
-module Cxu0 (
+module Cxu1 (
   input               cmd_valid,
   output              cmd_ready,
   input      [2:0]    cmd_payload_function_id,
@@ -14,13 +14,11 @@ module Cxu0 (
   input               clk,
   input               reset
 );
-  assign rsp_valid = 1;
-  assign cmd_ready = 1;
+  assign rsp_valid = cmd_valid;
+  assign cmd_ready = rsp_ready;
 
 
   wire [31:0] mul    = $signed(cmd_payload_inputs_0) * $signed(cmd_payload_inputs_1);
 
-  wire [31:0] mulsh  = $signed(mul) >>> 10;
-
-  assign rsp_payload_outputs_0 = cmd_payload_function_id[0] ? mul : mulsh;
+  assign rsp_payload_outputs_0 = mul;
 endmodule

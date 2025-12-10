@@ -28,10 +28,10 @@ module Cfu (
 );
 
   // Trivial handshaking for a combinational CFU
-  // assign rsp_valid = cmd_valid;
-  // assign cmd_ready = rsp_ready;
-  assign rsp_valid = 1;
-  assign cmd_ready = 1;
+  assign rsp_valid = cmd_valid;
+  assign cmd_ready = rsp_ready;
+  // assign rsp_valid = 1;
+  // assign cmd_ready = 1;
 
 
   wire [31:0] mul    = $signed(cmd_payload_inputs_0) * $signed(cmd_payload_inputs_1);

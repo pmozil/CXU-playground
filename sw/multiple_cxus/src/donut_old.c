@@ -16,27 +16,32 @@
 // ACCELERATED VERSION
 //
 // using these two Custom Instructions
-//    added via CFU (Custom Function Unit)
+//    added via CXU (Custom  Unit)
 //
 // #define mult_shift_10(a, b) ((int)cfu_op(0, 0, (a), (b)))
 // #define cfu_mul(a, b) ((int)cfu_op(0, 0, (a), (b)))
 
-static inline int mult_shift_10(int a, int b) {
-  int res = cfu_op(0, 0, (a), (b));
-  return res;
+int mult_shift_10(int a, int b) {
+    cxu_csr_set_version_and_selector(1, 0);
+    int res = cfu_op(0, 0, (a), (b));
+    cxu_csr_clear();
+    return res;
 }
 
-static inline int cfu_mul(int a, int b) {
-  int res = cfu_op(0, 0, (a), (b));
-  return res;
+int cfu_mul(int a, int b) {
+    cxu_csr_set_version_and_selector(1, 1);
+    int res = cfu_op(0, 0, (a), (b));
+    cxu_csr_clear();
+    return res;
 }
+
 
 #define R(mul, shift, x, y)                                                    \
   _ = x;                                                                       \
-  x -= cfu_mul(mul, y) >> shift;                                               \
-  y += cfu_mul(mul, _) >> shift;                                               \
-  _ = (3145728 - cfu_mul(x, x) - cfu_mul(y, y)) >> 11;                         \
-  x = cfu_mul(x, _) >> 10;                                                     \
+  x -= cfu_mul(mul, y) >> shift;                                                \
+  y += cfu_mul(mul, _) >> shift;                                                \
+  _ = 3145728 - cfu_mul(x, x) - cfu_mul(y, y) >> 11;                             \
+  x = cfu_mul(x, _) >> 10;                                                      \
   y = cfu_mul(y, _) >> 10;
 
 static signed char b[1760], z[1760];
@@ -59,30 +64,19 @@ void donut(void) {
       for (int i = 0; i < 324; i++) {
         int R1 = 1, R2 = 2048, K2 = 5120 * 1024;
 
-        cxu_csr_set_version_and_selector(1, 1);
-        int x0 = cfu_mul(R1, cj) + R2;
-
-        cxu_csr_set_version_and_selector(1, 0);
-        int x1 = mult_shift_10(ci, x0);
-        int x2 = mult_shift_10(cA, sj);
-        int x3 = mult_shift_10(si, x0);
-        int x5 = mult_shift_10(sA, sj);
-        int x7 = mult_shift_10(cj, si);
+        int x0 = cfu_mul(R1, cj) + R2, x1 = mult_shift_10(ci, x0),
+            x2 = mult_shift_10(cA, sj), x3 = mult_shift_10(si, x0),
+            x4 = cfu_mul(R1, x2) - mult_shift_10(sA, x3), x5 = mult_shift_10(sA, sj),
+            x6 = K2 + (cfu_mul(R1, x5) << 10) + cfu_mul(cA, x3),
+            x7 = mult_shift_10(cj, si), x8 = cfu_mul(cB, x1) - cfu_mul(sB, x4),
+            x = 40 + cfu_mul(30, x8) / x6, x9 = cfu_mul(cB, x4) + cfu_mul(sB, x1),
+            y = 12 + cfu_mul(15, x9) / x6;
         int xx = mult_shift_10(cj, sB);
-        int x4 = (-mult_shift_10(sA, x3));
-
-        cxu_csr_set_version_and_selector(1, 1);
-        x4 += cfu_mul(R1, x2);
-        int xx_tmp = (-mult_shift_10(sA, x7));
-        int x6 = K2 + (cfu_mul(R1, x5) << 10) + cfu_mul(cA, x3);
-        int x8 = cfu_mul(cB, x1) - cfu_mul(sB, x4);
-        int x = 40 + cfu_mul(30, x8) / x6;
-        int x9 = cfu_mul(cB, x4) + cfu_mul(sB, x1);
-        int y = 12 + cfu_mul(15, x9) / x6;
-        int N =
-            (((-cfu_mul(cA, x7) - cB * (xx_tmp + x2) - cfu_mul(ci, xx)) >> 10) -
-                x5) >>
-            7;
+        int N = (-cfu_mul(cA, x7) - cB * ((-mult_shift_10(sA, x7)) + x2) -
+                     cfu_mul(ci, xx) >>
+                 10) -
+                    x5 >>
+                7;
 
         int o = x + cfu_mul(80, y);
         signed char zz = (x6 - K2) >> 15;
