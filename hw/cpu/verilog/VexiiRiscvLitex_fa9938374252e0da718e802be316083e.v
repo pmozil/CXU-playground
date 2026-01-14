@@ -1,10 +1,10 @@
 // Generator : SpinalHDL dev    git head : 008a72bc159840e8d5ca7ed6a07e1bdc5f0a9224
-// Component : VexiiRiscvLitex_c226e052f1c1f526688322960b182ba7
+// Component : VexiiRiscvLitex_fa9938374252e0da718e802be316083e
 // Git hash  : f759c1b00358598c3414bab27b82af5ebeb2af11
 
 `timescale 1ns/1ps
 
-module VexiiRiscvLitex_c226e052f1c1f526688322960b182ba7 (
+module VexiiRiscvLitex_fa9938374252e0da718e802be316083e (
   input  wire          litex_reset,
   output wire          vexiis_0_cxuBus_buses_0_node_cmd_valid,
   input  wire          vexiis_0_cxuBus_buses_0_node_cmd_ready,
@@ -18,18 +18,6 @@ module VexiiRiscvLitex_c226e052f1c1f526688322960b182ba7 (
   output wire          vexiis_0_cxuBus_buses_0_node_rsp_ready,
   input  wire [31:0]   vexiis_0_cxuBus_buses_0_node_rsp_payload_outputs_0,
   input  wire          vexiis_0_cxuBus_buses_0_node_rsp_payload_ready,
-  output wire          vexiis_0_cxuBus_buses_1_node_cmd_valid,
-  input  wire          vexiis_0_cxuBus_buses_1_node_cmd_ready,
-  output wire [2:0]    vexiis_0_cxuBus_buses_1_node_cmd_payload_function_id,
-  output wire [31:0]   vexiis_0_cxuBus_buses_1_node_cmd_payload_inputs_0,
-  output wire [31:0]   vexiis_0_cxuBus_buses_1_node_cmd_payload_inputs_1,
-  output wire [2:0]    vexiis_0_cxuBus_buses_1_node_cmd_payload_state_id,
-  output wire [31:0]   vexiis_0_cxuBus_buses_1_node_cmd_payload_cxu_id,
-  output wire          vexiis_0_cxuBus_buses_1_node_cmd_payload_ready,
-  input  wire          vexiis_0_cxuBus_buses_1_node_rsp_valid,
-  output wire          vexiis_0_cxuBus_buses_1_node_rsp_ready,
-  input  wire [31:0]   vexiis_0_cxuBus_buses_1_node_rsp_payload_outputs_0,
-  input  wire          vexiis_0_cxuBus_buses_1_node_rsp_payload_ready,
   input  wire [31:0]   peripheral_externalInterrupts_port,
   output wire          mBus_awvalid,
   input  wire          mBus_awready,
@@ -370,7 +358,6 @@ module VexiiRiscvLitex_c226e052f1c1f526688322960b182ba7 (
   wire                peripheral_bus_decoder_core_io_downs_2_d_ready;
   wire                cpuResetCtrl_reset;
   wire       [31:0]   vexiis_0_cxuBus_buses_0_node_cmd_payload_raw_insn;
-  wire       [31:0]   vexiis_0_cxuBus_buses_1_node_cmd_payload_raw_insn;
   wire       [31:0]   vexiis_0_cxuBus_mcx_selector;
   wire                vexiis_0_priv_mti_flag;
   wire                vexiis_0_priv_msi_flag;
@@ -1272,8 +1259,6 @@ module VexiiRiscvLitex_c226e052f1c1f526688322960b182ba7 (
   wire                when_Stream_l399_8;
   wire                when_TilelinkVexiiRiscvFiber_l190;
   wire                when_TilelinkVexiiRiscvFiber_l195;
-  wire                when_TilelinkVexiiRiscvFiber_l190_1;
-  wire                when_TilelinkVexiiRiscvFiber_l195_1;
   wire                peripheral_toAxiLite4_down_aw_valid;
   wire                peripheral_toAxiLite4_down_aw_ready;
   wire       [31:0]   peripheral_toAxiLite4_down_aw_payload_addr;
@@ -3709,17 +3694,11 @@ module VexiiRiscvLitex_c226e052f1c1f526688322960b182ba7 (
     if(when_TilelinkVexiiRiscvFiber_l190) begin
       vexiis_0_logic_core_CxuPlugin_logic_cxuBus_cmd_ready = vexiis_0_cxuBus_buses_0_node_cmd_ready;
     end
-    if(when_TilelinkVexiiRiscvFiber_l190_1) begin
-      vexiis_0_logic_core_CxuPlugin_logic_cxuBus_cmd_ready = vexiis_0_cxuBus_buses_1_node_cmd_ready;
-    end
   end
 
   always @(*) begin
     vexiis_0_logic_core_CxuPlugin_logic_cxuBus_rsp_valid = 1'b0;
     if(when_TilelinkVexiiRiscvFiber_l195) begin
-      vexiis_0_logic_core_CxuPlugin_logic_cxuBus_rsp_valid = 1'b1;
-    end
-    if(when_TilelinkVexiiRiscvFiber_l195_1) begin
       vexiis_0_logic_core_CxuPlugin_logic_cxuBus_rsp_valid = 1'b1;
     end
   end
@@ -3729,18 +3708,12 @@ module VexiiRiscvLitex_c226e052f1c1f526688322960b182ba7 (
     if(when_TilelinkVexiiRiscvFiber_l195) begin
       vexiis_0_logic_core_CxuPlugin_logic_cxuBus_rsp_payload_outputs_0 = vexiis_0_cxuBus_buses_0_node_rsp_payload_outputs_0;
     end
-    if(when_TilelinkVexiiRiscvFiber_l195_1) begin
-      vexiis_0_logic_core_CxuPlugin_logic_cxuBus_rsp_payload_outputs_0 = vexiis_0_cxuBus_buses_1_node_rsp_payload_outputs_0;
-    end
   end
 
   always @(*) begin
     vexiis_0_logic_core_CxuPlugin_logic_cxuBus_rsp_payload_ready = 1'b0;
     if(when_TilelinkVexiiRiscvFiber_l195) begin
       vexiis_0_logic_core_CxuPlugin_logic_cxuBus_rsp_payload_ready = vexiis_0_cxuBus_buses_0_node_rsp_payload_ready;
-    end
-    if(when_TilelinkVexiiRiscvFiber_l195_1) begin
-      vexiis_0_logic_core_CxuPlugin_logic_cxuBus_rsp_payload_ready = vexiis_0_cxuBus_buses_1_node_rsp_payload_ready;
     end
   end
 
@@ -3755,17 +3728,6 @@ module VexiiRiscvLitex_c226e052f1c1f526688322960b182ba7 (
   assign vexiis_0_cxuBus_buses_0_node_cmd_payload_ready = vexiis_0_logic_core_CxuPlugin_logic_cxuBus_cmd_payload_ready;
   assign when_TilelinkVexiiRiscvFiber_l195 = (vexiis_0_cxuBus_buses_0_node_rsp_valid && when_TilelinkVexiiRiscvFiber_l190);
   assign vexiis_0_cxuBus_buses_0_node_rsp_ready = (vexiis_0_logic_core_CxuPlugin_logic_cxuBus_rsp_ready && when_TilelinkVexiiRiscvFiber_l190);
-  assign when_TilelinkVexiiRiscvFiber_l190_1 = (vexiis_0_cxuBus_mcx_selector == 32'h00000001);
-  assign vexiis_0_cxuBus_buses_1_node_cmd_valid = (vexiis_0_logic_core_CxuPlugin_logic_cxuBus_cmd_valid && when_TilelinkVexiiRiscvFiber_l190_1);
-  assign vexiis_0_cxuBus_buses_1_node_cmd_payload_function_id = vexiis_0_logic_core_CxuPlugin_logic_cxuBus_cmd_payload_function_id;
-  assign vexiis_0_cxuBus_buses_1_node_cmd_payload_inputs_0 = vexiis_0_logic_core_CxuPlugin_logic_cxuBus_cmd_payload_inputs_0;
-  assign vexiis_0_cxuBus_buses_1_node_cmd_payload_inputs_1 = vexiis_0_logic_core_CxuPlugin_logic_cxuBus_cmd_payload_inputs_1;
-  assign vexiis_0_cxuBus_buses_1_node_cmd_payload_state_id = vexiis_0_logic_core_CxuPlugin_logic_cxuBus_cmd_payload_state_id;
-  assign vexiis_0_cxuBus_buses_1_node_cmd_payload_cxu_id = vexiis_0_logic_core_CxuPlugin_logic_cxuBus_cmd_payload_cxu_id;
-  assign vexiis_0_cxuBus_buses_1_node_cmd_payload_raw_insn = vexiis_0_logic_core_CxuPlugin_logic_cxuBus_cmd_payload_raw_insn;
-  assign vexiis_0_cxuBus_buses_1_node_cmd_payload_ready = vexiis_0_logic_core_CxuPlugin_logic_cxuBus_cmd_payload_ready;
-  assign when_TilelinkVexiiRiscvFiber_l195_1 = (vexiis_0_cxuBus_buses_1_node_rsp_valid && when_TilelinkVexiiRiscvFiber_l190_1);
-  assign vexiis_0_cxuBus_buses_1_node_rsp_ready = (vexiis_0_logic_core_CxuPlugin_logic_cxuBus_rsp_ready && when_TilelinkVexiiRiscvFiber_l190_1);
   assign vexiis_0_priv_stoptime = 1'b0;
   assign peripheral_clint_node_bus_a_ready = peripheral_clint_thread_core_io_bus_a_ready;
   assign peripheral_clint_node_bus_d_valid = peripheral_clint_thread_core_io_bus_d_valid;

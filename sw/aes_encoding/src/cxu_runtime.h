@@ -7,11 +7,6 @@
 
 #define STATE_AND_INDEX_CSR 0xBC0
 
-#define MCX_VERSION_BIT 29
-#define MCX_VERSION_MASK (0x7 << MCX_VERSION_BIT)
-#define MCX_SELECTOR_BIT 0
-#define MCX_SELECTOR_MASK 0xFF
-
 // CSR read/write macros
 #define cxu_csr_read(csr)                                                          \
   ({                                                                           \
@@ -30,17 +25,10 @@ static inline void cxu_csr_clear(void) { cxu_csr_write(STATE_AND_INDEX_CSR, 0); 
 
 /**
  * Set the version and selector/index fields
- * @param version: 3-bit value (0-7) for mcx_version
- * @param selector: 8-bit value (0-255) for mcx_selector
+ * @param selector: 32-bit value for mcx_selector
  */
-static inline void cxu_csr_set_version_and_selector(uint8_t version, uint8_t selector) {
-  uint32_t val = cxu_csr_read(STATE_AND_INDEX_CSR);
-
-  val &= ~(MCX_VERSION_MASK | MCX_SELECTOR_MASK);
-
-  val |= ((version & 0x7) << MCX_VERSION_BIT) | (selector & 0xFF);
-
-  cxu_csr_write(STATE_AND_INDEX_CSR, val);
+static inline void cxu_csr_set_selector(uint32_t selector) {
+  cxu_csr_write(STATE_AND_INDEX_CSR, selector);
 }
 
 /**

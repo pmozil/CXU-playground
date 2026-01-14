@@ -94,12 +94,9 @@ class VexiiRiscvCustom(VexiiRiscv):
             args.cpu_variant += "_cfu"
             args.cpu_cfu = args.cfu
 
-        VexiiRiscv.vexii_args += f" --cxu-l0-num {len(args.cxu_l0)}"
-        VexiiRiscv.vexii_args += f" --cxu-l1-num {len(args.cxu_l1)}"
-        VexiiRiscv.vexii_args += f" --cxu-l2-num {len(args.cxu_l2)}"
-        VexiiRiscv.vexii_args += f" --cxu-l3-num {len(args.cxu_l3)}"
+        VexiiRiscv.vexii_args += f" --cxu-num {len(args.cxu)}"
 
-        if len(args.cxu_l0 + args.cxu_l1 + args.cxu_l2 + args.cxu_l3) > 0:
+        if len(args.cxu) > 0:
             args.cpu_variant += "_cxu"
 
         VexiiRiscv.jtag_tap = args.with_jtag_tap

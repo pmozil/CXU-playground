@@ -59,10 +59,10 @@ void donut(void) {
       for (int i = 0; i < 324; i++) {
         int R1 = 1, R2 = 2048, K2 = 5120 * 1024;
 
-        cxu_csr_set_version_and_selector(1, 1);
+        cxu_csr_set_selector(1);
         int x0 = cfu_mul(R1, cj) + R2;
 
-        cxu_csr_set_version_and_selector(1, 0);
+        cxu_csr_set_selector(0);
         int x1 = mult_shift_10(ci, x0);
         int x2 = mult_shift_10(cA, sj);
         int x3 = mult_shift_10(si, x0);
@@ -71,7 +71,7 @@ void donut(void) {
         int xx = mult_shift_10(cj, sB);
         int x4 = (-mult_shift_10(sA, x3));
 
-        cxu_csr_set_version_and_selector(1, 1);
+        cxu_csr_set_selector(1);
         x4 += cfu_mul(R1, x2);
         int xx_tmp = (-mult_shift_10(sA, x7));
         int x6 = K2 + (cfu_mul(R1, x5) << 10) + cfu_mul(cA, x3);

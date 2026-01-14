@@ -44,7 +44,7 @@ static inline uint32_t gf8_mul_vec_sw(uint32_t a4, uint32_t b4) {
 #ifdef USE_CXU
 
 static inline void gf8_mul_ext_begin() {
-  cxu_csr_set_version_and_selector(1, 0);
+  cxu_csr_set_selector(0);
 }
 
 static inline uint8_t gf8_mul(uint8_t a, uint8_t b) {
@@ -53,7 +53,7 @@ static inline uint8_t gf8_mul(uint8_t a, uint8_t b) {
 }
 
 static inline void gf8_mul_vec_ext_begin() {
-  cxu_csr_set_version_and_selector(1, 1);
+  cxu_csr_set_selector(1);
 }
 
 static inline uint32_t gf8_mul_vec(uint32_t a4, uint32_t b4) {
