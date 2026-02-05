@@ -281,4 +281,4 @@ sw/linux/buildroot/Image
 sw/linux/buildroot/rootfs.cpio
 sw/linux/buildroot/rootfs.tar
 sw/linux/buildroot/rv32.dtb
-sw/linux/images/
+sw/linux/images/*
