@@ -81,6 +81,12 @@ Now that you've installed the requirements, you may build the app like so:
 ./hw/make.py --board <board name> --build --vexii-args <additional args>
 ```
 
+To launch with cxus, do
+
+```
+./hw/make.py --board <board name> --build --cxu <path-to-cxu0> --cxu <path-to-cxu1> ...
+```
+
 To program the board, do
 
 ```
@@ -108,3 +114,14 @@ lxterm /dev/ttyUSBN --kernel <program>.bin
 ```
 
 Good luck!
+
+### Launching linux
+
+To launch linux, clone buildroot, and compile it for vexiiriscv
+
+```sh
+git clone http://github.com/buildroot/buildroot
+cd buildroot
+make BR2_EXTERNAL=../litex-bootstrap-app/sw/linux/buildroot/ litex_vexiiriiscv_defconfig
+make
+```

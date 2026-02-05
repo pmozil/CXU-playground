@@ -314,6 +314,14 @@ class VexiiRiscvCustom(VexiiRiscv):
                         ),
                     ],
                 ),
+                (
+                    "state",
+                    [
+                        ("write_en", 1),
+                        ("write", 2048),
+                        ("read", 2048),
+                    ],
+                ),
             ]
 
             # The CXU:CPU Bus.
@@ -335,6 +343,9 @@ class VexiiRiscvCustom(VexiiRiscv):
                     f"i_rsp_ready": cxu_bus.rsp.ready,
                     f"o_rsp_payload_outputs_0": cxu_bus.rsp.payload.outputs_0,
                     f"o_rsp_payload_ready": cxu_bus.rsp.payload.ready,
+                    f"o_state_write_en": cxu_bus.state.write_en,
+                    f"o_state_write": cxu_bus.state.write,
+                    f"i_state_read": cxu_bus.state.read,
                     f"i_clk": ClockSignal("sys"),
                     f"i_reset": ResetSignal("sys") | self.reset,
                 }
@@ -357,6 +368,9 @@ class VexiiRiscvCustom(VexiiRiscv):
                     f"o_vexiis_0_cxuBus_buses_{i}_node_rsp_ready": cxu_bus.rsp.ready,
                     f"i_vexiis_0_cxuBus_buses_{i}_node_rsp_payload_outputs_0": cxu_bus.rsp.payload.outputs_0,
                     f"i_vexiis_0_cxuBus_buses_{i}_node_rsp_payload_ready": cxu_bus.rsp.payload.ready,
+                    f"o_vexiis_0_cxuBus_buses_{i}_cxu_state_read": cxu_bus.state.read,
+                    f"i_vexiis_0_cxuBus_buses_{i}_cxu_state_write": cxu_bus.state.write,
+                    f"i_vexiis_0_cxuBus_buses_{i}_cxu_state_write_en": cxu_bus.state.write_en,
                 }
             )
 

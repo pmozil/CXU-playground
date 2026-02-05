@@ -11,6 +11,9 @@ module Cxu1 (
   input               rsp_ready,
   output     [31:0]   rsp_payload_outputs_0,
   output              rsp_payload_ready,
+  input      [2047:0] state_read,
+  output     [2047:0] state_write,
+  output              state_write_en,
   input               clk,
   input               reset
 );

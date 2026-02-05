@@ -104,9 +104,9 @@ def CustomBoard(soc_cls: type, variant: str = "standard", **kwargs) -> type:
 
         # DTB combination --------------------------------------------------------------------------
 
-        def combine_dtb(self, board_name, overlays=""):
+        def combine_dtb(self, board_name, overlays="", dst_prefix="sw/linux/"):
             dtb_in = os.path.join("build", board_name, "{}.dtb".format(board_name))
-            dtb_out = os.path.join("images", "rv32.dtb")
+            dtb_out = os.path.join(dst_prefix + "images", "rv32.dtb")
             if overlays == "":
                 shutil.copyfile(dtb_in, dtb_out)
             else:

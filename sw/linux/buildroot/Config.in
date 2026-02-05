@@ -1,0 +1,7 @@
+source "$BR2_EXTERNAL_LITEX_VEXIIRISCV_PATH/package/dhrystone-opt/Config.in"
+
+config BR2_PACKAGE_VEXIIRISCV_AES
+	bool "VexiiRiscv AES custom instruction"
+	help
+	  Enable VexRiscv AES custom instruction usage in openssl and dropbear
+

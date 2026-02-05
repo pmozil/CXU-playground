@@ -16,6 +16,7 @@ import os
 import re
 import sys
 import argparse
+import shutil
 
 from litex.soc.integration.builder import Builder
 
@@ -86,6 +87,9 @@ def main():
     )
     parser.add_argument(
         "--fdtoverlays", default="", help="Device Tree Overlays to apply."
+    )
+    parser.add_argument("--rootfs",         default="ram0",              help="Location of the RootFS.",
+        choices=["ram0", "mmcblk0p2"]
     )
     parser.add_argument("--cfu", default="", help="Path to CFU module")
     parser.add_argument(
@@ -206,11 +210,18 @@ def main():
         builder.build(run=args.build, build_name=board_name)
 
         # DTS --------------------------------------------------------------------------------------
-        # soc.generate_dts(board_name)
-        # soc.compile_dts(board_name, args.fdtoverlays)
+        soc.generate_dts(board_name)
+        if hasattr(soc, "get_fdtoverlays"):
+            fdtoverlays = soc.get_fdtoverlays(board_name, args.fdtoverlays)
+        else:
+            fdtoverlays = args.fdtoverlays
+        soc.compile_dts(board_name, fdtoverlays)
 
         # DTB --------------------------------------------------------------------------------------
-        # soc.combine_dtb(board_name, args.fdtoverlays)
+        soc.combine_dtb(board_name, fdtoverlays)
+
+        # boot.json --------------------------------------------------------------------------------
+        shutil.copyfile(f"sw/linux/images/boot_{args.rootfs}.json", "sw/linux/images/boot.json")
 
         # PCIe Driver ------------------------------------------------------------------------------
         if "pcie" in board.soc_capabilities:
