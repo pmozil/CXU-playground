@@ -122,6 +122,6 @@ To launch linux, clone buildroot, and compile it for vexiiriscv
 ```sh
 git clone http://github.com/buildroot/buildroot
 cd buildroot
-make BR2_EXTERNAL=../litex-bootstrap-app/sw/linux/buildroot/ litex_vexiiriiscv_defconfig
+make BR2_EXTERNAL=../litex-bootstrap-app/sw/linux/buildroot/ litex_vexiiriscv_defconfig
 make
 ```

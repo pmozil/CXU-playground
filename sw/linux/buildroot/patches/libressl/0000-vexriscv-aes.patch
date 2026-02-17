@@ -9,9 +9,9 @@ diff -ruN libressl-3.2.2_ori/CMakeLists.txt libressl-3.2.2/CMakeLists.txt
  option(LIBRESSL_SKIP_INSTALL "Skip installation" ${LIBRESSL_SKIP_INSTALL})
  option(LIBRESSL_APPS "Build apps" ON)
  option(LIBRESSL_TESTS "Build tests" ON)
-diff -ruN libressl-3.2.2_ori/crypto/aes/aes_core_vexriscv.c libressl-3.2.2/crypto/aes/aes_core_vexriscv.c
---- libressl-3.2.2_ori/crypto/aes/aes_core_vexriscv.c	1970-01-01 01:00:00.000000000 +0100
-+++ libressl-3.2.2/crypto/aes/aes_core_vexriscv.c	2020-12-03 19:32:51.976713411 +0100
+diff -ruN libressl-3.2.2_ori/crypto/aes/aes_core_veciiriscv.c libressl-3.2.2/crypto/aes/aes_core_veciiriscv.c
+--- libressl-3.2.2_ori/crypto/aes/aes_core_veciiriscv.c	1970-01-01 01:00:00.000000000 +0100
++++ libressl-3.2.2/crypto/aes/aes_core_veciiriscv.c	2020-12-03 19:32:51.976713411 +0100
 @@ -0,0 +1,1024 @@
 +/* $OpenBSD: aes_core.c,v 1.13 2015/11/05 21:59:13 miod Exp $ */
 +/**
@@ -681,7 +681,7 @@ diff -ruN libressl-3.2.2_ori/crypto/aes/aes_core_vexriscv.c libressl-3.2.2/crypt
 +			rk[6] = rk[2] ^ rk[5];
 +			rk[7] = rk[3] ^ rk[6];
 +			if (++i == 10) {
-+			    vexriscv_aes_swap_key(key->rd_key);
++			    vexiriscv_aes_swap_key(key->rd_key);
 +				return 0;
 +			}
 +			rk += 4;
@@ -702,7 +702,7 @@ diff -ruN libressl-3.2.2_ori/crypto/aes/aes_core_vexriscv.c libressl-3.2.2/crypt
 +			rk[8] = rk[2] ^ rk[7];
 +			rk[9] = rk[3] ^ rk[8];
 +			if (++i == 8) {
-+			    vexriscv_aes_swap_key(key->rd_key);
++			    vexiriscv_aes_swap_key(key->rd_key);
 +				return 0;
 +			}
 +			rk[10] = rk[4] ^ rk[9];
@@ -725,7 +725,7 @@ diff -ruN libressl-3.2.2_ori/crypto/aes/aes_core_vexriscv.c libressl-3.2.2/crypt
 +			rk[10] = rk[2] ^ rk[9];
 +			rk[11] = rk[3] ^ rk[10];
 +			if (++i == 7) {
-+			    vexriscv_aes_swap_key(key->rd_key);
++			    vexiiriscv_aes_swap_key(key->rd_key);
 +				return 0;
 +			}
 +			temp = rk[11];
@@ -759,7 +759,7 @@ diff -ruN libressl-3.2.2_ori/crypto/aes/aes_core_vexriscv.c libressl-3.2.2/crypt
 +	if (status < 0)
 +		return status;
 +
-+    vexriscv_aes_swap_key(key->rd_key);
++    vexiiriscv_aes_swap_key(key->rd_key);
 +
 +	rk = key->rd_key;
 +
@@ -802,7 +802,7 @@ diff -ruN libressl-3.2.2_ori/crypto/aes/aes_core_vexriscv.c libressl-3.2.2/crypt
 +		    Td2[Te1[(rk[3] >> 8) & 0xff] & 0xff] ^
 +		    Td3[Te1[(rk[3]) & 0xff] & 0xff];
 +	}
-+	vexriscv_aes_swap_key(key->rd_key);
++	vexiiriscv_aes_swap_key(key->rd_key);
 +	return 0;
 +}
 +
@@ -813,7 +813,7 @@ diff -ruN libressl-3.2.2_ori/crypto/aes/aes_core_vexriscv.c libressl-3.2.2/crypt
 +void
 +AES_encrypt(const unsigned char *in, unsigned char *out, const AES_KEY *key)
 +{
-+    vexriscv_aes_encrypt(in, out, key->rd_key, key->rounds);
++    vexiiriscv_aes_encrypt(in, out, key->rd_key, key->rounds);
 +}
 +
 +/*
@@ -823,7 +823,7 @@ diff -ruN libressl-3.2.2_ori/crypto/aes/aes_core_vexriscv.c libressl-3.2.2/crypt
 +void
 +AES_decrypt(const unsigned char *in, unsigned char *out, const AES_KEY *key)
 +{
-+    vexriscv_aes_decrypt(in, out, key->rd_key, key->rounds);
++    vexiiriscv_aes_decrypt(in, out, key->rd_key, key->rounds);
 +}
 +
 +#else /* AES_ASM */
@@ -1051,24 +1051,24 @@ diff -ruN libressl-3.2.2_ori/crypto/aes/aes_custom.h libressl-3.2.2/crypto/aes/a
 +#define aes_dec_round(rs1, rs2, sel) opcode_R(CUSTOM0, 0x00, (sel << 3) | 1, rs1, rs2)
 +#define aes_dec_round_last(rs1, rs2, sel) opcode_R(CUSTOM0, 0x00, (sel << 3) | 2 | 1, rs1, rs2)
 +
-+static void vexriscv_aes_swap_key(unsigned int *key){
++static void vexiiriscv_aes_swap_key(unsigned int *key){
 +    for(int i = 0;i < 60;i++){
 +       key[i] = __bswap_32(key[i]);
 +    }
 +}
 +
-+static inline __attribute__((always_inline)) unsigned int  vexriscv_aes_load_unaligned(const unsigned char *ptr)   {
++static inline __attribute__((always_inline)) unsigned int  vexiiriscv_aes_load_unaligned(const unsigned char *ptr)   {
 +    return ((unsigned int)ptr[0] << 0) | ((unsigned int)ptr[1] << 8) | ((unsigned int)ptr[2] << 16) | ((unsigned int)ptr[3] << 24);
 +}
 +
-+static inline __attribute__((always_inline)) void vexriscv_aes_store_unaligned(unsigned char *ptr, unsigned int value) {
++static inline __attribute__((always_inline)) void vexiiriscv_aes_store_unaligned(unsigned char *ptr, unsigned int value) {
 +    ptr[0] = value >> 0;
 +    ptr[1] = value >> 8;
 +    ptr[2] = value >> 16;
 +    ptr[3] = value >> 24;
 +}
 +
-+static inline __attribute__((always_inline)) void vexriscv_aes_encrypt(unsigned char *in,
++static inline __attribute__((always_inline)) void vexiiriscv_aes_encrypt(unsigned char *in,
 +                          unsigned char *out,
 +                          unsigned int *rk,
 +                          int round_count) {
@@ -1081,10 +1081,10 @@ diff -ruN libressl-3.2.2_ori/crypto/aes/aes_custom.h libressl-3.2.2/crypto/aes/a
 +        s2 = ((volatile unsigned int*)in)[2];
 +        s3 = ((volatile unsigned int*)in)[3];
 +    } else {
-+        s0 = vexriscv_aes_load_unaligned(in + 0);
-+        s1 = vexriscv_aes_load_unaligned(in + 4);
-+        s2 = vexriscv_aes_load_unaligned(in + 8);
-+        s3 = vexriscv_aes_load_unaligned(in + 12);
++        s0 = vexiiriscv_aes_load_unaligned(in + 0);
++        s1 = vexiiriscv_aes_load_unaligned(in + 4);
++        s2 = vexiiriscv_aes_load_unaligned(in + 8);
++        s3 = vexiiriscv_aes_load_unaligned(in + 12);
 +    }
 +
 +    t0 = ((volatile unsigned int*)rk)[0];
@@ -1186,15 +1186,15 @@ diff -ruN libressl-3.2.2_ori/crypto/aes/aes_custom.h libressl-3.2.2/crypto/aes/a
 +        ((volatile unsigned int*)out)[2] = s2;
 +        ((volatile unsigned int*)out)[3] = s3;
 +    } else {
-+        vexriscv_aes_store_unaligned(out + 0, s0);
-+        vexriscv_aes_store_unaligned(out + 4, s1);
-+        vexriscv_aes_store_unaligned(out + 8, s2);
-+        vexriscv_aes_store_unaligned(out + 12, s3);
++        vexiiriscv_aes_store_unaligned(out + 0, s0);
++        vexiiriscv_aes_store_unaligned(out + 4, s1);
++        vexiiriscv_aes_store_unaligned(out + 8, s2);
++        vexiiriscv_aes_store_unaligned(out + 12, s3);
 +    }
 +}
 +
 +
-+static inline __attribute__((always_inline)) void vexriscv_aes_decrypt(unsigned char *in,
++static inline __attribute__((always_inline)) void vexiiriscv_aes_decrypt(unsigned char *in,
 +                          unsigned char *out,
 +                          unsigned int *rk,
 +                          int round_count) {
@@ -1207,10 +1207,10 @@ diff -ruN libressl-3.2.2_ori/crypto/aes/aes_custom.h libressl-3.2.2/crypto/aes/a
 +        s2 = ((volatile unsigned int*)in)[2];
 +        s3 = ((volatile unsigned int*)in)[3];
 +    } else {
-+        s0 = vexriscv_aes_load_unaligned(in + 0);
-+        s1 = vexriscv_aes_load_unaligned(in + 4);
-+        s2 = vexriscv_aes_load_unaligned(in + 8);
-+        s3 = vexriscv_aes_load_unaligned(in + 12);
++        s0 = vexiiriscv_aes_load_unaligned(in + 0);
++        s1 = vexiiriscv_aes_load_unaligned(in + 4);
++        s2 = vexiiriscv_aes_load_unaligned(in + 8);
++        s3 = vexiiriscv_aes_load_unaligned(in + 12);
 +    }
 +
 +    t0 = ((volatile unsigned int*)rk)[0];
@@ -1311,10 +1311,10 @@ diff -ruN libressl-3.2.2_ori/crypto/aes/aes_custom.h libressl-3.2.2/crypto/aes/a
 +        ((volatile unsigned int*)out)[2] = s2;
 +        ((volatile unsigned int*)out)[3] = s3;
 +    } else {
-+        vexriscv_aes_store_unaligned(out + 0, s0);
-+        vexriscv_aes_store_unaligned(out + 4, s1);
-+        vexriscv_aes_store_unaligned(out + 8, s2);
-+        vexriscv_aes_store_unaligned(out + 12, s3);
++        vexiiriscv_aes_store_unaligned(out + 0, s0);
++        vexiiriscv_aes_store_unaligned(out + 4, s1);
++        vexiiriscv_aes_store_unaligned(out + 8, s2);
++        vexiiriscv_aes_store_unaligned(out + 12, s3);
 +    }
 +}
 +
@@ -1558,7 +1558,7 @@ diff -ruN libressl-3.2.2_ori/crypto/CMakeLists.txt libressl-3.2.2/crypto/CMakeLi
 +	set(
 +		CRYPTO_SRC
 +		${CRYPTO_SRC}
-+		aes/aes_core_vexriscv.c
++		aes/aes_core_vexiiriscv.c
 +	)
 +endif()
 +
