@@ -83,6 +83,8 @@ static void help(void) {
   puts("helloc             - Hello C");
   puts("aes_sw             - AES 256 software demo");
   puts("aes_hw             - AES 256 CXU demo");
+  puts("aes_sw_benchmark   - AES 256 software benchmark");
+  puts("aes_hw_benchmark   - AES 256 CXU demo benchmark");
 #ifdef WITH_CXX
   puts("hellocpp           - Hello C++");
 #endif
@@ -155,6 +157,20 @@ static void aes_hw_demo_cmd(void) {
   aes_hw_demo();
 }
 
+extern void aes_sw_benchmark(void);
+
+static void aes_sw_benchmark_cmd(void) {
+  printf("AES256 Software benchmark...\n");
+  aes_sw_benchmark();
+}
+
+extern void aes_hw_benchmark(void);
+
+static void aes_hw_benchmark_cmd(void) {
+  printf("AES256 CXU demo...\n");
+  aes_hw_benchmark();
+}
+
 /*-----------------------------------------------------------------------*/
 /* Console service / Main                                                */
 /*-----------------------------------------------------------------------*/
@@ -181,6 +197,10 @@ static void console_service(void) {
     aes_sw_demo_cmd();
   else if (strcmp(token, "aes_hw") == 0)
     aes_hw_demo_cmd();
+  else if (strcmp(token, "aes_sw_benchmark") == 0)
+    aes_sw_benchmark_cmd();
+  else if (strcmp(token, "aes_hw_benchmark") == 0)
+    aes_hw_benchmark_cmd();
 #ifdef WITH_CXX
   else if (strcmp(token, "hellocpp") == 0)
     hellocpp_cmd();

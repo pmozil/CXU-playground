@@ -85,6 +85,7 @@ static void help(void) {
   puts("donut              - Spinning Donut demo");
   puts("helloc             - Hello C");
   puts("cxu_demo           - CXU demo");
+  puts("cxu_state_demo     - CXU state demo");
 #ifdef WITH_CXX
   puts("hellocpp           - Hello C++");
 #endif
@@ -148,6 +149,13 @@ static void cxu_demo_cmd(void) {
   cxu_demo();
 }
 
+extern void cxu_state_demo(void);
+
+static void cxu_state_demo_cmd(void) {
+  printf("CXU state demo...\n");
+  cxu_state_demo();
+}
+
 #ifdef WITH_CXX
 extern void hellocpp(void);
 
@@ -183,6 +191,8 @@ static void console_service(void) {
     helloc_cmd();
   else if (strcmp(token, "cxu_demo") == 0)
     cxu_demo_cmd();
+  else if (strcmp(token, "cxu_state_demo") == 0)
+    cxu_state_demo_cmd();
 #ifdef WITH_CXX
   else if (strcmp(token, "hellocpp") == 0)
     hellocpp_cmd();

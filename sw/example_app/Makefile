@@ -1,6 +1,6 @@
 include ../common.mk
 
-OBJECTS   = src/donut.o src/helloc.o src/cxu_demo.o src/main.o crt0.o
+OBJECTS   = src/donut.o src/helloc.o src/cxu_demo.o src/state_ex.o src/main.o crt0.o
 ifdef WITH_CXX
 	OBJECTS += hellocpp.o
 	CFLAGS += -DWITH_CXX
