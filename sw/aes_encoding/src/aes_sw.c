@@ -231,7 +231,7 @@ void aes_sw_benchmark(void) {
     printf("AES-128 ECB Benchmark (10 runs per size)\n");
     printf("Size(Bytes), Avg Cycles, Avg Instret, Cycles/Byte\n");
 
-    for (size_t size = 128; size <= 1024; size += 128) {
+    for (size_t size = 128; size <= 17280; size += 128) {
 
         uint64_t total_cycles = 0;
         uint64_t total_instret = 0;
@@ -241,9 +241,8 @@ void aes_sw_benchmark(void) {
             exit(1);
         }
 
-        /* Initialize input with deterministic pattern */
         for (size_t i = 0; i < size; ++i)
-            in[i] = (uint8_t)(i & 0xff);
+            in[i % MAX_SIZE] = (uint8_t)(i & 0xff);
 
         volatile uint32_t checksum = 0;
 
@@ -252,9 +251,8 @@ void aes_sw_benchmark(void) {
             uint64_t start_cycles = rdcycle();
             uint64_t start_inst   = rdinstret();
 
-            /* Encrypt buffer block-by-block (ECB) */
             for (size_t i = 0; i < size; i += 16)
-                AES128_EncryptBlock(in + i, out + i, roundKeys);
+                AES128_EncryptBlock(in + (i % MAX_SIZE), out + (i % MAX_SIZE), roundKeys);
 
             uint64_t end_cycles = rdcycle();
             uint64_t end_inst   = rdinstret();
@@ -262,9 +260,8 @@ void aes_sw_benchmark(void) {
             total_cycles += (end_cycles - start_cycles);
             total_instret += (end_inst - start_inst);
 
-            /* Prevent optimization */
             for (size_t i = 0; i < size; ++i)
-                checksum ^= out[i];
+                checksum ^= out[i % MAX_SIZE];
         }
 
         uint64_t avg_cycles = total_cycles / 10;
@@ -277,8 +274,5 @@ void aes_sw_benchmark(void) {
                avg_inst,
                cycles_per_byte_x1000 / 1000,
                cycles_per_byte_x1000 % 1000);
-
-        free(in);
-        free(out);
     }
 }
