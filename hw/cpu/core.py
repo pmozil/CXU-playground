@@ -271,16 +271,16 @@ class VexiiRiscvCustom(VexiiRiscv):
         )
 
     def add_cxus(self, cxus: list[str]):
-        # Initialize cxu_params if it doesn't exist
         if not hasattr(self, "cxu_params"):
             self.cxu_params = []
 
-        # Check CXU presence and add each CXU.
         for i, cxu_filename in enumerate(cxus):
             if not os.path.exists(cxu_filename):
                 raise OSError(f"Unable to find VexRiscv CXU plugin {cxu_filename}.")
+            CXU_INPUT_DATA_W = 32
+            CXU_STATE_W = 64
+            CXU_STATE_ADDR_W = (CXU_STATE_W - 1).bit_length()
 
-            # CXU:CPU Bus Layout (matching the Verilog interface in comments)
             cxu_bus_layout = [
                 (
                     "cmd",
@@ -293,7 +293,7 @@ class VexiiRiscvCustom(VexiiRiscv):
                                 ("function_id", 3),
                                 ("inputs_0", 32),
                                 ("inputs_1", 32),
-                                ("state_id", 3),
+                                ("state_id", CXU_STATE_ADDR_W),
                                 ("cxu_id", 4),
                                 ("ready", 1),
                             ],
@@ -317,20 +317,23 @@ class VexiiRiscvCustom(VexiiRiscv):
                 (
                     "state",
                     [
+                        # READ PORT
+                        ("read_addr", CXU_STATE_ADDR_W),
+                        ("read_data", CXU_INPUT_DATA_W),
+                        # WRITE PORT
+                        ("write_addr", CXU_STATE_ADDR_W),
+                        ("write_data", CXU_INPUT_DATA_W),
                         ("write_en", 1),
-                        ("write", 2048),
-                        ("read", 2048),
                     ],
                 ),
             ]
 
-            # The CXU:CPU Bus.
             cxu_bus = Record(cxu_bus_layout)
             setattr(self, f"cxu_bus_{i}", cxu_bus)
 
-            # Connect CXU to the CXU:CPU bus - UPDATE (not overwrite) cxu_params
             self.cxu_params.append(
                 {
+                    # CMD
                     f"i_cmd_valid": cxu_bus.cmd.valid,
                     f"o_cmd_ready": cxu_bus.cmd.ready,
                     f"i_cmd_payload_function_id": cxu_bus.cmd.payload.function_id,
@@ -339,13 +342,18 @@ class VexiiRiscvCustom(VexiiRiscv):
                     f"i_cmd_payload_state_id": cxu_bus.cmd.payload.state_id,
                     f"i_cmd_payload_cxu_id": cxu_bus.cmd.payload.cxu_id,
                     f"i_cmd_payload_ready": cxu_bus.cmd.payload.ready,
+                    # RSP
                     f"o_rsp_valid": cxu_bus.rsp.valid,
                     f"i_rsp_ready": cxu_bus.rsp.ready,
                     f"o_rsp_payload_outputs_0": cxu_bus.rsp.payload.outputs_0,
                     f"o_rsp_payload_ready": cxu_bus.rsp.payload.ready,
+                    # STATE (BRAM-style)
+                    f"o_state_read_addr": cxu_bus.state.read_addr,
+                    f"i_state_read_data": cxu_bus.state.read_data,
+                    f"o_state_write_addr": cxu_bus.state.write_addr,
+                    f"o_state_write_data": cxu_bus.state.write_data,
                     f"o_state_write_en": cxu_bus.state.write_en,
-                    f"o_state_write": cxu_bus.state.write,
-                    f"i_state_read": cxu_bus.state.read,
+                    # Clock / Reset
                     f"i_clk": ClockSignal("sys"),
                     f"i_reset": ResetSignal("sys") | self.reset,
                 }
@@ -353,9 +361,9 @@ class VexiiRiscvCustom(VexiiRiscv):
 
             self.platform.add_source(cxu_filename)
 
-            # Connect CPU to the CXU:CPU bus.
             self.cpu_params.update(
                 {
+                    # CMD
                     f"o_vexiis_0_cxuBus_buses_{i}_node_cmd_valid": cxu_bus.cmd.valid,
                     f"i_vexiis_0_cxuBus_buses_{i}_node_cmd_ready": cxu_bus.cmd.ready,
                     f"o_vexiis_0_cxuBus_buses_{i}_node_cmd_payload_function_id": cxu_bus.cmd.payload.function_id,
@@ -364,12 +372,16 @@ class VexiiRiscvCustom(VexiiRiscv):
                     f"o_vexiis_0_cxuBus_buses_{i}_node_cmd_payload_state_id": cxu_bus.cmd.payload.state_id,
                     f"o_vexiis_0_cxuBus_buses_{i}_node_cmd_payload_cxu_id": cxu_bus.cmd.payload.cxu_id,
                     f"o_vexiis_0_cxuBus_buses_{i}_node_cmd_payload_ready": cxu_bus.cmd.payload.ready,
+                    # RSP
                     f"i_vexiis_0_cxuBus_buses_{i}_node_rsp_valid": cxu_bus.rsp.valid,
                     f"o_vexiis_0_cxuBus_buses_{i}_node_rsp_ready": cxu_bus.rsp.ready,
                     f"i_vexiis_0_cxuBus_buses_{i}_node_rsp_payload_outputs_0": cxu_bus.rsp.payload.outputs_0,
                     f"i_vexiis_0_cxuBus_buses_{i}_node_rsp_payload_ready": cxu_bus.rsp.payload.ready,
-                    f"o_vexiis_0_cxuBus_buses_{i}_cxu_state_read": cxu_bus.state.read,
-                    f"i_vexiis_0_cxuBus_buses_{i}_cxu_state_write": cxu_bus.state.write,
+                    # STATE (BRAM interface)
+                    f"i_vexiis_0_cxuBus_buses_{i}_cxu_state_read_addr": cxu_bus.state.read_addr,
+                    f"o_vexiis_0_cxuBus_buses_{i}_cxu_state_read_data": cxu_bus.state.read_data,
+                    f"i_vexiis_0_cxuBus_buses_{i}_cxu_state_write_addr": cxu_bus.state.write_addr,
+                    f"i_vexiis_0_cxuBus_buses_{i}_cxu_state_write_data": cxu_bus.state.write_data,
                     f"i_vexiis_0_cxuBus_buses_{i}_cxu_state_write_en": cxu_bus.state.write_en,
                 }
             )
