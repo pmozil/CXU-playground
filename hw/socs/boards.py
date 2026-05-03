@@ -8,123 +8,134 @@
 
 # Patched add_cpu  and init for soc ------------------------------------------------------------
 
-
 def patched_init(
     self,
     platform,
     clk_freq,
     # Bus parameters.
-    bus_standard="wishbone",
-    bus_data_width=32,
-    bus_address_width=32,
-    bus_timeout=1e6,
-    bus_bursting=False,
-    bus_interconnect="shared",
+    bus_standard               = "wishbone",
+    bus_data_width             = 32,
+    bus_address_width          = 32,
+    bus_addressing             = None,
+    bus_timeout                = 1e6,
+    bus_bursting               = False,
+    bus_interconnect           = "shared",
+
     # CPU parameters.
-    cpu_type="vexriscv",
-    cpu_reset_address=None,
-    cpu_variant=None,
-    cpu_cfu=None,
+    cpu_type                   = "vexriscv",
+    cpu_reset_address          = None,
+    cpu_variant                = None,
+    cpu_cfu                    = None,
+
     # CFU parameters.
-    cfu_filename=None,
+    cfu_filename               = None,
     cxus=None,
+
     # ROM parameters.
-    integrated_rom_size=0,
-    integrated_rom_mode="rx",
-    integrated_rom_init=[],
+    integrated_rom_size        = 0,
+    integrated_rom_mode        = "rx",
+    integrated_rom_init        = [],
+
     # SRAM parameters.
-    integrated_sram_size=0x2000,
-    integrated_sram_init=[],
+    integrated_sram_size       = 0x2000,
+    integrated_sram_init       = [],
+
     # MAIN_RAM parameters.
-    integrated_main_ram_size=0,
-    integrated_main_ram_init=[],
+    integrated_main_ram_size   = 0,
+    integrated_main_ram_init   = [],
+
     # CSR parameters.
-    csr_data_width=32,
-    csr_address_width=14,
-    csr_paging=0x800,
-    csr_ordering="big",
+    csr_data_width             = 32,
+    csr_address_width          = 14,
+    csr_paging                 = 0x800,
+    csr_ordering               = "big",
+
     # Interrupt parameters.
-    irq_n_irqs=32,
+    irq_n_irqs                 = 32,
+
     # Identifier parameters.
-    ident="",
-    ident_version=False,
+    ident                      = "",
+    ident_version              = False,
+
     # UART parameters.
-    with_uart=True,
-    uart_name="serial",
-    uart_baudrate=115200,
-    uart_fifo_depth=16,
-    uart_pads=None,
-    uart_with_dynamic_baudrate=False,
+    with_uart                  = True,
+    uart_name                  = "serial",
+    uart_baudrate              = 115200,
+    uart_fifo_depth            = 16,
+    uart_pads                  = None,
+    uart_with_dynamic_baudrate = False,
+    uart_rx_fifo_rx_we         = False,
+
     # Timer parameters.
-    with_timer=True,
-    timer_uptime=False,
+    with_timer                 = True,
+    timer_uptime               = False,
+
     # Controller parameters.
-    with_ctrl=True,
+    with_ctrl                  = True,
+
     # JTAGBone.
-    with_jtagbone=False,
-    jtagbone_chain=1,
+    with_jtagbone              = False,
+    jtagbone_chain             = 1,
+
     # UARTBone.
-    with_uartbone=False,
+    with_uartbone              = False,
+
     # Watchdog.
-    with_watchdog=False,
-    watchdog_width=32,
-    watchdog_reset_delay=None,
+    with_watchdog              = False,
+    watchdog_width             = 32,
+    watchdog_reset_delay       = None,
+
     # Others.
-    **kwargs,
-):
+    **kwargs):
+    from litex.soc.cores import cpu
     from litex.soc.integration.soc import LiteXSoC
 
     # New LiteXSoC class -----------------------------------------------------------------------
-    LiteXSoC.__init__(
-        self,
-        platform,
-        clk_freq,
-        bus_standard=bus_standard,
-        bus_data_width=bus_data_width,
-        bus_address_width=bus_address_width,
-        bus_timeout=bus_timeout,
-        bus_bursting=bus_bursting,
-        bus_interconnect=bus_interconnect,
-        bus_reserved_regions={},
-        csr_data_width=csr_data_width,
-        csr_address_width=csr_address_width,
-        csr_paging=csr_paging,
-        csr_ordering=csr_ordering,
-        csr_reserved_csrs=self.csr_map,
-        irq_n_irqs=irq_n_irqs,
-        irq_reserved_irqs={},
+    LiteXSoC.__init__(self, platform, clk_freq,
+        bus_standard         = bus_standard,
+        bus_data_width       = bus_data_width,
+        bus_address_width    = bus_address_width,
+        bus_addressing       = bus_addressing,
+        bus_timeout          = bus_timeout,
+        bus_bursting         = bus_bursting,
+        bus_interconnect     = bus_interconnect,
+        bus_reserved_regions = {},
+
+        csr_data_width       = csr_data_width,
+        csr_address_width    = csr_address_width,
+        csr_paging           = csr_paging,
+        csr_ordering         = csr_ordering,
+        csr_reserved_csrs    = self.csr_map,
+
+        irq_n_irqs           = irq_n_irqs,
+        irq_reserved_irqs    = {},
     )
 
     # Attributes.
-    self.mem_regions = self.bus.regions
-    self.clk_freq = self.sys_clk_freq
-    self.mem_map = self.mem_map
     self.config = {}
 
     # Parameters management --------------------------------------------------------------------
 
     # CPU.
-    cpu_type = None if cpu_type == "None" else cpu_type
+    cpu_type          = None if cpu_type          == "None" else cpu_type
     cpu_reset_address = None if cpu_reset_address == "None" else cpu_reset_address
+    cpu_cls           = cpu.CPUS.get(cpu_type)
 
-    self.cpu_type = cpu_type
-    self.cpu_variant = cpu_variant
+    self.cpu_type     = cpu_type
+    self.cpu_variant  = cpu_variant
 
     # ROM.
-    # Initialize ROM from binary file when provided.
-    if isinstance(integrated_rom_init, str):
-        integrated_rom_init = get_mem_data(
-            integrated_rom_init,
-            endianness="little",  # FIXME: Depends on CPU.
-            data_width=bus_data_width,
-        )
-        integrated_rom_size = 4 * len(integrated_rom_init)
-
-    # Disable ROM when no CPU/hard-CPU.
-    if cpu_type in [None, "zynq7000", "zynqmp", "eos_s3"]:
-        integrated_rom_init = []
+    # Initialize ROM from binary file when supported and provided.
+    if cpu_cls is None or not cpu_cls.integrated_rom_supported:
         integrated_rom_size = 0
-    self.integrated_rom_size = integrated_rom_size
+        integrated_rom_init = []
+    elif isinstance(integrated_rom_init, str):
+        integrated_rom_init = get_mem_data(integrated_rom_init,
+            endianness = cpu_cls.endianness,
+            data_width = bus_data_width
+        )
+        integrated_rom_size = len(integrated_rom_init)*(bus_data_width//8)
+    self.integrated_rom_size        = integrated_rom_size
     self.integrated_rom_initialized = integrated_rom_init != []
 
     # SRAM.
@@ -133,44 +144,11 @@ def patched_init(
     # MAIN RAM.
     self.integrated_main_ram_size = integrated_main_ram_size
 
-    # CSRs.
-    self.csr_data_width = csr_data_width
-
-    # Wishbone Slaves.
-    self.wb_slaves = {}
-
-    # Parameters check validity ----------------------------------------------------------------
-
-    # FIXME: Move to soc.py?
-
-    if with_uart:
-        # crossover+uartbone is kept as backward compatibility
-        if uart_name == "crossover+uartbone":
-            self.logger.warning(
-                "{} UART: is deprecated {}".format(
-                    colorer(uart_name, color="yellow"),
-                    colorer(
-                        'please use --uart-name="crossover" --with-uartbone',
-                        color="red",
-                    ),
-                )
-            )
-            time.sleep(2)
-            # Already configured.
-            self._uartbone = True
-            uart_name = "crossover"
-
-        # JTAGBone and jtag_uart can't be used at the same time.
-        assert not (with_jtagbone and uart_name == "jtag_uart")
-
-        # UARTBone and serial can't be used at the same time.
-        assert not (with_uartbone and uart_name == "serial")
-
     # Modules instances ------------------------------------------------------------------------
 
     # Add SoCController.
     if with_ctrl:
-        self.add_controller("ctrl")
+        self.add_controller(name="ctrl")
 
     # Add CPU.
     self.add_cpu(
@@ -181,6 +159,7 @@ def patched_init(
         cxus=cxus,
     )
 
+
     # Add User's interrupts.
     if self.irq.enabled:
         for name, loc in self.interrupt_map.items():
@@ -188,57 +167,58 @@ def patched_init(
 
     # Add integrated ROM.
     if integrated_rom_size:
-        self.add_rom(
-            "rom",
-            origin=self.cpu.reset_address,
-            size=integrated_rom_size,
-            contents=integrated_rom_init,
-            mode=integrated_rom_mode,
+        self.add_rom(name="rom",
+            origin   = self.cpu.reset_address,
+            size     = integrated_rom_size,
+            contents = integrated_rom_init,
+            mode     = integrated_rom_mode
         )
 
     # Add integrated SRAM.
     if integrated_sram_size:
-        self.add_ram(
-            "sram",
-            origin=self.mem_map["sram"],
-            size=integrated_sram_size,
+        self.add_ram(name="sram",
+            origin = self.mem_map["sram"],
+            size   = integrated_sram_size,
         )
 
     # Add integrated MAIN_RAM (only useful when no external SRAM/SDRAM is available).
     if integrated_main_ram_size:
-        self.add_ram(
-            "main_ram",
-            origin=self.mem_map["main_ram"],
-            size=integrated_main_ram_size,
-            contents=integrated_main_ram_init,
+        self.add_ram(name="main_ram",
+            origin   = self.mem_map["main_ram"],
+            size     = integrated_main_ram_size,
+            contents = integrated_main_ram_init,
         )
 
     # Add Identifier.
     if ident != "":
-        self.add_identifier(
-            "identifier", identifier=ident, with_build_time=ident_version
+        self.add_identifier(name="identifier",
+            identifier      = ident,
+            with_build_time = ident_version,
         )
 
     # Add UARTBone.
     if with_uartbone:
-        self.add_uartbone(
-            baudrate=uart_baudrate, with_dynamic_baudrate=uart_with_dynamic_baudrate
+        assert not (uart_name == "serial") # Mutually exclusive with default serial UART.
+        self.add_uartbone(name="uartbone",
+            baudrate              = uart_baudrate,
+            with_dynamic_baudrate = uart_with_dynamic_baudrate,
         )
 
     # Add UART.
     if with_uart:
-        self.add_uart(
-            name="uart",
-            uart_name=uart_name,
-            uart_pads=uart_pads,
-            baudrate=uart_baudrate,
-            fifo_depth=uart_fifo_depth,
-            with_dynamic_baudrate=uart_with_dynamic_baudrate,
+        self.add_uart(name="uart",
+            uart_name             = uart_name,
+            uart_pads             = uart_pads,
+            baudrate              = uart_baudrate,
+            fifo_depth            = uart_fifo_depth,
+            with_dynamic_baudrate = uart_with_dynamic_baudrate,
+            rx_fifo_rx_we         = uart_rx_fifo_rx_we,
         )
 
     # Add JTAGBone.
     if with_jtagbone:
-        self.add_jtagbone(chain=jtagbone_chain)
+        assert not (uart_name == "jtag_uart") # Mutually exclusive with jtag_uart.
+        self.add_jtagbone(name="jtagbone", chain=jtagbone_chain)
 
     # Add Timer.
     if with_timer:
@@ -248,9 +228,8 @@ def patched_init(
 
     # Add Watchdog.
     if with_watchdog:
-        self.add_watchdog(
-            name="watchdog0", width=watchdog_width, reset_delay=watchdog_reset_delay
-        )
+        self.add_watchdog(name="watchdog0",
+            width=watchdog_width, reset_delay=watchdog_reset_delay)
 
 
 def add_cpu(
@@ -269,6 +248,7 @@ def add_cpu(
     from litex.gen import LiteXModule, LiteXContext
     from litex.gen.genlib.misc import WaitTimer
     from litex.gen.fhdl.hierarchy import LiteXHierarchyExplorer
+    from litex.gen import Open
 
     # from litex.compat.soc_core import *
 
